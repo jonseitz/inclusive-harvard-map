@@ -1,0 +1,28 @@
+{
+  "name": "inclusive-harvard-map",
+  "version": "0.0.1",
+  "description": "A mapping application for resources at Harvard",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonseitz/inclusive-harvard-map.git"
+  },
+  "author": "Jonathan Seitz",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/jonseitz/inclusive-harvard-map/issues"
+  },
+  "homepage": "https://github.com/jonseitz/inclusive-harvard-map#readme",
+  "devDependencies": {
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "1.14.3"
+  }
+}
