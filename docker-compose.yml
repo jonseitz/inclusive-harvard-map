@@ -1,0 +1,15 @@
+version: '3'
+services: 
+  server:
+    build: .
+    ports:
+      - "3030:3030"
+    volumes:
+      - "./src/server/:/data/app/src/server"
+  client:
+    image: 'nginx:alpine'
+    volumes: 
+      - "./build/:/data/www/"
+      - "./config/nginx.conf:/etc/nginx/conf.d/client.conf"
+    ports:
+      - "80:80"
