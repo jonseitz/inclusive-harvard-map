@@ -1,11 +1,8 @@
 FROM node:alpine
-
-EXPOSE 3030
-
+ARG SERVER_PORT=3030
+RUN apk add --update git
+EXPOSE $SERVER_PORT
 WORKDIR /data/app
-
-COPY . /data/app
-
-RUN apk update && apk add git && npm install
-
-CMD ["node", "--experimental-modules", "src/server/index.js"]
+COPY . /data/app/ 
+RUN ["npm", "install"]
+CMD ["node", "src/server/index.js"]
