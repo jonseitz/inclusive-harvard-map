@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A mapping application for resources at Harvard",
   "main": "src/index.js",
+  "module": "src/main.js",
   "scripts": {
     "test": "jest"
   },
@@ -24,5 +25,10 @@
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
     "prettier": "1.14.3"
+  },
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "esm": "^3.0.84",
+    "express": "^4.16.3"
   }
 }
