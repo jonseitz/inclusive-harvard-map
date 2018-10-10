@@ -48,6 +48,8 @@
     ],
     "radix": "off",
     "no-underscore-dangle": "off",
-    "max-params": [ "warn", { "max": 3 } ]
-  }
+    "max-params": [ "warn", { "max": 3 } ],
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": 0
+  } 
 }
