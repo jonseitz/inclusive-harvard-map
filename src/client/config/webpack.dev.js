@@ -24,22 +24,17 @@ module.exports = {
         test: /\.css$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },
-      // {
-      //   test: /\.js$/,
-      //   include: [path.resolve(__dirname, '../')],
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: 'babel-loader',
-      //     options: {
-      //       presets: ['react'],
-      //       // plugins: [
-      //       //   'transform-object-rest-spread',
-      //       //   'transform-decorators-legacy',
-      //       //   'transform-class-properties',
-      //       // ],
-      //     },
-      //   },
-      // },
+      {
+        test: /\.js$/,
+        include: [path.resolve(__dirname, '../')],
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/react'],
+          },
+        },
+      },
     ],
   },
   plugins: [
