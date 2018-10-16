@@ -6,6 +6,8 @@
   "module": "src/main.js",
   "scripts": {
     "test": "jest",
+    "test:client": "jest -c src/client/config/jest.config.js",
+    "test:server": "jest -c src/server/config/jest.config.js",
     "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
     "start:server": "nodemon ./src/server/index.js"
   },
