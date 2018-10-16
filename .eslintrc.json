@@ -1,9 +1,11 @@
 {
-  "extends": "airbnb",
+  "extends": ["plugin:jest/recommended","airbnb"],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
+  "plugins": ["jest"],
   "rules": {
     "arrow-body-style": [
       "warn",
@@ -20,6 +22,8 @@
     ],
     "consistent-return": "off",
     "id-length": "off",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
     "max-len": [ "error", 
       { 
         "code": 80,
