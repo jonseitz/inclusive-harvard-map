@@ -1,28 +1,46 @@
 version: '3'
 
-services: 
+services:
+  mongo:
+    image: 'mongo'
+    ports:
+      - '27017:27017'
+    volumes:
+      - 'mongo_data:/data/db'
+
   server:
     env_file: ".env"
     build: '.'
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}" 
+      - "${SERVER_PORT}:${SERVER_PORT}"
     volumes:
-      - './src/server:/data/app/src'
+      - './src/server:${APP_DIR}/src/server'
+      - "./logs/server:${APP_DIR}/logs"
+    command: 'npm run start:server'
+    depends_on:
+      - mongo
 
   client:
-    image: 'nginx:alpine'
-    volumes: 
-      - './src/client/build/:/data/www/'
-      - './src/client/config/nginx.conf:/etc/nginx/conf.d/client.conf'
+    env_file: ".env"
+    build: "."
+    ports:
+      - '${CLIENT_PORT}:${CLIENT_PORT}'
+    volumes:
+      - './src/client:${APP_DIR}/src/client'
+      - "./logs/client:${APP_DIR}/logs"
+    command: 'npm run start:client'
+    depends_on:
+      - server
+
+  nginx:
+    image: 'nginx'
     ports:
       - '8888:80'
-
-  mongo:
-    image: 'mongo'
-    ports: 
-      - '27017:27017'
     volumes:
-      - 'mongo_data:/data/db'
+      - './config/nginx.conf:/etc/nginx/nginx.conf'
+      - './logs/nginx:/var/log/nginx'
+    depends_on:
+      - client
 
 volumes:
   mongo_data:
