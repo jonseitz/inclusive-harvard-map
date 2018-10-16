@@ -6,8 +6,8 @@
   "module": "src/main.js",
   "scripts": {
     "test": "jest",
-    "start:client": "webpack --config src/client/config/webpack.dev.js",
-    "start:server": "nodemon src/server/index.js"
+    "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
+    "start:server": "nodemon ./src/server/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,22 +25,29 @@
     "@babel/preset-react": "^7.0.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.4",
-    "eslint": "^5.6.0",
+    "eslint": "^5.7.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-react": "^7.11.1",
     "html-webpack-plugin": "^3.2.0",
-    "prettier": "1.14.3",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4",
+    "prettier": "^1.14.3",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "@material-ui/core": "^3.2.0",
     "dotenv": "^6.1.0",
     "esm": "^3.0.84",
     "express": "^4.16.3",
+    "mongoose": "^5.3.3",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "react-hot-loader": "^4.3.11",
+    "winston": "^3.1.0"
   }
 }
