@@ -5,11 +5,12 @@
   "main": "src/index.js",
   "module": "src/main.js",
   "scripts": {
+    "docs": "jsdoc -c .jsdoc.json",
+    "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
+    "start:server": "nodemon ./src/server/index.js",
     "test": "jest",
     "test:client": "jest -c src/client/config/jest.config.js",
-    "test:server": "jest -c src/server/config/jest.config.js",
-    "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
-    "start:server": "nodemon ./src/server/index.js"
+    "test:server": "jest -c src/server/config/jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "eslint-plugin-react": "^7.11.1",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
+    "jsdoc": "^3.5.5",
     "nodemon": "^1.18.4",
     "prettier": "^1.14.3",
     "webpack": "^4.20.2",
@@ -50,11 +52,13 @@
   "dependencies": {
     "@material-ui/core": "^3.2.0",
     "dotenv": "^6.1.0",
+    "emotion": "^9.2.12",
     "esm": "^3.0.84",
     "express": "^4.16.3",
     "mongoose": "^5.3.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-emotion": "^9.2.12",
     "react-hot-loader": "^4.3.11",
     "winston": "^3.1.0"
   }

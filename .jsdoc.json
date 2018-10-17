@@ -1,0 +1,18 @@
+{
+  "opts": {
+  "recurse": true,
+  "destination": "./docs"
+  },
+  "plugins": ["plugins/markdown"],
+  "recurseDepth": 10,
+  "source": {
+    "include": ["./src/"],
+    "includePattern": ".+\\.js$",
+    "exclude": [
+      "./src/client/config/", 
+      "./src/client/build/", 
+      "./src/server/config/"],
+    "excludePattern": "__tests__"
+  },
+  "sourceType": "module"
+}
