@@ -1,9 +1,0 @@
-{
-  "plugins": ["plugins/markdown"],
-  "source": {
-    "includePattern": "src\\/.+\\.m?jsx?$",  
-    "excludePattern": "src\\/.+\\__test__\\/.*"  
-  },
-  "destination": "docs"
-}
-

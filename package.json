@@ -5,10 +5,10 @@
   "main": "src/index.js",
   "module": "src/main.js",
   "scripts": {
-    "docs": "jsdoc -c .jsdoc.json",
+    "docs": "jsdoc -c config/jsdoc.json",
     "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
     "start:server": "nodemon ./src/server/index.js",
-    "test": "jest",
+    "test": "jest -c config/jest.config.js",
     "test:client": "jest -c src/client/config/jest.config.js",
     "test:server": "jest -c src/server/config/jest.config.js"
   },
