@@ -1,7 +1,3 @@
-import mongoose from 'mongoose';
-
-const db = mongoose.connect('mongodb://mongo/inclusivity');
-
-
-
-export default db;
+export { default as BuildingSchema } from './Building';
+export { default as FloorSchema } from './Floor';
+export { default as FacilitySchema } from './Facility';
