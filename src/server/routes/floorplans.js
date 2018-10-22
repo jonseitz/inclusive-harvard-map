@@ -1,24 +1,37 @@
 import { Router } from 'express';
-import db from '../models';
+import db from '../mongoose';
 
-const floorplanDB = db.model('Floorplan');
+// mongoose.connect('mongodb://mongo/inclusive-maps');
+// const floorplanDB = mongoose.model('Floor', FloorSchema);
 
 const floorplanRouter = Router();
+const Floor = db.model('Floor');
 
-floorplanRouter.get('/all', (req, res) => {
-  const plans = floorplanDB.find().exec();
-  res.json(plans);
+floorplanRouter.get('/all', async (req, res, next) => {
+  try {
+    const plans = await Floor.find({}).exec();
+    res.json(plans);
+  } catch (err) {
+    next(err);
+  }
 });
 
-floorplanRouter.get('/:id', (req, res) => {
-  const plan = floorplanDB.findById(req.params.id).exec();
-  res.json(plan);
+floorplanRouter.get('/:id', (req, res, next) => {
+  try {
+    const plan = Floor.findById(req.params.id).exec();
+    res.json(plan);
+  } catch (err) {
+    next(err);
+  }
 });
 
-floorplanRouter.post('/new', (req, res) => {
-  const plan = req.body.data;
-  const planObject = floorplanDB.create(plan).save();
-  res.json(planObject);
+floorplanRouter.post('/new', async (req, res, next) => {
+  try {
+    const plan = await new Floor(req.body).save();
+    res.json(plan);
+  } catch (err) {
+    next(err);
+  }
 });
 
 export default floorplanRouter;
