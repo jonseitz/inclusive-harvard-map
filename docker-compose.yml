@@ -2,32 +2,34 @@ version: '3'
 
 services:
   mongo:
+    env_file: '.env'
     image: 'mongo'
     ports:
       - '27017:27017'
     volumes:
-      - 'mongo_data:/data/db'
+      # - 'mongo_data:/data/db'
+      - './config/mongo_setup.sh:/docker-entrypoint-initdb.d/mongo_setup.sh'
 
   server:
-    env_file: ".env"
+    env_file: '.env'
     build: '.'
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
+      - '${SERVER_PORT}:${SERVER_PORT}'
     volumes:
       - './src/server:${APP_DIR}/src/server'
-      - "./logs/server:${APP_DIR}/logs"
+      - './logs/server:${APP_DIR}/logs'
     command: 'npm run start:server'
     depends_on:
       - mongo
 
   client:
-    env_file: ".env"
-    build: "."
+    env_file: '.env'
+    build: '.'
     ports:
       - '${CLIENT_PORT}:${CLIENT_PORT}'
     volumes:
       - './src/client:${APP_DIR}/src/client'
-      - "./logs/client:${APP_DIR}/logs"
+      - './logs/client:${APP_DIR}/logs'
     command: 'npm run start:client'
     depends_on:
       - server
