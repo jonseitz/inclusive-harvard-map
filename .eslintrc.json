@@ -21,6 +21,7 @@
       }
     ],
     "consistent-return": "off",
+    "eol-last": ["error", "always"],
     "id-length": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
@@ -34,6 +35,14 @@
       }
     ],
     "no-plusplus": [ "warn", { "allowForLoopAfterthoughts": true }],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max":1,
+        "maxEOF":1,
+        "maxBOF":0
+      }
+    ],
     "prefer-template": "off",
     "prefer-destructuring": [ "error", 
       {
