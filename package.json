@@ -45,6 +45,7 @@
     "jsdoc": "^3.5.5",
     "nodemon": "^1.18.4",
     "prettier": "^1.14.3",
+    "tern": "^0.22.3",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
@@ -56,6 +57,7 @@
     "esm": "^3.0.84",
     "express": "^4.16.3",
     "mongoose": "^5.3.3",
+    "morgan": "^1.9.1",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-emotion": "^9.2.12",
