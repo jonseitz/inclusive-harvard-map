@@ -1,6 +1,8 @@
 /** @module models/Building */
 
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
+
+const { Schema } = mongoose;
 
 /**
  * Schema representing the street address of a building
@@ -26,7 +28,7 @@ import { Schema } from 'mongoose';
 const AddressSchema = new Schema({
   streetNumber: { type: String },
   streetName: { type: String, required: true },
-  unitNumber: { type: String },
+  unitNumber: { type: String, default: null },
   city: { type: String, required: true },
   state: { type: String, required: true },
   postalCode: { type: String, required: true },

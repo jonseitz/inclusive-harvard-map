@@ -1,6 +1,8 @@
 /** @module  models/Floor */
 
-import { Schema } from 'mongoose';
+import mongoose from 'mongoose';
+
+const { Schema } = mongoose;
 
 /**
  * represents JSONified SVG data
@@ -80,7 +82,7 @@ const LayerSchema = new Schema({
 const FloorSchema = new Schema(
   {
     building: {
-      type: Schema.Type.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Building',
       required: true,
     },

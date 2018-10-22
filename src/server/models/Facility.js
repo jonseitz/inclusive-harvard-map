@@ -1,6 +1,7 @@
 /** @module models/Facility */
+import mongoose from 'mongoose';
 
-import { Schema } from 'mongoose';
+const { Schema } = mongoose;
 
 /**
  * Enum for different room types
@@ -49,7 +50,7 @@ const FacilitySchema = new Schema(
     roomNumber: { type: String, required: true },
     directions: { type: String, default: 'N/A' },
     floorplan: {
-      Type: Schema.Type.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Floorplan',
       required: true,
     },
