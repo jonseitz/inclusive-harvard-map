@@ -8,6 +8,8 @@ const db = mongoose.createConnection(
     useNewUrlParser: true,
     user: process.env.MONGO_USER,
     pass: process.env.MONGO_PASS,
+    reconnectInterval: 3000,
+    reconnectTries: 10,
   }
 );
 
