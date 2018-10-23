@@ -87,7 +87,7 @@ const FloorSchema = new Schema(
       required: true,
     },
     floorNumber: { type: String, required: true },
-    layers: [{ type: LayerSchema, required: true }],
+    layers: [{ type: LayerSchema }],
   },
   {
     toJSON: {
@@ -97,7 +97,7 @@ const FloorSchema = new Schema(
   }
 );
 
-FloorSchema.index({ buildingName: 1, floorNumber: -1 });
+FloorSchema.index({ building: 1, floorNumber: -1 });
 
 FloorSchema.virtual('facilities', {
   ref: 'Facility',
