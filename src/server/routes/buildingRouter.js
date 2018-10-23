@@ -1,0 +1,74 @@
+/** @api  buildingRouter */
+import { Router } from 'express';
+import db from '../mongoose';
+
+const Building = db.model('Building');
+const buildingRouter = Router();
+
+/**
+ * Get all of the building objects from the database
+ * @endpoint  {GET}  /api/buildings/all
+ * @returns {Promise.<BuildingData[]>}  An array of all the building objects in
+ *          the database
+ */
+
+buildingRouter.get('/all', async (req, res, next) => {
+  try {
+    const bldg = Building.find().exec();
+    res.json(bldg);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * Get a single building object from the database by it's id
+ * @endpoint  {GET}  /api/buildings/:id
+ * @path  id  The mongo id of the desired building
+ * @returns {Promise.<BuildingData>}  A single building object in the database
+ */
+
+buildingRouter.get('/:id', async (req, res, next) => {
+  try {
+    const bldg = await Building.findById(req.params.id).save();
+    res.json(bldg);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * Get a single building object from the database by its iid
+ * @endpoint  {GET}  /api/buildings/byName/:name
+ * @path  name  The common name of the desired building
+ * @returns {Promise.<BuildingData>}  A single building object in the database
+ */
+
+buildingRouter.get('/byName/:name', async (req, res, next) => {
+  try {
+    const bldg = await Building.findOne({
+      buildingName: req.params.name,
+    }).exec();
+    res.json(bldg);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
+ * Create a new building object in the database
+ * @endpoint  {POST}  /api/buildings/new
+ * @body  {BuildingData}  The building data to create
+ * @returns  {Promise.<BuildingData>}  The new building object
+ */
+
+buildingRouter.post('/new', async (req, res, next) => {
+  try {
+    const bldg = await new Building(req.body).save();
+    res.json(bldg);
+  } catch (err) {
+    next(err);
+  }
+});
+
+export default buildingRouter;

@@ -2,8 +2,8 @@ import express from 'express';
 import https from 'https';
 import http from 'http';
 import morgan from 'morgan';
-import floorplanRouter from './routes/floorplans';
-import buildingRouter from './routes/buildings';
+import floorRouter from './routes/floorRouter';
+import buildingRouter from './routes/buildingRouter';
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
-app.use('/api/floorplans', floorplanRouter);
+app.use('/api/floors', floorRouter);
 app.use('/api/buildings', buildingRouter);
 
 export const errorHandler = (err, req, res) => {
