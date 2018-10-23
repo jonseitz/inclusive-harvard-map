@@ -9,7 +9,7 @@ const app = express();
 
 app.use(morgan('tiny'));
 
-app.use('/api', express.json({ type: '*/*' }));
+app.use('/api', express.json({ type: '*/*', limit: '10Mb' }));
 
 app.use('/api', (req, res, next) => {
   res.set('Content-Type', 'application/json');
