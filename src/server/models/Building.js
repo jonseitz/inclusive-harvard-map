@@ -94,4 +94,23 @@ BuildingSchema.virtual('floorplans', {
   foreignField: '_id',
 });
 
-export default BuildingSchema;
+/**
+ * Get a complete list of buildings from the database
+ * @async
+ * @static getAll
+ * @memberof module:models/Building
+ * @returns {Promise.<BuildingData[]>} resolves to array of all Buildings
+ *          in the databse
+ */
+
+BuildingSchema.statics.getAll = async () => {
+  try {
+    return this.find().exec();
+  } catch (err) {
+    throw new Error(`Failed to fetch all buildings.\n\n${err.message}`);
+  }
+};
+
+const Building = mongoose.model('Building', BuildingSchema);
+
+export default Building;

@@ -1,8 +1,7 @@
 /** @api  buildingRouter */
 import { Router } from 'express';
-import db from '../mongoose';
+import Building from '../models/Building';
 
-const Building = db.model('Building');
 const buildingRouter = Router();
 
 /**
@@ -14,8 +13,8 @@ const buildingRouter = Router();
 
 buildingRouter.get('/all', async (req, res, next) => {
   try {
-    const bldg = Building.find().exec();
-    res.json(bldg);
+    const bldgs = await Building.getAll();
+    res.json(bldgs);
   } catch (err) {
     next(err);
   }
