@@ -2,6 +2,7 @@ import express from 'express';
 import https from 'https';
 import http from 'http';
 import morgan from 'morgan';
+import errorHandler from './routes/errorHandler';
 import floorRouter from './routes/floorRouter';
 import buildingRouter from './routes/buildingRouter';
 
@@ -18,12 +19,6 @@ app.use('/api', (req, res, next) => {
 
 app.use('/api/floors', floorRouter);
 app.use('/api/buildings', buildingRouter);
-
-export const errorHandler = (err, req, res) => {
-  res.status(500);
-  res.json({ error: err.message });
-  res.end();
-};
 
 app.use(errorHandler);
 
