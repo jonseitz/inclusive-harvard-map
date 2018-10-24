@@ -12,7 +12,7 @@ describe('Building Router', () => {
   let result;
   let Building;
 
-  beforeEach(() => {
+  beforeAll(() => {
     app = express();
     app.use(buildingRouter);
     app.use(errorHandler);
@@ -31,7 +31,7 @@ describe('Building Router', () => {
 
     describe('When querying database succeeds', () => {
       beforeEach(async () => {
-        Building.getAll.resolves([]);
+        Building.getAll.resolves(['one', 'two', 'three']);
         result = await apiTest.get('/all');
       });
 
@@ -48,15 +48,14 @@ describe('Building Router', () => {
       });
 
       it('should return the expected data', () => {
-        assert.deepStrictEqual(result.body, []);
+        assert.deepStrictEqual(result.body, ['one', 'two', 'three']);
       });
     });
 
     describe('When querying the database fails', () => {
       beforeEach(async () => {
-        Building.getAll.rejects();
+        Building.getAll.rejects(new Error('Error'));
         result = await apiTest.get('/all');
-        // result = await apiTest.get('/api/buildings/all');
       });
 
       it('should still call the getAll method', () => {
@@ -72,7 +71,7 @@ describe('Building Router', () => {
       });
 
       it('should have an error', () => {
-        assert.strictEqual(result.body.error, '');
+        assert.strictEqual(result.body.error, 'Error');
       });
     });
   });
