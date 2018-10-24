@@ -11,12 +11,6 @@ const app = express();
 app.use(morgan('tiny'));
 
 app.use('/api', express.json({ type: '*/*', limit: '10Mb' }));
-
-app.use('/api', (req, res, next) => {
-  res.set('Content-Type', 'application/json');
-  next();
-});
-
 app.use('/api/floors', floorRouter);
 app.use('/api/buildings', buildingRouter);
 

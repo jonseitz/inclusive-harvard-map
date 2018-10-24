@@ -9,10 +9,12 @@
  * @param  {Function}  next  the next function;
  */
 
-export default (err, req, res) => {
-  console.log(err);
+// eslint-disable-next-line
+export default (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
   res.status(500);
-  res.set('Content-Type', 'application/json');
-  res.write({ error: err.message });
+  res.json({ error: err.message });
   res.end();
 };
