@@ -1,4 +1,28 @@
 language: node_js
 node_js:
   - "node"
+jobs:
+  stages:
+    - install
+    - lint
+    - test
+  include:
+    - stage: install
+      script: npm install
+    - stage: lint
+      script: npm run lint
+    - stage: test
+      script: npm test
+    - stage: docs
+      script: npm run docs
+      skip-cleanup: true
+      keep-history: true
+deploy:
+  provider: pages
+  local-dir: docs
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  on:
+    branch: develop
 
