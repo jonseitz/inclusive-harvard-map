@@ -1,6 +1,7 @@
 /** @module models/Building */
 
 import mongoose from 'mongoose';
+import db from '../db';
 
 const { Schema } = mongoose;
 
@@ -81,6 +82,11 @@ const BuildingSchema = new Schema(
     },
   },
   {
+    timestamps: true,
+    toObject: {
+      getters: true,
+      virtual: true,
+    },
     toJSON: {
       getters: true,
       virtual: true,
@@ -89,10 +95,27 @@ const BuildingSchema = new Schema(
 );
 
 BuildingSchema.virtual('floorplans', {
-  ref: 'Floorplan',
-  localField: 'building',
-  foreignField: '_id',
+  ref: 'Floor',
+  localField: '_id',
+  foreignField: 'building',
 });
+
+/**
+ * create a new building object
+ * @async
+ * @static createNew
+ * @memberof module:models/Building
+ * @returns {Promise.<BuildingData>} The new building details
+ */
+
+BuildingSchema.statics.createNew = async function createNew(buildingData) {
+  try {
+    const newBuilding = new this(buildingData);
+    return newBuilding.save();
+  } catch (err) {
+    throw new Error('Unable to save new building');
+  }
+};
 
 /**
  * Get a complete list of buildings from the database
@@ -103,14 +126,52 @@ BuildingSchema.virtual('floorplans', {
  *          in the databse
  */
 
-BuildingSchema.statics.getAll = async () => {
+BuildingSchema.statics.getAll = async function getAll() {
   try {
-    return this.find().exec();
+    return this.find({}).exec();
   } catch (err) {
     throw new Error(`Failed to fetch all buildings.\n\n${err.message}`);
   }
 };
 
-const Building = mongoose.model('Building', BuildingSchema);
+/**
+ * Get a single building with the given id
+ * @async
+ * @static getOneById
+ * @memberof module:models/Building
+ * @param  {String}  buildingId  the mongo id of the building
+ * @returns {Promise.<BuildingData>} The full building details
+ */
+
+BuildingSchema.statics.getOneById = async function getOneById(buildingId) {
+  try {
+    return this.findById(buildingId)
+      .populate('floorplans')
+      .exec();
+  } catch (err) {
+    throw new Error(`Could not find building ${buildingId}\n${err}`);
+  }
+};
+
+/**
+ * Get a single building with the given name
+ * @async
+ * @static getOneByName
+ * @param {String} buildingName  The name of the building
+ * @memberof module:models/Building
+ * @returns {Promise.<BuildingData>} The full building details
+ */
+
+BuildingSchema.statics.getOneByName = async function getOneByName(
+  buildingName
+) {
+  try {
+    return this.findOne({ buildingName }).exec();
+  } catch (err) {
+    throw new Error(`Could not find ${buildingName}`);
+  }
+};
+
+const Building = db.model('Building', BuildingSchema);
 
 export default Building;

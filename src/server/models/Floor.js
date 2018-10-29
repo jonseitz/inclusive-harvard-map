@@ -1,6 +1,7 @@
 /** @module  models/Floor */
 
 import mongoose from 'mongoose';
+import db from '../db';
 
 const { Schema } = mongoose;
 
@@ -90,6 +91,7 @@ const FloorSchema = new Schema(
     layers: [{ type: LayerSchema }],
   },
   {
+    timestamps: true,
     toJSON: {
       getters: true,
       virtual: true,
@@ -105,4 +107,57 @@ FloorSchema.virtual('facilities', {
   foreignField: '_id',
 });
 
-export default FloorSchema;
+/**
+ * Returns all floor objects in the datbase
+ * @async
+ * @static getAll
+ * @memberof module:models/floor
+ * @returns {Promise.<FloorData[]>}  All of the floor data for a building
+ */
+
+FloorSchema.statics.getAll = async function getAll() {
+  try {
+    return this.find({}).exec();
+  } catch (err) {
+    throw new Error(`Could not retrieve all floor objects.\n${err}`);
+  }
+};
+
+/**
+ * Returns one complete floor object
+ * @async
+ * @static getOneById
+ * @memberof module:models/floor
+ * @param {String} floorId  The mongo id of the floor
+ * @returns {Promise.<FloorData>}  the compmlete floor object
+ */
+
+FloorSchema.statics.getOneById = async function getOneById(floorId) {
+  try {
+    return this.findById(floorId).exec();
+  } catch (err) {
+    throw new Error(`Could not retrieve floor object ${floorId}.\n${err}`);
+  }
+};
+
+/**
+ * Creates a new floor object
+ * @async
+ * @static createNew
+ * @memberof module:models/floor
+ * @param {FloorData} floorData the new floor to create
+ * @returns {FloorData}  The mongofied floor data object
+ */
+
+FloorSchema.statics.createNew = async function createNew(floorData) {
+  try {
+    const newFloor = new this(floorData);
+    return newFloor.save();
+  } catch (err) {
+    throw new Error(`Could not create new Floor.${err}`);
+  }
+};
+
+const Floor = db.model('Floor', FloorSchema);
+
+export default Floor;

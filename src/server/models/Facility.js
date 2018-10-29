@@ -1,5 +1,6 @@
 /** @module models/Facility */
 import mongoose from 'mongoose';
+import db from '../db';
 
 const { Schema } = mongoose;
 
@@ -63,6 +64,7 @@ const FacilitySchema = new Schema(
     },
   },
   {
+    timestamps: true,
     toJSON: {
       getters: true,
       virtual: true,
@@ -76,4 +78,6 @@ FacilitySchema.index({
   room: 1,
 });
 
-export default FacilitySchema;
+const Facility = db.model('Facility', FacilitySchema);
+
+export default Facility;
