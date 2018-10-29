@@ -1,7 +1,7 @@
 /** @module  models/Floor */
 
 import mongoose from 'mongoose';
-import db from '../db';
+import db from './db';
 
 const { Schema } = mongoose;
 

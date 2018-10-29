@@ -1,9 +1,9 @@
-import BuildingSchema from './Building';
-import FloorSchema from './Floor';
-import FacilitySchema from './Facility';
+import Building from './Building';
+import Floor from './Floor';
+import Facility from './Facility';
 
 export default {
-  BuildingSchema,
-  FloorSchema,
-  FacilitySchema,
+  Building,
+  Floor,
+  Facility,
 };
