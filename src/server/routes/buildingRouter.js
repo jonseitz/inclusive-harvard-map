@@ -29,7 +29,7 @@ buildingRouter.get('/all', async (req, res, next) => {
 
 buildingRouter.get('/:id', async (req, res, next) => {
   try {
-    const bldg = await Building.findById(req.params.id).save();
+    const bldg = await Building.getOneById(req.params.id);
     res.json(bldg);
   } catch (err) {
     next(err);
@@ -45,9 +45,7 @@ buildingRouter.get('/:id', async (req, res, next) => {
 
 buildingRouter.get('/byName/:name', async (req, res, next) => {
   try {
-    const bldg = await Building.findOne({
-      buildingName: req.params.name,
-    }).exec();
+    const bldg = await Building.getOneByName(req.params.name);
     res.json(bldg);
   } catch (err) {
     next(err);
@@ -63,7 +61,7 @@ buildingRouter.get('/byName/:name', async (req, res, next) => {
 
 buildingRouter.post('/new', async (req, res, next) => {
   try {
-    const bldg = await new Building(req.body).save();
+    const bldg = await Building.createNew(req.body);
     res.json(bldg);
   } catch (err) {
     next(err);

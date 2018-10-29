@@ -1,10 +1,9 @@
 /** @api server/floorRouter */
 
 import { Router } from 'express';
-import db from '../mongoose';
+import Floor from '../models/Floor';
 
 const floorRouter = Router();
-const Floor = db.model('Floor');
 
 /**
  * Gets all of the floor objects in the database
@@ -15,7 +14,7 @@ const Floor = db.model('Floor');
 
 floorRouter.get('/all', async (req, res, next) => {
   try {
-    const plans = await Floor.find({}).exec();
+    const plans = await Floor.getAll();
     res.json(plans);
   } catch (err) {
     next(err);
@@ -29,9 +28,9 @@ floorRouter.get('/all', async (req, res, next) => {
  * @returns  {Promise.<FloorData>}  The floor data object
  */
 
-floorRouter.get('/:id', (req, res, next) => {
+floorRouter.get('/:id', async (req, res, next) => {
   try {
-    const plan = Floor.findById(req.params.id).exec();
+    const plan = await Floor.getOneById(req.params.id);
     res.json(plan);
   } catch (err) {
     next(err);
@@ -47,7 +46,7 @@ floorRouter.get('/:id', (req, res, next) => {
 
 floorRouter.post('/new', async (req, res, next) => {
   try {
-    const plan = await new Floor(req.body).save();
+    const plan = await Floor.createNew(req.body);
     res.json(plan);
   } catch (err) {
     next(err);
