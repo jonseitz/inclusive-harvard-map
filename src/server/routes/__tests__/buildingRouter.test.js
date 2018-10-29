@@ -2,22 +2,19 @@ import assert from 'assert';
 import express from 'express';
 import supertest from 'supertest';
 import sinon from 'sinon';
-import mongoose from 'mongoose';
 import errorHandler from '../errorHandler';
 import buildingRouter from '../buildingRouter';
+import Building from '../../models/Building';
 
 describe('Building Router', () => {
-  let app;
   let apiTest;
   let result;
-  let Building;
 
   beforeAll(() => {
-    app = express();
+    const app = express();
     app.use(buildingRouter);
     app.use(errorHandler);
     apiTest = supertest(app);
-    Building = mongoose.model('Building');
   });
 
   describe('Get all buildings', () => {
