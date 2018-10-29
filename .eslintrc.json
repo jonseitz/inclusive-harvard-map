@@ -22,6 +22,7 @@
     ],
     "consistent-return": "off",
     "eol-last": ["error", "always"],
+    "func-names": ["warn", "as-needed"],
     "id-length": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
