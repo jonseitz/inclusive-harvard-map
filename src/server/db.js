@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import models from './models';
 
 const db = mongoose.createConnection(
   `mongodb://${process.env.MONGO_URI}/${process.env.MONGO_INITDB_DATABASE}`,
@@ -12,9 +11,5 @@ const db = mongoose.createConnection(
     reconnectTries: 10,
   }
 );
-
-db.model('Building', models.BuildingSchema);
-db.model('Facility', models.FacilitySchema);
-db.model('Floor', models.FloorSchema);
 
 export default db;
