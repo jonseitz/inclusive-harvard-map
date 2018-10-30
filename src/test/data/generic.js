@@ -6,4 +6,4 @@ export const int = 42;
 
 export const array = ['life', 'universe', 'everything'];
 
-export const error = new Error();
+export const error = new Error('Error');
