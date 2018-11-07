@@ -1,9 +1,3 @@
-import Building from './Building';
-import Floor from './Floor';
-import Facility from './Facility';
-
-export default {
-  Building,
-  Floor,
-  Facility,
-};
+export { default as Building } from './Building';
+export { default as Floor } from './Floor';
+export { default as Facility } from './Facility';
