@@ -1,11 +1,42 @@
 /** @module TestData/Floorplan */
 
+export const rawLayer = {
+  _declaration: {
+    _attributes: {
+      version: '1',
+    },
+  },
+  svg: {
+    _attributes: {
+      xlmns: '',
+      'xlmns:xlink': '',
+      version: '',
+      preserveAspectRatio: '',
+      viewBox: '100x100',
+      width: '100px',
+      height: '100px',
+    },
+  },
+  path: [
+    {
+      _attributes: {
+        fill: '#FFFFFFF',
+        stroke: '#0000000',
+        'stroke-width': '2px',
+        d: '',
+      },
+    },
+  ],
+};
+
 export const rawFloor = {
   building: '5bd662c064360203da3ad376',
   floorNumber: '1',
-  layers: [],
+  layers: [rawLayer],
   facilities: [],
 };
+
+export const rawFloors = [rawFloor];
 
 export const mongoFloor = {
   _id: '5bd662c064360203da3ad376',

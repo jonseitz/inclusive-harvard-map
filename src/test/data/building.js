@@ -88,3 +88,5 @@ export const rawBuilding = {
     longitude: '-71.11739',
   },
 };
+
+export const rawBuildings = [rawBuilding];
