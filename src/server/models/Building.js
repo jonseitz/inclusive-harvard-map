@@ -84,12 +84,10 @@ const BuildingSchema = new Schema(
   {
     timestamps: true,
     toObject: {
-      getters: true,
-      virtual: true,
+      virtuals: true,
     },
     toJSON: {
-      getters: true,
-      virtual: true,
+      virtuals: true,
     },
   }
 );
@@ -110,8 +108,8 @@ BuildingSchema.virtual('floorplans', {
 
 BuildingSchema.statics.createNew = async function createNew(buildingData) {
   try {
-    const newBuilding = new this(buildingData);
-    return newBuilding.save();
+    const newBuilding = await this.create(buildingData);
+    return newBuilding.populate('floorplans');
   } catch (err) {
     throw new Error('Unable to save new building');
   }
@@ -166,7 +164,9 @@ BuildingSchema.statics.getOneByName = async function getOneByName(
   buildingName
 ) {
   try {
-    return this.findOne({ buildingName }).exec();
+    return this.findOne({ buildingName })
+      .populate('floorplans')
+      .exec();
   } catch (err) {
     throw new Error(`Could not find ${buildingName}`);
   }
