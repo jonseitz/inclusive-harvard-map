@@ -23,14 +23,14 @@ export const rawLayer = {
         fill: '#FFFFFFF',
         stroke: '#0000000',
         'stroke-width': '2px',
-        d: '',
+        d: 'm25',
       },
     },
   ],
 };
 
 export const rawFloor = {
-  building: '5bd662c064360203da3ad376',
+  building: null,
   floorNumber: '1',
   layers: [rawLayer],
   facilities: [],
@@ -72,7 +72,7 @@ export const mongoLayer = {
         fill: '#FFFFFFF',
         stroke: '#0000000',
         'stroke-width': '2px',
-        d: '',
+        d: 'm25',
       },
     },
   ],

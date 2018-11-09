@@ -89,4 +89,21 @@ export const rawBuilding = {
   },
 };
 
-export const rawBuildings = [rawBuilding];
+export const rawBuildingTwo = {
+  buildingName: 'Pierce Hall',
+  numFloors: 7,
+  hasElevator: true,
+  hasAccessibleEntrance: true,
+  address: {
+    streetNumber: '29',
+    streetName: 'Oxford Street',
+    city: 'Cambridge',
+    state: 'Massachusetts',
+    postalCode: '02138',
+    country: 'USA',
+    latitude: '42.37824',
+    longitude: '-71.11715',
+  },
+};
+
+export const rawBuildings = [rawBuilding, rawBuildingTwo];
