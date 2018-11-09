@@ -10,6 +10,8 @@
     "pretest": "docker run -d --rm -p  '28018:27017' --name mongo_testing mongo:latest",
     "posttest": "docker container stop mongo_testing",
     "test": "env NODE_ENV=testing jest -c config/jest.config.js || true",
+    "watch": "env NODE_ENV=testing jest -c config/jest.config.js --watch || true",
+    "test:watch": "run-s pretest watch posttest",
     "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
     "start:server": "nodemon ./src/server/index.js",
     "travis": "run-s lint test docs"
