@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "module": "src/main.js",
   "scripts": {
+    "coveralls": "cat config/coverage/lcov.info | coveralls",
     "docs": "jsdoc -c config/jsdoc.json",
     "lint": "eslint src",
     "pretest": "docker run -d --rm -p  '28018:27017' --name mongo_testing mongo:latest",
@@ -14,7 +15,7 @@
     "test:watch": "run-s pretest watch posttest",
     "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
     "start:server": "nodemon ./src/server/index.js",
-    "travis": "run-s lint test docs"
+    "travis": "run-s lint test coveralls docs"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-preset-env": "^1.7.0",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "eslint": "^5.9.0",

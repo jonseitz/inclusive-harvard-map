@@ -63,3 +63,4 @@ build
 docs
 
 .tern-port
+.coveralls.yml
