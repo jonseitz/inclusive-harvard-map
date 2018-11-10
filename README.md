@@ -4,6 +4,7 @@ master: [![Build Status](https://travis-ci.org/jonseitz/inclusive-harvard-map.sv
 
 develop: [![Build Status](https://travis-ci.org/jonseitz/inclusive-harvard-map.svg?branch=develop)](https://travis-ci.org/jonseitz/inclusive-harvard-map)
 
+Coverage: [![Coverage Status](https://coveralls.io/repos/github/jonseitz/inclusive-harvard-map/badge.svg)](https://coveralls.io/github/jonseitz/inclusive-harvard-map)
 
 **WORK IN PROGRESS**
 
