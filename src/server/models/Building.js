@@ -111,7 +111,7 @@ BuildingSchema.statics.createNew = async function createNew(buildingData) {
     const newBuilding = await this.create(buildingData);
     return newBuilding.populate('floorplans');
   } catch (err) {
-    throw new Error('Unable to save new building');
+    throw new Error(`Unable to save new building\n${err.message}`);
   }
 };
 
@@ -147,7 +147,7 @@ BuildingSchema.statics.getOneById = async function getOneById(buildingId) {
       .populate('floorplans')
       .exec();
   } catch (err) {
-    throw new Error(`Could not find building ${buildingId}\n${err}`);
+    throw new Error(`Could not find building ${buildingId}\n${err.message}`);
   }
 };
 
@@ -168,7 +168,7 @@ BuildingSchema.statics.getOneByName = async function getOneByName(
       .populate('floorplans')
       .exec();
   } catch (err) {
-    throw new Error(`Could not find ${buildingName}`);
+    throw new Error(`Could not find ${buildingName}\n${err.message}`);
   }
 };
 
