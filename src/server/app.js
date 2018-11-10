@@ -18,6 +18,7 @@ app.use(errorHandler);
 
 http.createServer(app).listen(process.env.SERVER_PORT, (err) => {
   if (!err) {
+    // eslint-disable-next-line
     console.log(`listening on ${process.env.SERVER_PORT}`);
   }
 });
