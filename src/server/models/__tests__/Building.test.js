@@ -8,14 +8,18 @@ import depopulateDB from '../../../test/helpers/depopulateDB';
 describe('Building Model', () => {
   let testMongo;
   let result;
+  afterEach(async () => {
+    await depopulateDB();
+  });
   describe('statics', () => {
     describe('From an unpopulated Database', () => {
       describe('addNew', () => {
         describe('with valid data', () => {
-          it('Should return a building object', async () => {
+          beforeEach(async () => {
             result = await Building.createNew(dummy.rawBuilding);
+          });
+          it('Should return a building object', async () => {
             assert.notStrictEqual(result.id, undefined);
-            await depopulateDB();
           });
         });
         describe('with invalid data', () => {
@@ -31,9 +35,6 @@ describe('Building Model', () => {
         describe('trying to create the same building twice', () => {
           beforeEach(async () => {
             await Building.createNew(dummy.rawBuilding);
-          });
-          afterEach(async () => {
-            await depopulateDB();
           });
           it('should throw an error', async () => {
             try {
@@ -62,9 +63,6 @@ describe('Building Model', () => {
     describe('From a populated Database', () => {
       beforeEach(async () => {
         testMongo = await populateDB();
-      });
-      afterEach(async () => {
-        await depopulateDB();
       });
       describe('getOneById', () => {
         describe('With a valid buildingId', () => {
