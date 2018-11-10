@@ -119,7 +119,7 @@ FloorSchema.statics.getAll = async function getAll() {
   try {
     return this.find({}).exec();
   } catch (err) {
-    throw new Error(`Could not retrieve all floor objects.\n${err}`);
+    throw new Error(`Could not retrieve all floor objects.\n${err.message}`);
   }
 };
 
@@ -136,7 +136,9 @@ FloorSchema.statics.getOneById = async function getOneById(floorId) {
   try {
     return this.findById(floorId).exec();
   } catch (err) {
-    throw new Error(`Could not retrieve floor object ${floorId}.\n${err}`);
+    throw new Error(
+      `Could not retrieve floor object ${floorId}.\n${err.message}`
+    );
   }
 };
 
@@ -154,7 +156,7 @@ FloorSchema.statics.createNew = async function createNew(floorData) {
     const newFloor = new this(floorData);
     return newFloor.save();
   } catch (err) {
-    throw new Error(`Could not create new Floor.${err}`);
+    throw new Error(`Could not create new Floor.${err.message}`);
   }
 };
 
