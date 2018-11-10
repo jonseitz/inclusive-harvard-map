@@ -14,13 +14,14 @@ import * as dummy from '../data';
 export const populateBuildings = async (rawBuildings) => {
   return Promise.all(
     rawBuildings.map((bldg) => {
-      return models.Building.createNew(bldg);
+      return models.Building.create(bldg);
     })
   );
 };
 
 /**
- * Runs through a list of floors, assigned each to a building, and pushes to mongo.
+ * Runs through a list of floors, assigned each to a building,
+ * and pushes to mongo.
  * @async
  * @method  populateFloors
  * @memberof  test/populateDB
@@ -49,7 +50,7 @@ export const populateFloors = async (rawFloors, mongoBuildings) => {
   }
   return Promise.all(
     assignedFloors.map((floor) => {
-      return models.Floor.createNew(floor);
+      return models.Floor.create(floor);
     })
   );
 };
@@ -59,9 +60,12 @@ export const populateFloors = async (rawFloors, mongoBuildings) => {
  * @async
  * @method  populateDB
  * @memberof  test/populateDB
- * @param  {BuildingData[]}  [rawBuildings]  The buildings that should be inserted. Defaults to the dummy data.
- * @param  {FloorData[]}  [rawFloors]  The floors that should be inserted. Defaults to the dummy data.
- * @returns  {Promise.<Object>}  Resolves to an object with buildings and floors keys
+ * @param  {BuildingData[]}  [rawBuildings]  The buildings that should be
+ * inserted. Defaults to the dummy data.
+ * @param  {FloorData[]}  [rawFloors]  The floors that should be inserted.
+ * Defaults to the dummy data.
+ * @returns  {Promise.<Object>}  Resolves to an object with buildings and
+ * floors keys
  */
 export default async (
   rawBuildings = dummy.rawBuildings,
