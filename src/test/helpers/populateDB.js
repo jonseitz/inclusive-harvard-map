@@ -1,6 +1,7 @@
 /** @module  test/populateDB */
 
-import * as models from '../../server/models';
+import { FloorSchema } from '../../server/models/Floor';
+import { BuildingSchema } from '../../server/models/Building';
 import * as dummy from '../data';
 
 /**
@@ -11,10 +12,10 @@ import * as dummy from '../data';
  * @param  {BuildingData[]}  rawBuildings  the buildings to add to db
  * @returns  {Promise.<BuildingData[]>}  the mongo-fied versions of the data
  */
-export const populateBuildings = async (rawBuildings) => {
+export const populateBuildings = async (db, rawBuildings) => {
   return Promise.all(
     rawBuildings.map((bldg) => {
-      return models.Building.create(bldg);
+      return db.model('Building').create(bldg);
     })
   );
 };
@@ -30,7 +31,7 @@ export const populateBuildings = async (rawBuildings) => {
  * @returns  {Promise.<FloorData[]>}  the mongo-fied versions of the data
  */
 
-export const populateFloors = async (rawFloors, mongoBuildings) => {
+export const populateFloors = async (db, rawFloors, mongoBuildings) => {
   const assignedFloors = [...dummy.rawFloors];
   const buildingCount = mongoBuildings.length;
   const floorCount = rawFloors.length;
@@ -50,7 +51,7 @@ export const populateFloors = async (rawFloors, mongoBuildings) => {
   }
   return Promise.all(
     assignedFloors.map((floor) => {
-      return models.Floor.create(floor);
+      return db.model('Floor').create(floor);
     })
   );
 };
@@ -68,11 +69,22 @@ export const populateFloors = async (rawFloors, mongoBuildings) => {
  * floors keys
  */
 export default async (
+  db,
   rawBuildings = dummy.rawBuildings,
   rawFloors = dummy.rawFloors
 ) => {
-  const mongoBuildings = await populateBuildings(rawBuildings);
-  const mongoFloors = await populateFloors(rawFloors, mongoBuildings);
+  const currentModels = db.modelNames();
+  if (!currentModels.includes('Floor')) {
+    db.model('Floor', FloorSchema);
+  }
+  if (!currentModels.includes('Building')) {
+    db.model('Building', BuildingSchema);
+  }
+
+  const mongoBuildings = await populateBuildings(db, rawBuildings);
+  const mongoFloors = await populateFloors(db, rawFloors, mongoBuildings);
+  await db.model('Building').createIndexes();
+  await db.model('Floor').createIndexes();
   return {
     buildings: mongoBuildings,
     floors: mongoFloors,
