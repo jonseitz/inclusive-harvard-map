@@ -175,7 +175,7 @@ describe('Floor Router', () => {
           assert.deepStrictEqual(result.body, dummy.mongoFloor);
         });
       });
-      describe('When createNew fails', async () => {
+      describe('When createNew fails', () => {
         beforeEach(async () => {
           Floor.createNew.rejects(dummy.error);
           result = await apiTest

@@ -257,7 +257,7 @@ describe('Building Router', () => {
           assert.deepStrictEqual(result.body, dummy.mongoBuilding);
         });
       });
-      describe('When createNew fails', async () => {
+      describe('When createNew fails', () => {
         beforeEach(async () => {
           Building.createNew.rejects(dummy.error);
           result = await apiTest
