@@ -80,7 +80,7 @@ const LayerSchema = new Schema({
  * @memberof  module:models/Floor
  */
 
-const FloorSchema = new Schema(
+export const FloorSchema = new Schema(
   {
     building: {
       type: Schema.Types.ObjectId,
@@ -99,7 +99,7 @@ const FloorSchema = new Schema(
   }
 );
 
-FloorSchema.index({ building: 1, floorNumber: -1 });
+FloorSchema.index({ building: 1, floorNumber: 1 }, { unique: true });
 
 FloorSchema.virtual('facilities', {
   ref: 'Facility',
@@ -153,8 +153,8 @@ FloorSchema.statics.getOneById = async function getOneById(floorId) {
 
 FloorSchema.statics.createNew = async function createNew(floorData) {
   try {
-    const newFloor = new this(floorData);
-    return newFloor.save();
+    const newFloor = await this.create(floorData);
+    return newFloor;
   } catch (err) {
     throw new Error(`Could not create new Floor.${err.message}`);
   }

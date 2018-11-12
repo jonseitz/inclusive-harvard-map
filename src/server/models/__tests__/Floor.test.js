@@ -1,140 +1,146 @@
-import assert from 'assert';
 import sinon from 'sinon';
-import { Floor, Building } from '..';
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { FloorSchema } from '../Floor';
 import * as dummy from '../../../test/data';
 import populateDB from '../../../test/helpers/populateDB';
 import depopulateDB from '../../../test/helpers/depopulateDB';
 
 describe('Floor Model', () => {
+  let mongod;
+  let db;
+  let Floor;
   let testMongo;
+  let testFloor;
+  let testBuilding;
   let result;
-  afterEach(async () => {
-    await depopulateDB();
+  beforeEach(async () => {
+    mongod = new MongoMemoryServer();
+    db = await mongoose.createConnection(await mongod.getConnectionString(), {
+      useNewUrlParser: true,
+      // autoReconnect: true,
+      // reconnectTries: Number.MAX_VALUE,
+      // reconnectInterval: 1000,
+    });
+    Floor = db.model('Floor', FloorSchema);
+    testMongo = await populateDB(db);
   });
-  describe('statics', () => {
-    describe('From an unpopulated Database', () => {
-      describe('addNew', () => {
-        describe('with valid data', () => {
-          beforeEach(async () => {
-            const building = await Building.createNew(dummy.rawBuilding);
-            result = await Floor.createNew({
-              ...dummy.rawFloor,
-              building: building.id,
-            });
-          });
-          it('Should return a floor object', async () => {
-            assert.notStrictEqual(result.id, undefined);
-          });
-        });
-        describe('with invalid data', () => {
-          it('Should throw an error', async () => {
-            try {
-              await Floor.createNew(dummy.rawBuilding);
-              assert.fail('Should have thrown an error');
-            } catch (err) {
-              assert(err);
-            }
+  afterEach(async () => {
+    await depopulateDB(db);
+    await db.close();
+    await mongod.stop();
+  });
+  describe('From an unpopulated Database', () => {
+    describe('createNew', () => {
+      beforeEach(() => {
+        testBuilding = testMongo.buildings[0];
+      });
+      describe('with valid data', () => {
+        beforeEach(async () => {
+          result = await Floor.createNew({
+            ...dummy.newRawFloor,
+            building: testBuilding.id,
           });
         });
-        describe('trying to create the same floor twice', () => {
-          beforeEach(async () => {
-            const building = await Building.createNew(dummy.rawBuilding);
-            await Floor.createNew({
-              ...dummy.rawFloor,
-              building: building.id,
-            });
-          });
-          afterEach(async () => {
-            await depopulateDB();
-          });
-          it('should throw an error', async () => {
-            try {
-              const building = await Building.createNew(dummy.rawBuilding);
-              await Floor.createNew({
+        it('Should return a floor object', () => {
+          expect(result.id).toBeDefined();
+        });
+      });
+
+      describe('with invalid data', () => {
+        it('Should throw an error', async () => {
+          await expect(
+            Floor.createNew(dummy.rawBuilding)
+          ).rejects.toThrow();
+        });
+      });
+
+      describe('trying to create the same floor twice', () => {
+        it('should throw an error', async () => {
+          await expect(
+            Floor.createNew(
+              {
                 ...dummy.rawFloor,
-                building: building.id,
-              });
-              assert.fail('should have thrown an error');
-            } catch (err) {
-              assert(err);
-            }
-          });
+                building: testBuilding.id,
+              }
+            )
+          ).rejects.toThrow();
         });
-        describe('error handling', () => {
-          describe('general Error', () => {
-            beforeEach(() => {
-              sinon.stub(Floor, 'create').rejects(dummy.error);
-            });
-            afterEach(() => {
-              Floor.create.restore();
-            });
-            it('should throw an error', () => {
-              assert.rejects(Floor.createNew);
-            });
-          });
+      });
+
+      describe('general error handling', () => {
+        beforeEach(() => {
+          sinon.stub(Floor, 'create').throws(dummy.error);
+        });
+        afterEach(() => {
+          Floor.create.restore();
+        });
+        it('should throw an error', async () => {
+          await expect(
+            Floor.createNew(
+              {
+                ...dummy.newRawFloor,
+                building: testBuilding.id,
+              }
+            )
+          ).rejects.toThrow();
         });
       });
     });
-    describe('From a populated Database', () => {
-      beforeEach(async () => {
-        testMongo = await populateDB();
-      });
-      afterEach(async () => {
-        await depopulateDB();
-      });
-      describe('getOneById', () => {
-        describe('With a valid floorId', () => {
-          let testFloor;
-          beforeEach(async () => {
-            testFloor = testMongo.floors[0];
-            result = await Floor.getOneById(testFloor.id);
-          });
-          it('Should return the correct Floor', () => {
-            assert.deepStrictEqual(result.id, testFloor.id);
-          });
+  });
+  describe('From a populated Database', () => {
+    describe('getOneById', () => {
+      describe('With a valid floorId', () => {
+        beforeEach(async () => {
+          testFloor = testMongo.floors[0];
+          result = await Floor.getOneById(testFloor.id);
         });
-        describe('With an invalid floor', () => {
-          beforeEach(async () => {
-            result = await Floor.getOneById(dummy.mongoId);
-          });
-          it('Should return nothing', () => {
-            assert.deepStrictEqual(result, null);
-          });
-        });
-        describe('error handling', () => {
-          beforeEach(() => {
-            sinon.stub(Floor, 'find').rejects(dummy.error);
-          });
-          afterEach(() => {
-            Floor.find.restore();
-          });
-          it('should throw an error', () => {
-            assert.rejects(Floor.getOneById);
-          });
+        it('Should return the correct Floor', () => {
+          expect(result.id).toBe(testFloor.id);
         });
       });
-      describe('getAll', () => {
-        describe('Normal operations', () => {
-          beforeEach(async () => {
-            result = await Floor.getAll();
-          });
-          it('Should return an array', () => {
-            assert.strictEqual(Array.isArray(result), true);
-          });
-          it('Should return all of the floors in the db', () => {
-            assert.strictEqual(result.length, testMongo.floors.length);
-          });
+      describe('With an invalid floor', () => {
+        beforeEach(async () => {
+          result = await Floor.getOneById(dummy.mongoId);
         });
-        describe('error handling', () => {
-          beforeEach(() => {
-            sinon.stub(Floor, 'find').rejects(dummy.error);
-          });
-          afterEach(() => {
-            Floor.find.restore();
-          });
-          it('should throw an error', () => {
-            assert.rejects(Floor.getAll);
-          });
+        it('Should return nothing', () => {
+          expect(result).toBeNull();
+        });
+      });
+      describe('error handling', () => {
+        beforeEach(() => {
+          sinon.stub(Floor, 'findById').throws(dummy.error);
+        });
+        afterEach(() => {
+          Floor.findById.restore();
+        });
+        it('should throw an error', async () => {
+          testFloor = testMongo.floors[0];
+          await expect(Floor.getOneById(testFloor.id)).rejects.toThrow();
+        });
+      });
+    });
+    describe('getAll', () => {
+      describe('Normal operations', () => {
+        beforeEach(async () => {
+          result = await Floor.getAll();
+        });
+        it('Should return an array', () => {
+          expect(Array.isArray(result)).toBeTruthy();
+        });
+        it('Should return all of the floors in the db', () => {
+          expect(result.length).toBe(testMongo.floors.length);
+        });
+      });
+      describe('error handling', () => {
+        beforeEach(() => {
+          sinon.stub(Floor, 'find').throws(dummy.error);
+        });
+        afterEach(() => {
+          Floor.find.restore();
+        });
+        it('should throw an error', async () => {
+          await expect(Floor.getAll()).rejects.toThrow();
         });
       });
     });

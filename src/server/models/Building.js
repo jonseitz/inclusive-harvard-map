@@ -57,7 +57,7 @@ const AddressSchema = new Schema({
  * @memberof  module:models/Building
  */
 
-const BuildingSchema = new Schema(
+export const BuildingSchema = new Schema(
   {
     address: { type: AddressSchema, required: true },
     buildingName: {
@@ -126,7 +126,7 @@ BuildingSchema.statics.createNew = async function createNew(buildingData) {
 
 BuildingSchema.statics.getAll = async function getAll() {
   try {
-    return this.find({}).exec();
+    return this.find().exec();
   } catch (err) {
     throw new Error(`Failed to fetch all buildings.\n\n${err.message}`);
   }
