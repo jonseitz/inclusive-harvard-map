@@ -6,7 +6,9 @@ import createDb from '../models/db';
 const floorRouter = Router();
 
 floorRouter.use(async (req, res, next) => {
-  req.db = await createDb();
+  if (!req.db) {
+    req.db = await createDb();
+  }
   next();
 });
 

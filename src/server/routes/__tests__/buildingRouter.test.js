@@ -11,6 +11,7 @@ describe('Building Router', () => {
   let result;
 
   beforeAll(() => {
+    jest.setTimeout(10000);
     const app = express();
     app.use(express.json());
     app.use(buildingRouter);
@@ -36,8 +37,9 @@ describe('Building Router', () => {
 
       describe('When querying database succeeds', () => {
         beforeEach(async () => {
-          BuildingSchema.statics.getAll.resolves(dummy.mongoBuildingArray);
+          BuildingSchema.statics.getAll.returns(dummy.mongoBuildingArray);
           result = await apiTest.get('/all');
+          return result;
         });
 
         it('should call the getAll method', () => {
@@ -61,6 +63,7 @@ describe('Building Router', () => {
         beforeEach(async () => {
           BuildingSchema.statics.getAll.throws(dummy.error);
           result = await apiTest.get('/all');
+          return result;
         });
 
         it('should still call the getAll method', () => {
@@ -91,8 +94,9 @@ describe('Building Router', () => {
 
       describe('When querying database succeeds', () => {
         beforeEach(async () => {
-          BuildingSchema.statics.getOneById.resolves(dummy.mongoBuilding);
+          BuildingSchema.statics.getOneById.returns(dummy.mongoBuilding);
           result = await apiTest.get(`/${dummy.mongoBuilding.id}`);
+          return result;
         });
 
         it('should call getOneById', () => {
@@ -121,6 +125,7 @@ describe('Building Router', () => {
         beforeEach(async () => {
           BuildingSchema.statics.getOneById.throws(dummy.error);
           result = await apiTest.get(`/${dummy.mongoBuilding.id}`);
+          return result;
         });
 
         it('should call getOneById', () => {
@@ -156,10 +161,11 @@ describe('Building Router', () => {
 
       describe('When querying database succeeds', () => {
         beforeEach(async () => {
-          BuildingSchema.statics.getOneByName.resolves(dummy.mongoBuilding);
+          BuildingSchema.statics.getOneByName.returns(dummy.mongoBuilding);
           result = await apiTest.get(
             `/byName/${dummy.mongoBuilding.buildingName}`
           );
+          return result;
         });
 
         it('should call getOneByName', () => {
@@ -190,6 +196,7 @@ describe('Building Router', () => {
           result = await apiTest.get(
             `/byName/${dummy.mongoBuilding.buildingName}`
           );
+          return result;
         });
 
         it('should call getOneByName', () => {
@@ -225,11 +232,12 @@ describe('Building Router', () => {
       });
       describe('When createNew Succeeds', () => {
         beforeEach(async () => {
-          BuildingSchema.statics.createNew.resolves(dummy.mongoBuilding);
+          BuildingSchema.statics.createNew.returns(dummy.mongoBuilding);
           result = await apiTest
             .post('/new')
             .set('Accept', 'application/json')
             .send(dummy.rawBuilding);
+          return result;
         });
         it('Should call BuildingSchema.statics.createNew', () => {
           expect(BuildingSchema.statics.createNew.callCount).toBe(1);
@@ -259,6 +267,7 @@ describe('Building Router', () => {
             .post('/new')
             .set('Accept', 'application/json')
             .send(dummy.rawBuilding);
+          return result;
         });
 
         it('Should call BuildingSchema.statics.createNew', () => {

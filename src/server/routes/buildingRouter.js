@@ -5,7 +5,9 @@ import createDb from '../models/db';
 const buildingRouter = Router();
 
 buildingRouter.use(async (req, res, next) => {
-  req.db = await createDb();
+  if (!req.db) {
+    req.db = await createDb();
+  }
   next();
 });
 

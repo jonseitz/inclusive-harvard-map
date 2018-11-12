@@ -10,7 +10,7 @@
     "lint": "eslint src",
     "test": "env NODE_ENV=testing jest -c config/jest.config.js  || true",
     "test:watch": "env NODE_ENV=testing jest --watch -c config/jest.config.js || true",
-    "test:ci": "env NODE_ENV=testing jest --runInBand -c config/jest.config.js || true",
+    "test:ci": "env NODE_ENV=testing jest --runInBand --detectOpenHandles --forceExit -c config/jest.config.js || true",
     "start:client": "webpack-dev-server --config src/client/config/webpack.dev.js",
     "start:server": "nodemon ./src/server/index.js",
     "travis": "run-s lint test:ci coveralls docs"
