@@ -11,13 +11,15 @@ export default async () => {
     const connectionString = await mongod.getConnectionString();
     const options = {
       keepAlive: false,
+      useCreateIndex: true,
       autoReconnect: true,
       reconnectTries: Number.MAX_VALUE,
       reconnectInterval: 1000,
+      // socketTimeoutMS: 1000,
       useNewUrlParser: true,
     };
     db = mongoose.createConnection(connectionString, options);
-    db.on('close', async () => {
+    db.on('disconnected', async () => {
       await mongod.stop();
     });
   } else {
@@ -26,6 +28,7 @@ export default async () => {
     const options = {
       keepAlive: true,
       useNewUrlParser: true,
+      useCreateIndex: true,
       user: process.env.MONGO_USER,
       pass: process.env.MONGO_PASS,
 

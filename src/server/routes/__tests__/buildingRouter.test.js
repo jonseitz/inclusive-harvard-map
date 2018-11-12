@@ -11,7 +11,7 @@ describe('Building Router', () => {
   let result;
 
   beforeAll(() => {
-    jest.setTimeout(10000);
+    jest.setTimeout(60000);
     const app = express();
     app.use(express.json());
     app.use(buildingRouter);

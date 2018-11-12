@@ -11,7 +11,7 @@ describe('Floor Router', () => {
   let result;
 
   beforeEach(() => {
-    jest.setTimeout(10000);
+    jest.setTimeout(60000);
     const app = express();
     app.use(express.json());
     app.use(floorRouter);
