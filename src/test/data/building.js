@@ -106,4 +106,20 @@ export const rawBuildingTwo = {
   },
 };
 
+export const newRawBuilding = {
+  buildingName: 'John Hancock',
+  numFloors: 5,
+  hasElevator: true,
+  hasAccessibleEntrance: true,
+  address: {
+    streetNumber: '220',
+    streetName: 'Clarendon Street',
+    city: 'Boston',
+    state: 'Massachusetts',
+    postalCode: '02116',
+    country: 'USA',
+    latitude: '42.3493',
+    longitude: '-71.0751',
+  },
+};
 export const rawBuildings = [rawBuilding, rawBuildingTwo];

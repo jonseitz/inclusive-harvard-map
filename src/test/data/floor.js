@@ -29,6 +29,13 @@ export const rawLayer = {
   ],
 };
 
+export const newRawFloor = {
+  building: null,
+  floorNumber: '13',
+  layers: [rawLayer],
+  facilities: [],
+};
+
 export const rawFloor = {
   building: null,
   floorNumber: '1',
