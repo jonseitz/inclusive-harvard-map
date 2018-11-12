@@ -1,13 +1,10 @@
 import sinon from 'sinon';
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import { FloorSchema } from '../Floor';
+import createDb from '../db';
 import * as dummy from '../../../test/data';
 import populateDB from '../../../test/helpers/populateDB';
 import depopulateDB from '../../../test/helpers/depopulateDB';
 
 describe('Floor Model', () => {
-  let mongod;
   let db;
   let Floor;
   let testMongo;
@@ -15,20 +12,13 @@ describe('Floor Model', () => {
   let testBuilding;
   let result;
   beforeEach(async () => {
-    mongod = new MongoMemoryServer();
-    db = await mongoose.createConnection(await mongod.getConnectionString(), {
-      useNewUrlParser: true,
-      // autoReconnect: true,
-      // reconnectTries: Number.MAX_VALUE,
-      // reconnectInterval: 1000,
-    });
-    Floor = db.model('Floor', FloorSchema);
+    db = await createDb();
+    Floor = db.model('Floor');
     testMongo = await populateDB(db);
   });
   afterEach(async () => {
     await depopulateDB(db);
     await db.close();
-    await mongod.stop();
   });
   describe('From an unpopulated Database', () => {
     describe('createNew', () => {

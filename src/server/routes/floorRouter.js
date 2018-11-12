@@ -1,9 +1,14 @@
 /** @api server/floorRouter */
 
 import { Router } from 'express';
-import Floor from '../models/Floor';
+import createDb from '../models/db';
 
 const floorRouter = Router();
+
+floorRouter.use(async (req, res, next) => {
+  req.db = await createDb();
+  next();
+});
 
 /**
  * Gets all of the floor objects in the database
@@ -14,7 +19,7 @@ const floorRouter = Router();
 
 floorRouter.get('/all', async (req, res, next) => {
   try {
-    const plans = await Floor.getAll();
+    const plans = await req.db.model('Floor').getAll();
     res.json(plans);
   } catch (err) {
     next(err);
@@ -30,7 +35,7 @@ floorRouter.get('/all', async (req, res, next) => {
 
 floorRouter.get('/:id', async (req, res, next) => {
   try {
-    const plan = await Floor.getOneById(req.params.id);
+    const plan = await req.db.model('Floor').getOneById(req.params.id);
     res.json(plan);
   } catch (err) {
     next(err);
@@ -46,7 +51,7 @@ floorRouter.get('/:id', async (req, res, next) => {
 
 floorRouter.post('/new', async (req, res, next) => {
   try {
-    const plan = await Floor.createNew(req.body);
+    const plan = await req.db.model('Floor').createNew(req.body);
     res.json(plan);
   } catch (err) {
     next(err);

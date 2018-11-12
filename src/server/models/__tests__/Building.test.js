@@ -1,30 +1,23 @@
 import sinon from 'sinon';
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import { BuildingSchema } from '../Building';
+import createDb from '../db';
 import * as dummy from '../../../test/data';
 import populateDB from '../../../test/helpers/populateDB';
 import depopulateDB from '../../../test/helpers/depopulateDB';
 
 describe('Building Model', () => {
-  let mongod;
   let db;
   let Building;
   let testMongo;
   let testBuilding;
   let result;
   beforeEach(async () => {
-    mongod = new MongoMemoryServer();
-    db = await mongoose.createConnection(await mongod.getConnectionString(), {
-      useNewUrlParser: true,
-    });
-    Building = db.model('Building', BuildingSchema);
+    db = await createDb();
+    Building = db.model('Building');
     testMongo = await populateDB(db);
   });
   afterEach(async () => {
     await depopulateDB(db);
     await db.close();
-    await mongod.stop();
   });
   describe('With an unpopulated Database', () => {
     describe('createNew', () => {

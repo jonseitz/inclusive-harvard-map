@@ -1,7 +1,7 @@
 /** @module  test/populateDB */
 
-import { FloorSchema } from '../../server/models/Floor';
-import { BuildingSchema } from '../../server/models/Building';
+import FloorSchema from '../../server/models/Floor';
+import BuildingSchema from '../../server/models/Building';
 import * as dummy from '../data';
 
 /**
@@ -83,8 +83,8 @@ export default async (
 
   const mongoBuildings = await populateBuildings(db, rawBuildings);
   const mongoFloors = await populateFloors(db, rawFloors, mongoBuildings);
-  await db.model('Building').createIndexes();
-  await db.model('Floor').createIndexes();
+  // await db.model('Building').createIndexes();
+  // await db.model('Floor').createIndexes();
   return {
     buildings: mongoBuildings,
     floors: mongoFloors,

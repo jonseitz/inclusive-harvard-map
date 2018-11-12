@@ -1,8 +1,13 @@
 /** @api  buildingRouter */
 import { Router } from 'express';
-import Building from '../models/Building';
+import createDb from '../models/db';
 
 const buildingRouter = Router();
+
+buildingRouter.use(async (req, res, next) => {
+  req.db = await createDb();
+  next();
+});
 
 /**
  * Get all of the building objects from the database
@@ -13,7 +18,7 @@ const buildingRouter = Router();
 
 buildingRouter.get('/all', async (req, res, next) => {
   try {
-    const bldgs = await Building.getAll();
+    const bldgs = await req.db.model('Building').getAll();
     res.json(bldgs);
   } catch (err) {
     next(err);
@@ -29,7 +34,7 @@ buildingRouter.get('/all', async (req, res, next) => {
 
 buildingRouter.get('/:id', async (req, res, next) => {
   try {
-    const bldg = await Building.getOneById(req.params.id);
+    const bldg = await req.db.model('Building').getOneById(req.params.id);
     res.json(bldg);
   } catch (err) {
     next(err);
@@ -45,7 +50,7 @@ buildingRouter.get('/:id', async (req, res, next) => {
 
 buildingRouter.get('/byName/:name', async (req, res, next) => {
   try {
-    const bldg = await Building.getOneByName(req.params.name);
+    const bldg = await req.db.model('Building').getOneByName(req.params.name);
     res.json(bldg);
   } catch (err) {
     next(err);
@@ -61,7 +66,7 @@ buildingRouter.get('/byName/:name', async (req, res, next) => {
 
 buildingRouter.post('/new', async (req, res, next) => {
   try {
-    const bldg = await Building.createNew(req.body);
+    const bldg = await req.db.model('Building').createNew(req.body);
     res.json(bldg);
   } catch (err) {
     next(err);

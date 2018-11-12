@@ -1,7 +1,6 @@
 /** @module  models/Floor */
 
 import mongoose from 'mongoose';
-import db from './db';
 
 const { Schema } = mongoose;
 
@@ -80,7 +79,7 @@ const LayerSchema = new Schema({
  * @memberof  module:models/Floor
  */
 
-export const FloorSchema = new Schema(
+const FloorSchema = new Schema(
   {
     building: {
       type: Schema.Types.ObjectId,
@@ -160,6 +159,4 @@ FloorSchema.statics.createNew = async function createNew(floorData) {
   }
 };
 
-const Floor = db.model('Floor', FloorSchema);
-
-export default Floor;
+export default FloorSchema;

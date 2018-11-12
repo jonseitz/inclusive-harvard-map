@@ -1,6 +1,5 @@
 /** @module models/Facility */
 import mongoose from 'mongoose';
-import db from './db';
 
 const { Schema } = mongoose;
 
@@ -78,6 +77,4 @@ FacilitySchema.index({
   room: 1,
 });
 
-const Facility = db.model('Facility', FacilitySchema);
-
-export default Facility;
+export default FacilitySchema;

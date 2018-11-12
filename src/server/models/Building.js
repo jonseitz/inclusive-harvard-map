@@ -1,7 +1,6 @@
 /** @module models/Building */
 
 import mongoose from 'mongoose';
-import db from './db';
 
 const { Schema } = mongoose;
 
@@ -57,7 +56,7 @@ const AddressSchema = new Schema({
  * @memberof  module:models/Building
  */
 
-export const BuildingSchema = new Schema(
+const BuildingSchema = new Schema(
   {
     address: { type: AddressSchema, required: true },
     buildingName: {
@@ -172,6 +171,4 @@ BuildingSchema.statics.getOneByName = async function getOneByName(
   }
 };
 
-const Building = db.model('Building', BuildingSchema);
-
-export default Building;
+export default BuildingSchema;

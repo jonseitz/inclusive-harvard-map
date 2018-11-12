@@ -1,140 +1,147 @@
-import assert from 'assert';
 import express from 'express';
 import supertest from 'supertest';
 import sinon from 'sinon';
 import errorHandler from '../errorHandler';
 import floorRouter from '../floorRouter';
-import Floor from '../../models/Floor';
+import FloorSchema from '../../models/Floor';
 import * as dummy from '../../../test/data';
 
 describe('Floor Router', () => {
   let apiTest;
   let result;
 
-  beforeAll(() => {
+  beforeEach(() => {
     const app = express();
     app.use(express.json());
     app.use(floorRouter);
     app.use(errorHandler);
+    app.use(async (req, res, next) => {
+      if (req.db) {
+        await req.db.close();
+      }
+      next();
+    });
     apiTest = supertest(app);
   });
 
   describe('GET', () => {
     describe('/all', () => {
       beforeEach(() => {
-        sinon.stub(Floor, 'getAll');
+        sinon.stub(FloorSchema.statics, 'getAll');
       });
 
       afterEach(() => {
-        Floor.getAll.restore();
+        FloorSchema.statics.getAll.restore();
       });
 
       describe('When querying database succeeds', () => {
         beforeEach(async () => {
-          Floor.getAll.resolves(dummy.mongoFloorArray);
+          FloorSchema.statics.getAll.resolves(dummy.mongoFloorArray);
           result = await apiTest.get('/all');
         });
 
         it('should call the getAll method', () => {
-          assert.strictEqual(Floor.getAll.callCount, 1);
+          expect(FloorSchema.statics.getAll.callCount).toBe(1);
         });
 
         it('should return a 200 status code', () => {
-          assert.strictEqual(result.statusCode, 200);
+          expect(result.statusCode).toBe(200);
         });
 
         it('should return JSON', () => {
-          assert.strictEqual(result.type, 'application/json');
+          expect(result.type).toBe('application/json');
         });
 
         it('should return the expected data', () => {
-          assert.deepStrictEqual(result.body, dummy.mongoFloorArray);
+          expect(result.body).toEqual(dummy.mongoFloorArray);
         });
       });
 
       describe('When querying the database fails', () => {
         beforeEach(async () => {
-          Floor.getAll.rejects(dummy.error);
+          FloorSchema.statics.getAll.throws(dummy.error);
           result = await apiTest.get('/all');
         });
 
         it('should still call the getAll method', () => {
-          assert.strictEqual(Floor.getAll.callCount, 1);
+          expect(FloorSchema.statics.getAll.callCount).toBe(1);
         });
 
         it('should return a 500 status code', () => {
-          assert.strictEqual(result.statusCode, 500);
+          expect(result.statusCode).toBe(500);
         });
 
         it('should return JSON', () => {
-          assert.strictEqual(result.type, 'application/json');
+          expect(result.type).toBe('application/json');
         });
 
         it('should have an error', () => {
-          assert.strictEqual(result.body.error, 'Error');
+          expect(result.body.error).toBe('Error');
         });
       });
     });
     describe('/:id', () => {
       beforeEach(() => {
-        sinon.stub(Floor, 'getOneById');
+        sinon.stub(FloorSchema.statics, 'getOneById');
       });
 
       afterEach(() => {
-        Floor.getOneById.restore();
+        FloorSchema.statics.getOneById.restore();
       });
 
       describe('When querying database succeeds', () => {
         beforeEach(async () => {
-          Floor.getOneById.resolves(dummy.mongoFloor);
+          FloorSchema.statics.getOneById.resolves(dummy.mongoFloor);
           result = await apiTest.get(`/${dummy.mongoFloor.id}`);
         });
 
         it('should call getOneById', () => {
-          assert.strictEqual(Floor.getOneById.callCount, 1);
+          expect(FloorSchema.statics.getOneById.callCount).toBe(1);
         });
 
         it('should pass in the id', () => {
-          assert.strictEqual(Floor.getOneById.args[0][0], dummy.mongoFloor.id);
+          expect(FloorSchema.statics.getOneById.args[0][0])
+            .toBe(dummy.mongoFloor.id);
         });
 
         it('should return a 200 status code', () => {
-          assert.strictEqual(result.statusCode, 200);
+          expect(result.statusCode).toBe(200);
         });
 
         it('should return JSON', () => {
-          assert.strictEqual(result.type, 'application/json');
+          expect(result.type).toBe('application/json');
         });
 
         it('should return the expected data', () => {
-          assert.deepStrictEqual(result.body, dummy.mongoFloor);
+          expect(result.body).toEqual(dummy.mongoFloor);
         });
       });
 
       describe('When querying the database fails', () => {
         beforeEach(async () => {
-          Floor.getOneById.rejects(dummy.error);
+          FloorSchema.statics.getOneById.throws(dummy.error);
           result = await apiTest.get(`/${dummy.mongoFloor.id}`);
         });
 
         it('should call getOneById', () => {
-          assert.strictEqual(Floor.getOneById.callCount, 1);
+          expect(FloorSchema.statics.getOneById.callCount).toBe(1);
         });
 
         it('should pass in the id', () => {
-          assert.strictEqual(Floor.getOneById.args[0][0], dummy.mongoFloor.id);
+          expect(FloorSchema.statics.getOneById.args[0][0])
+            .toBe(dummy.mongoFloor.id);
         });
 
         it('should return a 500 status code', () => {
-          assert.strictEqual(result.statusCode, 500);
+          expect(result.statusCode).toBe(500);
         });
 
         it('should return JSON', () => {
-          assert.strictEqual(result.type, 'application/json');
+          expect(result.type).toBe('application/json');
         });
 
         it('should have an error', () => {
-          assert.strictEqual(result.body.error, 'Error');
+          expect(result.body.error).toBe('Error');
         });
       });
     });
@@ -142,66 +149,68 @@ describe('Floor Router', () => {
   describe('POST', () => {
     describe('/new', () => {
       beforeEach(() => {
-        sinon.stub(Floor, 'createNew');
+        sinon.stub(FloorSchema.statics, 'createNew');
       });
       afterEach(() => {
-        Floor.createNew.restore();
+        FloorSchema.statics.createNew.restore();
       });
       describe('When createNew Succeeds', () => {
         beforeEach(async () => {
-          Floor.createNew.resolves(dummy.mongoFloor);
+          FloorSchema.statics.createNew.resolves(dummy.mongoFloor);
           result = await apiTest
             .post('/new')
             .set('Accept', 'application/json')
             .send(dummy.rawFloor);
         });
-        it('Should call Floor.createNew', () => {
-          assert.strictEqual(Floor.createNew.callCount, 1);
+        it('Should call FloorSchema.statics.createNew', () => {
+          expect(FloorSchema.statics.createNew.callCount).toBe(1);
         });
 
         it('Should pass in the raw data', () => {
-          assert.deepStrictEqual(Floor.createNew.args[0][0], dummy.rawFloor);
+          expect(FloorSchema.statics.createNew.args[0][0])
+            .toEqual(dummy.rawFloor);
         });
 
         it('should return a 200 status code', () => {
-          assert.strictEqual(result.statusCode, 200);
+          expect(result.statusCode).toBe(200);
         });
 
         it('should return JSON', () => {
-          assert.strictEqual(result.type, 'application/json');
+          expect(result.type).toBe('application/json');
         });
 
         it('should return the expected data', () => {
-          assert.deepStrictEqual(result.body, dummy.mongoFloor);
+          expect(result.body).toEqual(dummy.mongoFloor);
         });
       });
       describe('When createNew fails', () => {
         beforeEach(async () => {
-          Floor.createNew.rejects(dummy.error);
+          FloorSchema.statics.createNew.throws(dummy.error);
           result = await apiTest
             .post('/new')
             .set('Accept', 'application/json')
             .send(dummy.rawFloor);
         });
 
-        it('Should call Floor.createNew', () => {
-          assert.strictEqual(Floor.createNew.callCount, 1);
+        it('Should call FloorSchema.statics.createNew', () => {
+          expect(FloorSchema.statics.createNew.callCount).toBe(1);
         });
 
         it('Should pass in the raw data', () => {
-          assert.deepStrictEqual(Floor.createNew.args[0][0], dummy.rawFloor);
+          expect(FloorSchema.statics.createNew.args[0][0])
+            .toEqual(dummy.rawFloor);
         });
 
         it('should return a 500 status code', () => {
-          assert.strictEqual(result.statusCode, 500);
+          expect(result.statusCode).toBe(500);
         });
 
         it('should return JSON', () => {
-          assert.strictEqual(result.type, 'application/json');
+          expect(result.type).toBe('application/json');
         });
 
         it('should have an error', () => {
-          assert.strictEqual(result.body.error, 'Error');
+          expect(result.body.error).toBe('Error');
         });
       });
     });
