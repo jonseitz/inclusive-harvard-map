@@ -28,6 +28,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(woff2?|png|jpg|gif|svg)$/,
+        use: [{ loader: 'file-loader' }],
+      },
+      {
         test: /\.css$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },
