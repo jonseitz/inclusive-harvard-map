@@ -14,3 +14,16 @@ if (module.hot) {
     console.log('Change detected! Hot reloading...');
   });
 }
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then((reg) => {
+        console.log('Worker loaded');
+        console.log(`Scope is: ${reg.scope}`);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
+}
