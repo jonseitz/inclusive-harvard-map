@@ -2,19 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
-  Button,
-  List,
-  ListItem,
-  ListItemIcon,
   Drawer,
   Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   withStyles,
 } from '@material-ui/core';
-// import Typography from '@material-ui/core/Typography';
+import { Close } from '@material-ui/icons';
 
 const drawerWidth = 240;
 
-const classes = (theme) => {
+const styles = (theme) => {
   return {
     drawerPaper: {
       position: 'relative',
@@ -36,12 +35,15 @@ const classes = (theme) => {
         width: theme.spacing.unit * 9,
       },
     },
+    menuButton: theme.mixins.toolbar,
   };
 };
 
 class Menu extends React.Component {
   render() {
-    const { isDrawerOpen, closeDrawer } = this.props;
+    const {
+      children, classes, isDrawerOpen, closeDrawer,
+    } = this.props;
     return (
       <Drawer
         open={isDrawerOpen}
@@ -51,27 +53,36 @@ class Menu extends React.Component {
               classes.drawerPaper,
               !isDrawerOpen && classes.drawerPaperClose
             ),
-        }
-        }
+        }}
       >
-        <List>
-          <ListItem>
-            <ListItemIcon />
-              Buildings
-          </ListItem>
-          <ListItem>
-            <ListItemIcon />
-              Directions
-          </ListItem>
-        </List>
+        <ListItem
+          button
+          component="button"
+          onClick={closeDrawer}
+          className={classes.menuButton}
+        >
+          <ListItemIcon>
+            <Close />
+          </ListItemIcon>
+          <ListItemText primary="Close Menu" />
+        </ListItem>
         <Divider />
-        <Button onClick={closeDrawer}>close</Button>
+        {children.map((child) => {
+          return (
+            <React.Fragment key={child.props.id}>
+              {child}
+              <Divider />
+            </React.Fragment>
+          );
+        })}
       </Drawer>
     );
   }
 }
 
 Menu.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  classes: PropTypes.object.isRequired,
   isDrawerOpen: PropTypes.bool,
   closeDrawer: PropTypes.func.isRequired,
 };
@@ -80,4 +91,4 @@ Menu.defaultProps = {
   isDrawerOpen: false,
 };
 
-export default withStyles(classes)(Menu);
+export default withStyles(styles)(Menu);

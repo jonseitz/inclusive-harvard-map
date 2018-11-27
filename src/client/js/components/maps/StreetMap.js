@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { Map, TileLayer } from 'react-leaflet';
+import {
+  Map,
+  TileLayer,
+  LayerGroup,
+  Circle,
+} from 'react-leaflet';
 import 'leaflet';
+import { getBuildingList } from '../../api/buildings';
 import '../../../../../node_modules/leaflet/dist/leaflet.css';
 
 const DEFAULT_VIEWPORT = {
@@ -23,21 +29,33 @@ class StreetMap extends Component {
     super(props);
     this.state = {
       viewport: DEFAULT_VIEWPORT,
+      buildings: [],
     };
     this.onClickReset = this.onClickReset.bind(this);
     this.onViewportChange = this.onViewportChange.bind(this);
   }
 
-  onClickReset() {
-    this.setState({ viewport: DEFAULT_VIEWPORT });
+  componentDidMount() {
+    const { setAppMessage } = this.props;
+    setAppMessage('Loading Building Data...');
+    getBuildingList().then((list) => {
+      this.setState({ buildings: list });
+      setAppMessage('Buildings loaded!');
+    }).catch((err) => {
+      setAppMessage(err.message);
+    });
   }
 
   onViewportChange(viewport) {
     this.setState({ viewport });
   }
 
+  onClickReset() {
+    this.setState({ viewport: DEFAULT_VIEWPORT });
+  }
+
   render() {
-    const { viewport } = this.state;
+    const { viewport, buildings } = this.state;
     const { classes } = this.props;
     return (
       <Map
@@ -49,6 +67,20 @@ class StreetMap extends Component {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {buildings.length > 0 && (
+          <LayerGroup>
+            {buildings.map((building) => {
+              const { address } = building;
+              return (
+                <Circle
+                  key={building.id}
+                  center={[address.latitude, address.longitude]}
+                  color="black"
+                  radius={10}
+                />);
+            })}
+          </LayerGroup>
+        )}
       </Map>
     );
   }
@@ -56,6 +88,7 @@ class StreetMap extends Component {
 
 StreetMap.propTypes = {
   classes: PropTypes.object.isRequired,
+  setAppMessage: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(StreetMap);
