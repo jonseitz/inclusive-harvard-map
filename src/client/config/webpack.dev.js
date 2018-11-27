@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   name: 'client',
@@ -8,13 +9,14 @@ module.exports = {
   mode: 'development',
   target: 'web',
   context: path.resolve(__dirname, '..'),
-  entry: path.resolve(__dirname, '../index.js'),
+  entry: {
+    main: path.resolve(__dirname, '../index.js'),
+  },
   output: {
     path: path.resolve(__dirname, '../build/'),
-    filename: '[name].bundle.js',
+    filename: '[name].js',
   },
   devServer: {
-    // contentBase: path.resolve(__dirname, '../build/'),
     host: '0.0.0.0',
     port: process.env.CLIENT_PORT,
     hot: true,
@@ -54,6 +56,9 @@ module.exports = {
       title: 'Inclusive Harvard Mapping',
       template: './config/template.html',
       inject: true,
+    }),
+    new WorkboxPlugin.GenerateSW({
+      exclude: [/.*/],
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
