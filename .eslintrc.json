@@ -72,5 +72,19 @@
         "forbid": ["any","array"]
       }
     ]
-  } 
+  },
+  "overrides": {
+    "files": [
+      "src/client/config/*",
+      "*.test.js"
+    ],
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ]
+    }
+  }
 }
