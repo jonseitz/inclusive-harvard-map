@@ -1,20 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Paper, withStyles } from '@material-ui/core';
-// import Typography from '@material-ui/core/Typography';
 
 const styles = (theme) => {
   return {
-    // appBarSpacer: theme.mixins.toolbar,
     main: {
-      margin: theme.spacing.unit * 4,
       display: 'flex',
       justifyContent: 'center',
+      alignItems: 'stretch',
       width: 'auto',
+      [theme.breakpoints.up('sm')]: {
+        margin: theme.spacing.unit * 4,
+        marginLeft: theme.spacing.unit * 4 + theme.drawer.width,
+      },
     },
     fullwidth: {
       width: '100vw',
-      height: '83vh',
+      height: '100vh',
+      [theme.breakpoints.up('sm')]: {
+        height: `calc(100vh - ${theme.spacing.unit * 9 + theme.mixins.toolbar.minHeight}px)`,
+      },
+    },
+    appSpacer: {
+      ...theme.mixins.toolbar,
     },
   };
 };
@@ -23,11 +31,14 @@ class Dashboard extends React.Component {
   render() {
     const { classes, children } = this.props;
     return (
-      <div className={classes.main}>
-        <Paper className={classes.fullwidth}>
-          {children}
-        </Paper>
-      </div>
+      <React.Fragment>
+        <div className={classes.appSpacer} />
+        <div className={classes.main}>
+          <Paper className={classes.fullwidth}>
+            {children}
+          </Paper>
+        </div>
+      </React.Fragment>
     );
   }
 }

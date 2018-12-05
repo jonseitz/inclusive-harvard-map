@@ -13,10 +13,14 @@ import {
 
 class LocationMenu extends React.Component {
   render() {
-    const { locationActive } = this.props;
+    const { locationActive, locationHandler } = this.props;
     return (
       <List>
-        <ListItem button component="button">
+        <ListItem
+          button
+          component="button"
+          onClick={locationHandler}
+        >
           <ListItemIcon>
             {locationActive ? <LocationOn /> : <LocationOff />}
           </ListItemIcon>
@@ -29,6 +33,7 @@ class LocationMenu extends React.Component {
 
 LocationMenu.propTypes = {
   locationActive: PropTypes.bool,
+  locationHandler: PropTypes.func,
 };
 
 LocationMenu.defaultProps = {

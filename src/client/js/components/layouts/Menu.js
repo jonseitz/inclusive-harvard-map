@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {
   Drawer,
   Divider,
+  Hidden,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -11,31 +11,20 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-const drawerWidth = 240;
-
 const styles = (theme) => {
   return {
+    drawer: {
+      width: theme.drawer.width,
+      flexShrink: 0,
+    },
     drawerPaper: {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+      zIndex: theme.zIndex.appBar - 50,
+      width: theme.drawer.width,
     },
-    drawerPaperClose: {
-      overflowX: 'hidden',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing.unit * 7,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing.unit * 9,
-      },
+    menuSpacer: {
+      ...theme.mixins.toolbar,
+      background: theme.palette.secondary.main,
     },
-    menuButton: theme.mixins.toolbar,
   };
 };
 
@@ -45,37 +34,51 @@ class Menu extends React.Component {
       children, classes, isDrawerOpen, closeDrawer,
     } = this.props;
     return (
-      <Drawer
-        open={isDrawerOpen}
-        classes={{
-          paper:
-            classNames(
+      <React.Fragment>
+        <Hidden xsDown implementation="js">
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper:
               classes.drawerPaper,
-              !isDrawerOpen && classes.drawerPaperClose
-            ),
-        }}
-      >
-        <ListItem
-          button
-          component="button"
-          onClick={closeDrawer}
-          className={classes.menuButton}
-        >
-          <ListItemIcon>
-            <Close />
-          </ListItemIcon>
-          <ListItemText primary="Close Menu" />
-        </ListItem>
-        <Divider />
-        {children.map((child) => {
-          return (
-            <React.Fragment key={child.props.id}>
-              {child}
-              <Divider />
-            </React.Fragment>
-          );
-        })}
-      </Drawer>
+            }}
+          >
+            <ListItem
+              component="div"
+              className={classes.menuSpacer}
+            />
+            {children}
+          </Drawer>
+        </Hidden>
+        <Hidden smUp implementation="js">
+          <Drawer
+            open={isDrawerOpen}
+            variant="temporary"
+            onClose={closeDrawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            modalprops={{
+              keepMounted: true,
+            }}
+          >
+            <ListItem
+              button
+              component="button"
+              onClick={closeDrawer}
+              className={classes.menuSpacer}
+            >
+              <ListItemIcon>
+                <Close />
+              </ListItemIcon>
+              <ListItemText primary="Close Menu" />
+            </ListItem>
+            <Divider />
+            {children}
+          </Drawer>
+
+        </Hidden>
+      </React.Fragment>
     );
   }
 }
