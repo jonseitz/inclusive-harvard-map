@@ -44,5 +44,14 @@ services:
     depends_on:
       - client
 
+  osrm: 
+    env_file: '.env'
+    build: 
+      context: .
+      dockerfile: Dockerfile_OSRM
+    ports: 
+      - 5000:5000
+    command: 'osrm-routed --algorithm mld /data/massachusetts-latest.osrm'
+
 volumes:
   mongo_data:

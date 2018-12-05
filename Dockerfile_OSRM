@@ -1,0 +1,9 @@
+FROM 'osrm/osrm-backend'
+WORKDIR /data
+EXPOSE 5000
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "wget"]
+RUN ["wget", "https://download.geofabrik.de/north-america/us/massachusetts-latest.osm.pbf"]
+RUN ["osrm-extract", "-p", "/opt/foot.lua", "/data/massachusetts-latest.osm.pbf"]
+RUN ["osrm-partition", "/data/massachusetts-latest.osrm"]
+RUN ["osrm-customize", "/data/massachusetts-latest.osrm"]
