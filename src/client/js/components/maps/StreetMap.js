@@ -7,11 +7,10 @@ import {
   LayerGroup,
   Circle,
   Marker,
-  Popup,
   Tooltip,
 } from 'react-leaflet';
 import 'leaflet';
-import { getBuildingList, getDirectionsToBuilding } from '../../api/buildings';
+import { getBuildingList } from '../../api/buildings';
 import { BuildingData, Routing } from '.';
 import '../../../css/StreetMap.css';
 
@@ -37,6 +36,7 @@ class StreetMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chosenBuilding: null,
       viewport: DEFAULT_VIEWPORT,
       buildings: [],
       isRouting: false,
@@ -44,12 +44,12 @@ class StreetMap extends Component {
       routingFrom: [...DEFAULT_VIEWPORT.center],
       routingTo: [],
     };
+    this.map = React.createRef();
     this.onClickReset = this.onClickReset.bind(this);
     this.onViewportChange = this.onViewportChange.bind(this);
   }
 
   componentDidMount() {
-    const { setAppMessage, locationData } = this.props;
     // if (locationData) {
     // this.setState({
     // viewport: {
@@ -59,6 +59,10 @@ class StreetMap extends Component {
     // routingFrom: locationData,
     // });
     // }
+    this.setState({
+      chosenBuilding: null,
+    });
+    const { setAppMessage, locationData } = this.props;
     setAppMessage('Loading Building Data...');
     getBuildingList().then((buildings) => {
       this.setState({ buildings });
@@ -99,6 +103,7 @@ class StreetMap extends Component {
 
   render() {
     const {
+      chosenBuilding,
       viewport,
       buildings,
       currentLocation,
@@ -106,19 +111,20 @@ class StreetMap extends Component {
       routingTo,
       routingFrom,
     } = this.state;
-    const { classes } = this.props;
+    const { floorplanHandler, classes } = this.props;
     return (
-      <Map
-        onViewportChanged={this.onViewportChange}
-        viewport={viewport}
-        className={classes.mapStyle}
-        ref={this.map}
-      >
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {buildings.length > 0 && (
+      <React.Fragment>
+        <Map
+          onViewportChanged={this.onViewportChange}
+          viewport={viewport}
+          className={classes.mapStyle}
+          ref={this.map}
+        >
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {buildings.length > 0 && (
           <LayerGroup>
             {buildings.map((building) => {
               const { address } = building;
@@ -126,42 +132,69 @@ class StreetMap extends Component {
                 <Marker
                   key={building.id}
                   position={[address.latitude, address.longitude]}
+                  onClick={() => {
+                    this.setState({
+                      chosenBuilding: building,
+                    });
+                  }
+                  }
                 >
-                  <Popup className={classes.invisible}>
-                    <BuildingData
-                      directionHandler={() => {
-                        this.setState({
-                          isRouting: true,
-                          routingFrom: currentLocation,
-                          routingTo: [
-                            building.address.latitude,
-                            building.address.longitude,
-                          ],
-                        });
-                      }}
-                      building={building}
-                    />
-                  </Popup>
-                </Marker>);
+                  {chosenBuilding !== null && chosenBuilding.id === building.id
+                      && (
+                      <Circle
+                        center={[
+                          address.latitude,
+                          address.longitude,
+                        ]}
+                        radius={20}
+                        fillColor="grey"
+                        color="black"
+                      />
+                      )
+                  }
+                </Marker>
+              );
             })}
           </LayerGroup>
-        )}
-        {currentLocation && (
-        <LayerGroup>
-          <Circle
-            center={currentLocation}
-            radius="4"
-          >
-            <Tooltip>You are here</Tooltip>
-          </Circle>
-        </LayerGroup>
-        )}
-        {isRouting && (
+          )}
+          {currentLocation && (
+          <LayerGroup>
+            <Circle
+              center={currentLocation}
+              radius="4"
+            >
+              <Tooltip>You are here</Tooltip>
+            </Circle>
+          </LayerGroup>
+          )}
+          {isRouting && (
           <LayerGroup>
             <Routing from={routingFrom} to={routingTo} />
           </LayerGroup>
-        )}
-      </Map>
+          )}
+        </Map>
+        {chosenBuilding !== null && (
+        <BuildingData
+          floorplanHandler={floorplanHandler}
+          exitHandler={() => {
+            this.setState({
+              chosenBuilding: null,
+            });
+          }}
+          directionHandler={() => {
+            this.setState({
+              isRouting: true,
+              routingFrom: currentLocation,
+              routingTo: [
+                chosenBuilding.address.latitude,
+                chosenBuilding.address.longitude,
+              ],
+            });
+          }}
+          building={chosenBuilding}
+        />)
+       }
+      </React.Fragment>
     );
   }
 }
@@ -169,6 +202,7 @@ class StreetMap extends Component {
 StreetMap.propTypes = {
   classes: PropTypes.object.isRequired,
   locationData: PropTypes.arrayOf(PropTypes.number),
+  floorplanHandler: PropTypes.func.isRequired,
   setAppMessage: PropTypes.func.isRequired,
 };
 

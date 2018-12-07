@@ -6,28 +6,11 @@ import {
   Card,
   CardContent,
   Grid,
+  List,
+  ListItemText,
+  ListItem,
   Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
 } from '@material-ui/core';
-
-const SlimTableRow = withStyles(() => {
-  return {
-    root: {
-      height: '28px',
-    },
-  };
-})(TableRow);
-
-const SlimTableCell = withStyles(() => {
-  return {
-    body: {
-      padding: 0,
-    },
-  };
-})(TableCell);
 
 const styles = (theme) => {
   return {
@@ -44,6 +27,13 @@ const styles = (theme) => {
     buttonItem: {
       flexGrow: 1,
     },
+    sidebarCard: {
+      [theme.breakpoints.up('sm')]: {
+        width: '25%',
+        minWidth: '200px',
+        border: '2px solid black',
+      },
+    },
   };
 };
 
@@ -57,61 +47,60 @@ class BuildingData extends React.Component {
     } = this.props;
     const { address } = building;
     return (
-      <Card>
+      <Card className={classes.sidebarCard}>
         <CardContent>
           <Typography variant="h6">{building.buildingName}</Typography>
-          <Typography variant="subtitle1">{`${address.streetNumber} ${address.streetName}`}</Typography>
-          <Table>
-            <TableBody>
-              <SlimTableRow>
-                <SlimTableCell>Floors</SlimTableCell>
-                <SlimTableCell>{building.numFloors}</SlimTableCell>
-              </SlimTableRow>
-              <SlimTableRow>
-                <SlimTableCell>Elevators</SlimTableCell>
-                <SlimTableCell>
-                  {building.hasElevator ? 'Yes' : 'No'}
-                </SlimTableCell>
-              </SlimTableRow>
-              <SlimTableRow>
-                <SlimTableCell>Accessible Entrance</SlimTableCell>
-                <SlimTableCell>{building.hasAccessibleEntrance ? 'Yes' : 'No'}</SlimTableCell>
-              </SlimTableRow>
-              <SlimTableRow>
-                <SlimTableCell>Gender Neutral Restrooms</SlimTableCell>
-                <SlimTableCell />
-              </SlimTableRow>
-              <SlimTableRow>
-                <SlimTableCell>Single-Gender Restrooms</SlimTableCell>
-                <SlimTableCell />
-              </SlimTableRow>
-              <SlimTableRow>
-                <SlimTableCell>Lactation Rooms</SlimTableCell>
-                <SlimTableCell />
-              </SlimTableRow>
-            </TableBody>
-          </Table>
+          <Typography variant="subtitle1">
+            {`${address.streetNumber} ${address.streetName}`}
+          </Typography>
+          <List>
+            {building.numFloors !== null && (
+              <ListItem dense divider disableGutters>
+                <ListItemText>{`${building.numFloors} Floors`}</ListItemText>
+              </ListItem>)
+              }
+            <ListItem dense divider disableGutters>
+              <ListItemText>
+                {`${building.hasElevator ? '' : 'No '}Elevator`}
+              </ListItemText>
+            </ListItem>
+            <ListItem dense divider disableGutters>
+              <ListItemText>
+                {`${building.hasAccessibleEntrance ? '' : 'No '}Accessible Entrance`}
+              </ListItemText>
+            </ListItem>
+            <ListItem dense divider disableGutters>
+              <ListItemText>
+                {`${building.hasLactationRoom ? '' : 'No '}Lactation Room`}
+              </ListItemText>
+            </ListItem>
+            <ListItem dense divider disableGutters>
+              <ListItemText>
+                {`${building.hasLactationRoom ? '' : 'No '}Gender-Neutral Restroom`}
+              </ListItemText>
+            </ListItem>
+          </List>
           <Grid container className={classes.buttonContainer}>
-            <Grid item className={classes.buttonItem}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="medium"
-                className={classes.button}
-                onClick={() => { directionHandler(building.address); }}
-              >
-Get Directions
-              </Button>
-            </Grid>
             <Grid item className={classes.buttonItem}>
               <Button
                 variant="contained"
                 color="secondary"
                 size="medium"
                 className={classes.button}
+                onClick={() => { directionHandler(building.address); }}
+              >
+Directions
+              </Button>
+            </Grid>
+            <Grid item className={classes.buttonItem}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                className={classes.button}
                 onClick={() => { floorplanHandler(building.id); }}
               >
-View Floorplans
+Interior Map
               </Button>
             </Grid>
           </Grid>

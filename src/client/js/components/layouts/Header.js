@@ -34,7 +34,7 @@ class Header extends React.Component {
             <Typography variant="h5" color="inherit">
               {appTitle}
             </Typography>
-            <Hidden smUp>
+            <Hidden mdUp>
               <IconButton onClick={openDrawer} color="inherit" aria-label="Open Menu">
                 <MenuIcon />
               </IconButton>

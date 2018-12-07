@@ -9,7 +9,7 @@ const styles = (theme) => {
       justifyContent: 'center',
       alignItems: 'stretch',
       width: 'auto',
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         margin: theme.spacing.unit * 4,
         marginLeft: theme.spacing.unit * 4 + theme.drawer.width,
       },
@@ -17,7 +17,8 @@ const styles = (theme) => {
     fullwidth: {
       width: '100vw',
       height: '100vh',
-      [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      [theme.breakpoints.up('md')]: {
         height: `calc(100vh - ${theme.spacing.unit * 9 + theme.mixins.toolbar.minHeight}px)`,
       },
     },

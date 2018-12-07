@@ -35,7 +35,7 @@ class Menu extends React.Component {
     } = this.props;
     return (
       <React.Fragment>
-        <Hidden xsDown implementation="js">
+        <Hidden smDown implementation="js">
           <Drawer
             variant="permanent"
             classes={{
@@ -50,7 +50,7 @@ class Menu extends React.Component {
             {children}
           </Drawer>
         </Hidden>
-        <Hidden smUp implementation="js">
+        <Hidden mdUp implementation="js">
           <Drawer
             open={isDrawerOpen}
             variant="temporary"

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import { CssBaseline, withStyles } from '@material-ui/core';
+import { CssBaseline, withStyles, Divider } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
-import { Divider } from '@material-ui/core';
 import {
   Dashboard, Header, Menu, Notification,
 } from './layouts';
-import { StreetMap } from './maps';
+import { StreetMap, FloorMap } from './maps';
 import { AppMenu, MapMenu, LocationMenu } from './menus';
+import { getSingleBuilding } from '../api';
 import MODES from '../constants/viewModes';
 
 const colorTheme = createMuiTheme({
@@ -31,7 +31,7 @@ const colorTheme = createMuiTheme({
 const styles = (theme) => {
   return {
     root: {
-      ...theme.mixins.gutters(),
+      ...theme.mixins.gutters,
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2,
     },
@@ -42,6 +42,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chosenBuilding: null,
       isDrawerOpen: false,
       locationActive: false,
       locationData: null,
@@ -49,6 +50,7 @@ class App extends Component {
       mapViewMode: MODES.STREET,
       message: '',
     };
+    this.floorplanHandler = this.floorplanHandler.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
     this.setAppMessage = this.setAppMessage.bind(this);
@@ -85,22 +87,32 @@ class App extends Component {
       } else {
         const watchId = navigator.geolocation.watchPosition((pos) => {
           const { latitude, longitude } = pos.coords;
-          console.log(pos);
           this.setState({
             locationActive: true,
             locationData: [latitude, longitude],
           });
         },
         (err) => {
-          console.error(err);
           this.setState({ message: err.message });
         });
-        console.log(watchId);
         this.setState({
           locationWatch: watchId,
         });
       }
     }
+  }
+
+  floorplanHandler(buildingId) {
+    this.setAppMessage('Loading Building Data...');
+    getSingleBuilding(buildingId).then((building) => {
+      this.setState({
+        mapViewMode: MODES.FLOOR,
+        chosenBuilding: building,
+      });
+    }).catch((err) => {
+      console.error(err);
+      this.setAppMessage(err.message);
+    });
   }
 
   render() {
@@ -110,6 +122,7 @@ class App extends Component {
       locationActive,
       locationData,
       mapViewMode,
+      chosenBuilding,
     } = this.state;
     return (
       <MuiThemeProvider theme={colorTheme}>
@@ -119,8 +132,19 @@ class App extends Component {
           {mapViewMode === MODES.STREET
             && (
             <StreetMap
+              floorplanHandler={this.floorplanHandler}
+              locationData={locationData}
+              setAppMessage={this.setAppMessage}
+            />
+            )
+          }
+          {mapViewMode === MODES.FLOOR
+            && (
+            <FloorMap
               setAppMessage={this.setAppMessage}
               locationData={locationData}
+              buildingData={chosenBuilding}
+              floorplanHandler={this.floorplanHandler}
             />
             )
           }
