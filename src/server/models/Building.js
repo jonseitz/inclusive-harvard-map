@@ -143,7 +143,7 @@ BuildingSchema.statics.getAll = async function getAll() {
 BuildingSchema.statics.getOneById = async function getOneById(buildingId) {
   try {
     return this.findById(buildingId)
-      .populate('floorplans')
+      .populate('floorplans', '-layers')
       .exec();
   } catch (err) {
     throw new Error(`Could not find building ${buildingId}\n${err.message}`);
