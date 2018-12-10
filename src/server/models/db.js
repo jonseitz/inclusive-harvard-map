@@ -3,6 +3,7 @@ import MongoMemoryServer from 'mongodb-memory-server';
 import BuildingSchema from './Building';
 import FloorSchema from './Floor';
 import FacilitySchema from './Facility';
+import LayerSchema from './Layer';
 
 export default async () => {
   let db;
@@ -39,6 +40,7 @@ export default async () => {
   db.model('Building', BuildingSchema);
   db.model('Floor', FloorSchema);
   db.model('Facility', FacilitySchema);
+  db.model('Layer', LayerSchema);
 
   return db;
 };

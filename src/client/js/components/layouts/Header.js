@@ -5,31 +5,29 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const styles = (theme) => {
-  return {
-    root: {
-      flexGrow: 1,
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  toolBar: {
+    alignItems: 'center',
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+  },
+  titleBar: {
+    position: 'static',
+    [theme.breakpoints.up('sm')]: {
+      position: 'fixed',
     },
-    toolBar: {
-      alignItems: 'center',
-      flexDirection: 'row-reverse',
-      justifyContent: 'space-between',
-    },
-    titleBar: {
-      position: 'static',
-      [theme.breakpoints.up('sm')]: {
-        position: 'fixed',
-      },
-    },
-  };
-};
+  },
+});
 
 class Header extends React.Component {
   render() {
     const { classes, appTitle, openDrawer } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar color="secondary">
+        <AppBar color="primary">
           <Toolbar className={classes.toolBar}>
             <Typography variant="h5" color="inherit">
               {appTitle}

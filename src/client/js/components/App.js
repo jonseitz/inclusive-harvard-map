@@ -14,10 +14,10 @@ import MODES from '../constants/viewModes';
 const colorTheme = createMuiTheme({
   palette: {
     primary: {
-      main: grey[600],
+      main: '#a51c30',
     },
     secondary: {
-      main: '#a51c30',
+      main: grey[600],
     },
   },
   typography: {
@@ -28,15 +28,13 @@ const colorTheme = createMuiTheme({
   },
 });
 
-const styles = (theme) => {
-  return {
-    root: {
-      ...theme.mixins.gutters,
-      paddingTop: theme.spacing.unit * 2,
-      paddingBottom: theme.spacing.unit * 2,
-    },
-  };
-};
+const styles = (theme) => ({
+  root: {
+    ...theme.mixins.gutters,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
+});
 
 class App extends Component {
   constructor(props) {
@@ -145,6 +143,7 @@ class App extends Component {
               locationData={locationData}
               buildingData={chosenBuilding}
               floorplanHandler={this.floorplanHandler}
+              exitHandler={() => { this.setState({ mapViewMode: MODES.STREET }); }}
             />
             )
           }

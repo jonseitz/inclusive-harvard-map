@@ -3,8 +3,9 @@ import https from 'https';
 import http from 'http';
 import morgan from 'morgan';
 import errorHandler from './routes/errorHandler';
-import floorRouter from './routes/floorRouter';
 import buildingRouter from './routes/buildingRouter';
+import floorRouter from './routes/floorRouter';
+import layerRouter from './routes/layerRouter';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(morgan('tiny'));
 app.use('/api', express.json({ type: '*/*', limit: '10Mb' }));
 app.use('/api/floors', floorRouter);
 app.use('/api/buildings', buildingRouter);
+app.use('/api/layers', layerRouter);
 
 app.use(errorHandler);
 

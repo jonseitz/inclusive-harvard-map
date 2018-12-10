@@ -15,7 +15,7 @@ import { BuildingData, Routing } from '.';
 import '../../../css/StreetMap.css';
 
 const DEFAULT_VIEWPORT = {
-  center: ['42.37447', '-71.11724'],
+  center: ['42.37594', '-71.11595'],
   zoom: 16,
 };
 
@@ -50,16 +50,7 @@ class StreetMap extends Component {
   }
 
   componentDidMount() {
-    // if (locationData) {
-    // this.setState({
-    // viewport: {
-    // center: locationData,
-    // zoom: 16,
-    // },
-    // routingFrom: locationData,
-    // });
-    // }
-    this.setState({
+   this.setState({
       chosenBuilding: null,
     });
     const { setAppMessage, locationData } = this.props;

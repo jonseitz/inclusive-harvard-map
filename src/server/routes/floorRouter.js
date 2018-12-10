@@ -14,9 +14,9 @@ floorRouter.use(async (req, res, next) => {
 
 /**
  * Gets all of the floor objects in the database
- * @endpoint  {GET}  /api/floors/all
- *
- * @returns  {Promise.<FloorData[]>}  An array of all floor data
+ * @memberof  module:server/floorRouter
+ * @function  GET /api/floors/all
+ * @returns  {FloorData[]}  An array of all floor data
  */
 
 floorRouter.get('/all', async (req, res, next) => {
@@ -30,9 +30,10 @@ floorRouter.get('/all', async (req, res, next) => {
 
 /**
  * Gets a single floor object from the database
- * @endpoint  {GET}  /api/floors/:id
- * @path  {String}  id  The mongo id of the Floor object
- * @returns  {Promise.<FloorData>}  The floor data object
+ * @memberof  module:server/floorRouter
+ * @function  GET /api/floors/:id
+ * @param  {String}  id  The mongo id of the Floor object
+ * @returns  {FloorData}  The floor data object
  */
 
 floorRouter.get('/:id', async (req, res, next) => {
@@ -46,8 +47,9 @@ floorRouter.get('/:id', async (req, res, next) => {
 
 /**
  * Create a new floor object in the database
- * @endpoint  {POST}  /api/floors/new
- * @body  {FloorData}  The floor data object
+ * @memberof  module:server/floorRouter
+ * @function  POST /api/floors/new
+ * @param  {FloorData}  body  The floor data object
  * @returns  {Promise.<FloorData>}  The resulting database object
  */
 

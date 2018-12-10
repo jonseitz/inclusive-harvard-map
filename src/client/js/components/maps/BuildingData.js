@@ -12,30 +12,28 @@ import {
   Typography,
 } from '@material-ui/core';
 
-const styles = (theme) => {
-  return {
-    button: {
-      marginTop: theme.spacing.unit,
-      marginBottom: theme.spacing.unit,
-      width: '100%',
+const styles = (theme) => ({
+  button: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
+    width: '100%',
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 2,
+    flexDirection: 'column',
+    flexGrow: 1,
+  },
+  buttonItem: {
+    flexGrow: 1,
+  },
+  sidebarCard: {
+    [theme.breakpoints.up('sm')]: {
+      width: '25%',
+      minWidth: '200px',
+      border: '2px solid black',
     },
-    buttonContainer: {
-      marginTop: theme.spacing.unit * 2,
-      flexDirection: 'column',
-      flexGrow: 1,
-    },
-    buttonItem: {
-      flexGrow: 1,
-    },
-    sidebarCard: {
-      [theme.breakpoints.up('sm')]: {
-        width: '25%',
-        minWidth: '200px',
-        border: '2px solid black',
-      },
-    },
-  };
-};
+  },
+});
 
 class BuildingData extends React.Component {
   render() {

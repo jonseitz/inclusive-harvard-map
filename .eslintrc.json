@@ -8,8 +8,8 @@
   "plugins": ["jest"],
   "rules": {
     "arrow-body-style": [
-      "warn",
-      "always"
+      "error",
+      "as-needed"
     ],
     "arrow-parens": [ "warn", "always" ],
     "comma-dangle": [ "error", {
@@ -24,6 +24,7 @@
     "eol-last": ["error", "always"],
     "func-names": ["warn", "as-needed"],
     "id-length": "off",
+    "import/prefer-default-export": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "max-len": [ "error", 
@@ -45,7 +46,6 @@
         "maxBOF":0
       }
     ],
-    "prefer-template": "off",
     "prefer-destructuring": [ "error", 
       {
         "VariableDeclarator": {
@@ -64,14 +64,15 @@
     "radix": "off",
     "no-underscore-dangle": "off",
     "max-params": [ "warn", { "max": 3 } ],
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
     "react/forbid-prop-types": [
       "error", 
       {
         "forbid": ["any","array"]
       }
-    ]
+    ],
+    "react/jsx-filename-extension": 0,
+    "react/no-array-index-key": 0,
+    "react/prefer-stateless-function": 0
   },
   "overrides": {
     "files": [
