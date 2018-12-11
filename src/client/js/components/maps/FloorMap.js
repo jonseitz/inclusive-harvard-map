@@ -83,6 +83,8 @@ class FloorMap extends React.Component {
     this.state = {
       currentFloor: '01',
       floorLayers: [],
+      matrix: [1, 0, 0, 1, 0, 0],
+      previousMouse: null,
     };
     this.setFloor = this.setFloor.bind(this);
   }
@@ -107,6 +109,34 @@ class FloorMap extends React.Component {
     });
   }
 
+  zoomMap(amount) {
+    const { matrix } = this.state;
+    const update = [...matrix];
+    if (matrix[0] + amount >= 1
+      && matrix[0] + amount <= 3) {
+      update[0] += amount;
+      update[3] += amount;
+    }
+    this.setState({ matrix: update });
+  }
+
+  panMap([diffX, diffY]) {
+    console.log(diffX, diffY);
+    const threshold = 1;
+    const scale = 1;
+    const { matrix } = this.state;
+    const update = [...matrix];
+    // 'LEFT_RIGHT'
+    if (diffX > threshold || diffX < -(threshold)) {
+      update[4] += (diffX / scale);
+    }
+    // 'UP_DOWN'
+    if (diffY > threshold || diffY < -(threshold)) {
+      update[5] += diffY / scale;
+    }
+    this.setState({ matrix: update });
+  }
+
   render() {
     const {
       buildingData,
@@ -116,6 +146,9 @@ class FloorMap extends React.Component {
     const {
       currentFloor,
       floorLayers,
+      mapPanning,
+      matrix,
+      previousMouse,
     } = this.state;
     const { address } = buildingData;
     const orderedFloors = cloneDeep(buildingData.floorplans)
@@ -176,19 +209,65 @@ class FloorMap extends React.Component {
             </ListItem>
           </List>
         </div>
-        <div className={classes.svgBoundary} id="floor-map__svg-boundary">
+        <div
+          className={classes.svgBoundary}
+          id="floor-map__svg-boundary"
+          onDoubleClick={() => {
+            const update = [...matrix];
+            update[0] = 1;
+            update[3] = 1;
+            this.setState({ matrix: [1, 0, 0, 1, 0, 0] });
+          }}
+          onWheel={(evt) => {
+            const mvmt = evt.deltaY;
+            this.zoomMap(mvmt > 0 ? 0.1 : -0.1);
+          }}
+          onMouseDown={() => {
+            this.setState({
+              mapPanning: true,
+            });
+          }}
+          onMouseUp={() => {
+            this.setState({ mapPanning: false });
+          }}
+          onMouseLeave={() => {
+            this.setState({ mapPanning: false });
+          }}
+          onMouseOut={() => {
+            this.setState({ mapPanning: false });
+          }}
+          onMouseEnter={(evt) => {
+            this.setState({ mapPanning: evt.buttons === 1 });
+          }}
+          onMouseMove={(evt) => {
+            this.setState({
+              previousMouse: [evt.clientX, evt.clientY],
+            });
+            if (mapPanning) {
+              const [prevX, prevY] = previousMouse;
+              const diffX = evt.clientX - prevX;
+              const diffY = evt.clientY - prevY;
+              this.panMap([diffX, diffY]);
+            }
+          }}
+          onKeyPress={(evt) => {
+            console.log(evt);
+          }}
+        >
           <svg
             id="floor-map__layers"
             xmlns="http://www.w3.org/2000/svg"
             width="100%"
             height="100%"
           >
-            {floorLayers.map((layerId) => (
-              <FloorLayer
-                key={layerId}
-                layerId={layerId}
-              />
-            ))}
+            <g transform={`matrix(${matrix.join(' ')})`}>
+              {floorLayers.map((layerId) => (
+                <FloorLayer
+                  key={layerId}
+                  layerId={layerId}
+                />
+              ))}
+            </g>
           </svg>
         </div>
       </div>
