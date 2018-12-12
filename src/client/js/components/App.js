@@ -4,7 +4,11 @@ import { CssBaseline, withStyles, Divider } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 import {
-  Dashboard, Header, Menu, Notification,
+  Dashboard,
+  Header,
+  Menu,
+  Notification,
+  OverlayContent,
 } from './layouts';
 import { StreetMap, FloorMap } from './maps';
 import { AppMenu, MapMenu, LocationMenu } from './menus';
@@ -47,10 +51,14 @@ class App extends Component {
       locationWatch: null,
       mapViewMode: MODES.STREET,
       message: '',
+      showOverlayContent: false,
+      textContent: null,
+      textTitle: null,
     };
     this.floorplanHandler = this.floorplanHandler.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
+    this.contentHandler = this.contentHandler.bind(this);
     this.setAppMessage = this.setAppMessage.bind(this);
     this.clearAppMessage = this.clearAppMessage.bind(this);
     this.locationHandler = this.locationHandler.bind(this);
@@ -70,6 +78,14 @@ class App extends Component {
 
   closeDrawer() {
     this.setState({ isDrawerOpen: false });
+  }
+
+  contentHandler(textTitle, textContent) {
+    this.setState({
+      showOverlayContent: true,
+      textContent,
+      textTitle,
+    });
   }
 
   locationHandler() {
@@ -121,6 +137,9 @@ class App extends Component {
       locationData,
       mapViewMode,
       chosenBuilding,
+      showOverlayContent,
+      textContent,
+      textTitle,
     } = this.state;
     return (
       <MuiThemeProvider theme={colorTheme}>
@@ -143,7 +162,9 @@ class App extends Component {
               locationData={locationData}
               buildingData={chosenBuilding}
               floorplanHandler={this.floorplanHandler}
-              exitHandler={() => { this.setState({ mapViewMode: MODES.STREET }); }}
+              exitHandler={() => {
+                this.setState({ mapViewMode: MODES.STREET });
+              }}
             />
             )
           }
@@ -152,9 +173,9 @@ class App extends Component {
           isDrawerOpen={isDrawerOpen}
           closeDrawer={this.closeDrawer}
         >
-          <MapMenu id="map-menu" />
+          <MapMenu id="map-menu" contentHandler={this.contentHandler} />
           <Divider />
-          <AppMenu id="app-menu" />
+          <AppMenu id="app-menu" contentHandler={this.contentHandler} />
           <Divider />
           <LocationMenu
             locationActive={locationActive}
@@ -169,6 +190,15 @@ class App extends Component {
             message={message}
           />)
         }
+        <OverlayContent
+          title={textTitle}
+          isOpen={showOverlayContent}
+          closeHandler={() => {
+            this.setState({ showOverlayContent: false });
+          }}
+        >
+          {textContent}
+        </OverlayContent>
       </MuiThemeProvider>
     );
   }
