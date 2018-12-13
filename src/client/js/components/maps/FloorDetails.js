@@ -62,6 +62,7 @@ class FloorDetails extends React.Component {
       classes,
       floorList,
       currentFloor,
+      setFloor,
     } = this.props;
 
     const orderedFloors = cloneDeep(floorList)
@@ -90,7 +91,7 @@ class FloorDetails extends React.Component {
                   : classes.inactiveFloor
               }
                 onClick={() => {
-                  this.setFloor(floor.floorNumber);
+                  setFloor(floor.floorNumber);
                 }}
               >
                 <ListItemText>{floor.floorNumber}</ListItemText>
@@ -117,6 +118,7 @@ FloorDetails.propTypes = {
   classes: PropTypes.object.isRequired,
   floorList: PropTypes.arrayOf(PropTypes.object),
   currentFloor: PropTypes.string.isRequired,
+  setFloor: PropTypes.func.isRequired,
 };
 
 FloorDetails.defaultProps = {

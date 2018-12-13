@@ -108,6 +108,7 @@ class FloorMap extends React.Component {
           className={classes.floorDetails}
           currentFloor={currentFloor}
           floorList={floorplans}
+          setFloor={this.setFloor}
         />
         <FloorSVG
           currentFloor={currentFloor}
