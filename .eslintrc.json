@@ -37,6 +37,7 @@
         "ignoreRegExpLiterals": true
       }
     ],
+    "no-bitwise": ["error", { "allow": ["~"] }],
     "no-plusplus": [ "warn", { "allowForLoopAfterthoughts": true }],
     "no-multiple-empty-lines": [
       "error",

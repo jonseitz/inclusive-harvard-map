@@ -1,0 +1,50 @@
+[
+    {
+      "buildingName": "Pierce Hall",
+      "numFloors": 6,
+      "hasElevator": false,
+      "hasAccessibleEntrance": true,
+      "address": {
+        "streetNumber": "29",
+        "streetName": "Oxford Street",
+        "city": "Cambridge",
+        "state": "Massachusetts",
+        "postalCode": "02138",
+        "country": "USA",
+        "latitude": "42.37824",
+        "longitude": "-71.11715"
+      }
+    },
+    {
+      "buildingName": "Northwest Building", 
+      "numFloors": 8,
+      "hasElevator": true,
+      "hasAccessibleEntrance": true,
+      "address": {
+        "streetNumber": "52",
+        "streetName": "Oxford Street",
+        "city": "Cambridge",
+        "state": "Massachusetts",
+        "postalCode": "02138",
+        "country": "USA",
+        "latitude": "42.37946",
+        "longitude": "-71.11568"
+      }
+    },
+    {
+      "buildingName": "Maxwell Dworkin",
+      "numFloors": 5,
+      "hasElevator": true,
+      "hasAccessibleEntrance": true,
+      "address": {
+        "streetNumber": "33",
+        "streetName": "Oxford Street",
+        "city": "Cambridge",
+        "state": "Massachusetts",
+        "postalCode": "02138",
+        "country": "USA",
+        "latitude": "42.3788",
+        "longitude": "-71.11739"
+      }
+    }
+  ]
