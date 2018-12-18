@@ -17,7 +17,6 @@ if (argument === 'convert') {
       process.exit(1);
     });
 } else if (argument === 'upload') {
-  console.log(process.env);
   upload()
     .then((result) => {
       console.log(`UPLOAD FINISHED: added ${result.length} objects`);

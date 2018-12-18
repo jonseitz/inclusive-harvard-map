@@ -7,7 +7,6 @@ const importData = async () => {
   const db = await createDB();
   const buildingList = await fs.promises
     .readFile(resolve(__dirname, './buildings.json'), { encoding: 'UTF-8' });
-
   const buildings = JSON.parse(buildingList);
   const buildingData = await Promise.all(buildings
     .map(async (building) => {
@@ -32,12 +31,12 @@ const importData = async () => {
     .map((path) => (
       fs.promises.readFile(resolve(__dirname, 'json', path), { encoding: 'UTF-8' })
     )));
-  console.log(contents);
+  // console.log(contents);
   const fileMap = new Map();
   paths.forEach((path, index) => {
     fileMap.set(path, JSON.parse(contents[index]));
   });
-  console.log(fileMap);
+  // console.log(fileMap);
   const superMap = new Map();
   fileMap.forEach((svgContent, thisFile) => {
     const fileRE = /^(([\w\s]+)_([-\dA-Z]{2}))-(.*).json$/;
@@ -121,6 +120,20 @@ const importData = async () => {
       });
     });
   });
+	const facilityList = await fs.promises
+		.readFile(resolve(__dirname, './facilities.json'), { encoding: 'UTF-8' });
+	const facilities = JSON.parse(facilityList);
+  await Promise.all(facilities
+    .map(({ locationType, buildingName, floorNumber, path, isAccessible}) => {
+      const floorplan = floorIdMap.get(`${buildingName}_${floorNumber}`);
+      console.log(buildingName, floorNumber, floorplan);
+      return db.model('Facility').createNew({
+		    locationType,
+		    path,
+		    isAccessible,
+		    floorplan,
+      })
+  }));
   return Promise.all(layerImports);
 };
 

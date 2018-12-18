@@ -47,15 +47,15 @@ const FacilitySchema = new Schema(
       enum: Object.values(ROOM),
       required: true,
     },
-    roomNumber: { type: String, required: true },
-    directions: { type: String, default: 'N/A' },
     floorplan: {
       type: Schema.Types.ObjectId,
-      ref: 'Floorplan',
+      ref: 'Floor',
       required: true,
     },
-    xPos: { type: Number, required: true },
-    yPos: { type: Number, required: true },
+    path: {
+      type: String,
+      default: '',
+    },
     isAccessible: {
       type: Boolean,
       required: true,
@@ -76,5 +76,22 @@ FacilitySchema.index({
   floor: 1,
   room: 1,
 });
+
+/**
+ * Create a new facility Object
+ * @async
+ * @static createNew
+ * @memberof module:models/Facility
+ * @returns {Promise.<FacilityData>} the new facility data
+ */
+
+FacilitySchema.statics.createNew = async function createNew(facilityData) {
+  try {
+    const newFacility = await this.create(facilityData);
+    return newFacility;
+  } catch (err) {
+    throw new Error(`unable to save facility\n${err.message}`);
+  }
+};
 
 export default FacilitySchema;

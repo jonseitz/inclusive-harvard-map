@@ -81,10 +81,15 @@ FloorSchema.statics.getAll = async function getAll() {
 FloorSchema.statics.getOneById = async function getOneById(floorId) {
   try {
     return this.findById(floorId)
-      .populate({
-        path: 'layers',
-        select: '_id',
-      })
+      .populate([
+        {
+          path: 'layers',
+          select: '_id',
+        },
+        {
+          path: 'facilities',
+        },
+      ])
       // .select('building floorNumber layers')
       .exec();
   } catch (err) {
