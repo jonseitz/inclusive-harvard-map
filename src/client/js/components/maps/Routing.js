@@ -1,10 +1,10 @@
-import { MapLayer, withLeaflet } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
+import { MapLayer, withLeaflet } from 'react-leaflet';
 
 class Routing extends MapLayer {
   createLeafletElement({ from, to }) {
-    return L.Routing.control({
+    this.leafletElement = L.Routing.control({
       waypoints: [
         L.latLng(...from),
         L.latLng(...to),
@@ -13,6 +13,7 @@ class Routing extends MapLayer {
       profile: 'foot',
       show: false,
     });
+    return this.leafletElement;
   }
 
   updateLeafletElement(oldProps, newProps) {

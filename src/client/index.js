@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './js/components/App';
+import { CircularProgress } from '@material-ui/core';
 import 'typeface-roboto';
 
+const App = React.lazy(() => import('./js/components/App'));
+
 ReactDOM.render(
-  <App />,
+  <React.Suspense fallback={<CircularProgress />}>
+    <App />
+  </React.Suspense>,
   document.getElementById('root')
 );
 

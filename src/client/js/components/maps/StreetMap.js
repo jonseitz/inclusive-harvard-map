@@ -1,17 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import {
-  Map,
-  TileLayer,
-  LayerGroup,
-  Circle,
-  Marker,
-  Tooltip,
+  Map, TileLayer, LayerGroup, Circle, Marker, Tooltip,
 } from 'react-leaflet';
 import 'leaflet';
 import { getBuildingList } from '../../api/buildings';
-import { BuildingData, Routing } from '.';
+import BuildingData from './BuildingData';
 import '../../../css/StreetMap.css';
 
 const DEFAULT_VIEWPORT = {
@@ -32,7 +27,9 @@ const styles = {
   },
 };
 
-class StreetMap extends Component {
+const Routing = React.lazy(() => import('./Routing'));
+
+class StreetMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,7 +47,7 @@ class StreetMap extends Component {
   }
 
   componentDidMount() {
-   this.setState({
+    this.setState({
       chosenBuilding: null,
     });
     const { setAppMessage, locationData } = this.props;
@@ -103,6 +100,7 @@ class StreetMap extends Component {
       routingFrom,
     } = this.state;
     const { floorplanHandler, classes } = this.props;
+
     return (
       <React.Fragment>
         <Map
@@ -159,9 +157,11 @@ class StreetMap extends Component {
           </LayerGroup>
           )}
           {isRouting && (
-          <LayerGroup>
-            <Routing from={routingFrom} to={routingTo} />
-          </LayerGroup>
+          <React.Suspense fallback={null}>
+            <LayerGroup>
+              <Routing from={routingFrom} to={routingTo} />
+            </LayerGroup>
+          </React.Suspense>
           )}
         </Map>
         {chosenBuilding !== null && (

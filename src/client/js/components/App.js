@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { hot } from 'react-hot-loader';
-import { CssBaseline, withStyles, Divider } from '@material-ui/core';
+import {
+  CircularProgress, CssBaseline, withStyles, Divider,
+} from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 import {
@@ -10,7 +12,7 @@ import {
   Notification,
   OverlayContent,
 } from './layouts';
-import { StreetMap, FloorMap } from './maps';
+import FloorMap from './maps/FloorMap';
 import { AppMenu, MapMenu, LocationMenu } from './menus';
 import { getSingleBuilding } from '../api';
 import MODES from '../constants/viewModes';
@@ -40,7 +42,9 @@ const styles = (theme) => ({
   },
 });
 
-class App extends Component {
+const StreetMap = React.lazy(() => (import('./maps/StreetMap')));
+
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -148,11 +152,13 @@ class App extends Component {
         <Dashboard>
           {mapViewMode === MODES.STREET
             && (
-            <StreetMap
-              floorplanHandler={this.floorplanHandler}
-              locationData={locationData}
-              setAppMessage={this.setAppMessage}
-            />
+              <React.Suspense fallback={<CircularProgress />}>
+                <StreetMap
+                  floorplanHandler={this.floorplanHandler}
+                  locationData={locationData}
+                  setAppMessage={this.setAppMessage}
+                />
+              </React.Suspense>
             )
           }
           {mapViewMode === MODES.FLOOR

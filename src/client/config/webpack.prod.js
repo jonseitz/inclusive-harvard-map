@@ -1,12 +1,11 @@
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   name: 'client',
-  devtool: 'cheap-module-source-map',
-  mode: 'development',
+  devtool: false,
+  mode: 'production',
   target: 'web',
   context: path.resolve(__dirname, '..'),
   entry: {
@@ -15,17 +14,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../build/'),
     filename: '[name].js',
-  },
-  devServer: {
-    host: '0.0.0.0',
-    port: process.env.CLIENT_PORT,
-    hot: true,
-  },
-  watch: true,
-  watchOptions: {
-    poll: true,
-    aggregateTimeout: 300,
-    ignored: [/node_modules/, /__tests__/],
+    chunkFilename: '[name].chunk.js',
   },
   module: {
     rules: [
@@ -45,11 +34,17 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/react'],
-            plugins: ['react-hot-loader/babel'],
+            plugins: ['syntax-dynamic-import'],
           },
         },
       },
     ],
+  },
+  optimization: {
+    minimize: true,
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -62,11 +57,10 @@ module.exports = {
       skipWaiting: true,
       exclude: [
         '/api/floors',
-        '*.svg',
       ],
       runtimeCaching: [
         {
-          urlPattern: /\.svg$/,
+          urlPattern: /\.png/,
           handler: 'cacheFirst',
           options: {
             expiration: {
@@ -90,6 +84,5 @@ module.exports = {
 
       ],
     }),
-    new webpack.HotModuleReplacementPlugin(),
   ],
 };
