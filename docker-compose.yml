@@ -12,7 +12,10 @@ services:
 
   server:
     env_file: '.env'
-    build: '.'
+    build: 
+      context: '.'
+      args:
+        - PRODUCTION=''
     ports:
       - '${SERVER_PORT}:${SERVER_PORT}'
     volumes:
@@ -24,7 +27,10 @@ services:
 
   client:
     env_file: '.env'
-    build: '.'
+    build: 
+      context: '.'
+      args:
+        - PRODUCTION=''
     ports:
       - '${CLIENT_PORT}:${CLIENT_PORT}'
     volumes:
