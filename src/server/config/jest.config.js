@@ -2,7 +2,6 @@ const path = require('path');
 
 module.exports = {
   clearMocks: true,
-  // collectCoverageFrom: ['<rootDir>/**/*.js'],
   restoreMocks: true,
   rootDir: path.resolve(__dirname, '..'),
   roots: ['<rootDir>'],

@@ -1,15 +1,15 @@
 /** @api  buildingRouter */
 import { Router } from 'express';
-import createDb from '../models/db';
+import db from '../models/db';
 
 const buildingRouter = Router();
 
-buildingRouter.use(async (req, res, next) => {
-  if (!req.db) {
-    req.db = await createDb();
-  }
-  next();
-});
+// buildingRouter.use(async (req, res, next) => {
+// if (!db) {
+// db = await createDb();
+// }
+// next();
+// });
 
 /**
  * Get all of the building objects from the database
@@ -20,7 +20,7 @@ buildingRouter.use(async (req, res, next) => {
 
 buildingRouter.get('/all', async (req, res, next) => {
   try {
-    const bldgs = await req.db.model('Building').getAll();
+    const bldgs = await db.model('Building').getAll();
     res.json(bldgs);
   } catch (err) {
     next(err);
@@ -36,7 +36,7 @@ buildingRouter.get('/all', async (req, res, next) => {
 
 buildingRouter.get('/:id', async (req, res, next) => {
   try {
-    const bldg = await req.db.model('Building').getOneById(req.params.id);
+    const bldg = await db.model('Building').getOneById(req.params.id);
     res.json(bldg);
   } catch (err) {
     next(err);
@@ -52,7 +52,7 @@ buildingRouter.get('/:id', async (req, res, next) => {
 
 buildingRouter.get('/byName/:name', async (req, res, next) => {
   try {
-    const bldg = await req.db.model('Building').getOneByName(req.params.name);
+    const bldg = await db.model('Building').getOneByName(req.params.name);
     res.json(bldg);
   } catch (err) {
     next(err);
@@ -66,13 +66,13 @@ buildingRouter.get('/byName/:name', async (req, res, next) => {
  * @returns  {Promise.<BuildingData>}  The new building object
  */
 
-buildingRouter.post('/new', async (req, res, next) => {
-  try {
-    const bldg = await req.db.model('Building').createNew(req.body);
-    res.json(bldg);
-  } catch (err) {
-    next(err);
-  }
-});
+// buildingRouter.post('/new', async (req, res, next) => {
+// try {
+// const bldg = await db.model('Building').createNew(req.body);
+// res.json(bldg);
+// } catch (err) {
+// next(err);
+// }
+// });
 
 export default buildingRouter;

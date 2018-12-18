@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import createDb from '../db';
+import createDb from '../../../test/helpers/createDB';
 import * as dummy from '../../../test/data';
 import populateDB from '../../../test/helpers/populateDB';
 import depopulateDB from '../../../test/helpers/depopulateDB';

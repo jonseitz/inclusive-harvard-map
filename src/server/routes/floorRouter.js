@@ -1,16 +1,16 @@
 /** @api server/floorRouter */
 
 import { Router } from 'express';
-import createDb from '../models/db';
+import db from '../models/db';
 
 const floorRouter = Router();
 
-floorRouter.use(async (req, res, next) => {
-  if (!req.db) {
-    req.db = await createDb();
-  }
-  next();
-});
+// floorRouter.use(async (req, res, next) => {
+// if (!db) {
+// db = await createDb();
+// }
+// next();
+// });
 
 /**
  * Gets all of the floor objects in the database
@@ -21,7 +21,7 @@ floorRouter.use(async (req, res, next) => {
 
 floorRouter.get('/all', async (req, res, next) => {
   try {
-    const plans = await req.db.model('Floor').getAll();
+    const plans = await db.model('Floor').getAll();
     res.json(plans);
   } catch (err) {
     next(err);
@@ -38,7 +38,7 @@ floorRouter.get('/all', async (req, res, next) => {
 
 floorRouter.get('/:id', async (req, res, next) => {
   try {
-    const plan = await req.db.model('Floor').getOneById(req.params.id);
+    const plan = await db.model('Floor').getOneById(req.params.id);
     res.json(plan);
   } catch (err) {
     next(err);
@@ -53,13 +53,13 @@ floorRouter.get('/:id', async (req, res, next) => {
  * @returns  {Promise.<FloorData>}  The resulting database object
  */
 
-floorRouter.post('/new', async (req, res, next) => {
-  try {
-    const plan = await req.db.model('Floor').createNew(req.body);
-    res.json(plan);
-  } catch (err) {
-    next(err);
-  }
-});
+// floorRouter.post('/new', async (req, res, next) => {
+// try {
+// const plan = await db.model('Floor').createNew(req.body);
+// res.json(plan);
+// } catch (err) {
+// next(err);
+// }
+// });
 
 export default floorRouter;
