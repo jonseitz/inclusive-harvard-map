@@ -28,6 +28,14 @@ const styles = (theme) => {
   };
 };
 
+/**
+ * Renders the main content section of the app, displayed as a large pane at desktop width or covering the viewport at mobile width
+ * @extends React.Component
+ * @param  {Object}  props
+ * @param  {Object}  props.classes  JSS classNames from withStyles
+ * @param  {Object[]}  props.children  Sub-components to display within the dashboard
+ */
+
 class Dashboard extends React.Component {
   render() {
     const { classes, children } = this.props;

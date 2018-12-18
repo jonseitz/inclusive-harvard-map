@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import { withStyles, Snackbar, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-const styles = (theme) => {
-  return {
-    close: {
-      padding: theme.spacing.unit / 2,
-    },
-  };
-};
+const styles = (theme) => ({
+  close: {
+    padding: theme.spacing.unit / 2,
+  },
+});
+
+/**
+ * Displays a "snackbar" notification at the bottom of the page with a message queue to resolve conflicting messages
+ * @extends React.Component
+ * @param  {Object}  props
+ * @param  {String}  props.message  the message to display
+ * @param  {Object}  props.classes  JSS styles from withStyles
+ */
 
 class Notification extends React.Component {
   constructor(props) {
@@ -24,6 +30,11 @@ class Notification extends React.Component {
     this.processQueue = this.processQueue.bind(this);
   }
 
+  /**
+   * pushes the message onto the internal queuing for the notification.
+   * @method componentDidMount
+   */
+
   componentDidMount() {
     const { message } = this.props;
     const { isOpen } = this.state;
@@ -37,6 +48,11 @@ class Notification extends React.Component {
     }
   }
 
+  /**
+   * pushes new messages onto the queue, closes prior messages and processes new ones
+   * @method  componentDidUpdate
+   * @param  {object}  prevProps  the props passed in to previous render
+   */
   componentDidUpdate(prevProps) {
     const { isOpen } = this.state;
     const { message } = this.props;
@@ -55,6 +71,12 @@ class Notification extends React.Component {
     }
   }
 
+  /**
+   * Event handler for the close button
+   * @method closeHandler
+   * @param  {Object}  event  DOM event
+   * @param  {String}  reason  How the handler was invoked
+   */
   closeHandler(event, reason) {
     if (reason === 'clickaway') {
       return;
@@ -62,9 +84,19 @@ class Notification extends React.Component {
     this.setState({ isOpen: false });
   }
 
+  /**
+   *  Show any additional messages after closing this one.
+   *  @method  exitHandler
+   */
+
   exitHandler() {
     this.processQueue();
   }
+
+  /**
+   * If there are messages in the queue, display them.
+   * @method processQueue
+   */
 
   processQueue() {
     if (this.queue.length > 0) {

@@ -35,6 +35,16 @@ const styles = (theme) => ({
   },
 });
 
+/**
+ * Displays important stats about the currently selected buildinng on the street map
+ * @extends  React.Component
+ * @param  {Object}  props
+ * @param  {BuildingData}  building  All of the details about the selected building 
+ * @param  {Object}  classes  JSS styles from withStyles 
+ * @param  {Function} directionHandler  funcftion for getting direction data from OSRM
+ * @param  {Function } floorplanHandler  function for switching into floor map mode 
+ */
+
 class BuildingData extends React.Component {
   render() {
     const {

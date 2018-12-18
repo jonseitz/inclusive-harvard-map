@@ -28,6 +28,16 @@ const styles = (theme) => ({
   },
 });
 
+/**
+ * Renders a modal window for displaying static pages.
+ * @extends React.Component
+ * @param  {Object[]}  props.children  Any sub-components to display within the menu
+ * @param  {Object}  props.classes  JSS styles from withStyles
+ * @param  {Function}  props.closeDrawer  handler for closing the overlay 
+ * @param  {Boolean}  props.isOpen  Whether the overal should be open
+ * @param  {String}  props.title  Text to display at the top of the overlay
+ */
+
 class OverlayContent extends React.Component {
   render() {
     const {

@@ -52,11 +52,18 @@ const styles = (theme) => ({
   },
 });
 
-class FloorDetails extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+/**
+ * Shows pertinent details about the current floor
+ * @extends  React.Component
+ * @param  {Object}  props
+ * @param  {Object}  props.classes  JSS styles from withStyles
+ * @param  {Object[]}  props.floorList  List of all the floors in the building
+ * @param  {String}  props.currentFloor  The number of the floor currently being displayed  
+ * @param  {Function}  props.setFloor  Handler for changing between floors
+ *
+`*/
 
+class FloorDetails extends React.Component {
   render() {
     const {
       classes,

@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+/**
+ * Renders a simple description of the app
+ * @extends React.Component
+ */
+
 const content = `
 Our goal is to help everyone feel welcome on Harvard's campus by providing a discreet and efficient way to find gender-neutral restrooms and lactation rooms on campus.
 

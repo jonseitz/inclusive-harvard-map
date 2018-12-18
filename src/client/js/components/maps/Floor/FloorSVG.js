@@ -11,6 +11,15 @@ const styles = {
   },
 };
 
+/**
+ * Wrapper around the floor SVG layers to handler panning, zooming, etc.
+ * @extends React.Component
+ * @param  {Object}  props
+ * @param  {Object}  props.classes  JSS classes from withStyles
+ * @param  {Object}  props.currentFloor  the number of the floor currently being shown
+ * @param  {String[]}  props.floorLayers  List of mongo ids for the individual layers of teh svg
+ */
+
 class FloorSVG extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +29,12 @@ class FloorSVG extends React.Component {
       previousMouse: null,
     };
   }
+
+  /**
+   * When the current floor changes, reset the zoom and pan levels
+   * @function componentDidUpdate
+   * @param  {Object}  prevProps  the props previously passed to the component
+   */
 
   componentDidUpdate(prevProps) {
     const { currentFloor: lastFloor } = prevProps;
@@ -31,6 +46,12 @@ class FloorSVG extends React.Component {
     }
   }
 
+  /**
+   *  handle zooming the SVG via matrix transform
+   *  @function  zoomMap
+   *  @param  {Number}  amount  the degree by which the map should be zoomed
+   */
+
   zoomMap(amount) {
     const { matrix } = this.state;
     const update = [...matrix];
@@ -41,6 +62,12 @@ class FloorSVG extends React.Component {
     }
     this.setState({ matrix: update });
   }
+
+  /**
+   * handle panning the SVG via matrix transform
+   * @function  panMap
+   * @param  {Number[]}  diffs  How much to translate the map horizontally and vertically 
+   */
 
   panMap([diffX, diffY]) {
     console.log(diffX, diffY);

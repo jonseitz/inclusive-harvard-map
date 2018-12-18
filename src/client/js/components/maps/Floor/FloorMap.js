@@ -46,6 +46,16 @@ const styles = (theme) => ({
   },
 });
 
+/**
+ * Displays an SVG map of a given floor, along with important data about it
+ * @extends  React.Component
+ * @param  {Object}  props
+ * @param  {BuildingData}  buildingData
+ * @param  {Object}  classes  JSS classes from withStyles
+ * @param  {Function}  exitHandler  function to leave the floormap and return to the streetmap
+ */
+
+
 class FloorMap extends React.Component {
   constructor(props) {
     super(props);
@@ -56,6 +66,11 @@ class FloorMap extends React.Component {
     this.setFloor = this.setFloor.bind(this);
   }
 
+  /**
+   * Sets the currentFloor when the component mounts, typically to the default first floor
+   * @function  componentDidMount
+   */
+
   componentDidMount() {
     const { currentFloor } = this.state;
     const { buildingData } = this.props;
@@ -64,6 +79,12 @@ class FloorMap extends React.Component {
       this.setFloor(currentFloor);
     }
   }
+
+  /**
+   * Change to another floor within the building
+   * @function setFloor
+   * @param  {String}  floorNumber  the number of the floor to be displayed
+   */
 
   setFloor(floorNumber) {
     const { buildingData } = this.props;

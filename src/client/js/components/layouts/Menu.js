@@ -11,22 +11,30 @@ import {
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-const styles = (theme) => {
-  return {
-    drawer: {
-      width: theme.drawer.width,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      zIndex: theme.zIndex.appBar - 50,
-      width: theme.drawer.width,
-    },
-    menuSpacer: {
-      ...theme.mixins.toolbar,
-      background: theme.palette.secondary.main,
-    },
-  };
-};
+const styles = (theme) => ({
+  drawer: {
+    width: theme.drawer.width,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    zIndex: theme.zIndex.appBar - 50,
+    width: theme.drawer.width,
+  },
+  menuSpacer: {
+    ...theme.mixins.toolbar,
+    background: theme.palette.secondary.main,
+  },
+});
+
+/**
+ *  Renders the app menu, which is persistently located along the leftside at desktop width or hidden at mobile width
+ * @extends React.Component
+ * @param {Object}  props
+ * @param {Object[]}  props.children  Any sub-components to display within the menu
+ * @param {Object}  props.classes  JSS styles from withStyles
+ * @param {Boolean}  props.isDrawerOpen  Whether the menu should be open
+ * @param {Function}  props.closeDrawer handler for closing the menu
+ */
 
 class Menu extends React.Component {
   render() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   List,
   ListItem,
@@ -15,6 +16,12 @@ import {
   AboutPage,
   PrivacyPage,
 } from '../content';
+/**
+ *  Menu containing global items for static content pages
+ *  @extends React.Component
+ *  @param  {Object}  props
+ *  @param  {Function}  contentHandler  Event handler for setting contents of modal overlay
+ */
 
 class AppMenu extends React.Component {
   render() {
@@ -55,5 +62,9 @@ class AppMenu extends React.Component {
     );
   }
 }
+
+AppMenu.propTypes = {
+  contentHandler: PropTypes.func.isRequired,
+};
 
 export default AppMenu;

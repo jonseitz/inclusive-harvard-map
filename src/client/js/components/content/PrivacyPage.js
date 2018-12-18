@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+/**
+ * Renders a message about privacy while using the app, including an explanation about location data.
+ * @extends React.Component
+ */
+
 const content = `
 This application does not store any personal identifying information about its users, and wherever possible limits the sharing of that information with groups or corporations that may do so.
 

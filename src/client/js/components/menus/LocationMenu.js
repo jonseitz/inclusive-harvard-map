@@ -11,6 +11,14 @@ import {
   LocationOff,
 } from '@material-ui/icons';
 
+/**
+ * Button for toggling location tracking
+ * @extends React.Component
+ * @param  {Object}  props
+ * @param  {Boolean}  props.locationActive  Whether location is being tracked
+ * @param  {Fucntion}  props.locationHandler  Handles toggling location tracking in parent component
+ */
+
 class LocationMenu extends React.Component {
   render() {
     const { locationActive, locationHandler } = this.props;

@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+/**
+ * Renders contact for bug reports, along with other useful contact info at Hsrvard.
+ * @extends React.Component
+ */
+
 const content = `
 Please report any issues with missing or inaccurate content in this application to [map-issues@jonathanseitz.com](mailto:map-issues@jonathanseitz.com).
 

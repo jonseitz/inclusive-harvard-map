@@ -22,6 +22,15 @@ const styles = (theme) => ({
   },
 });
 
+/**
+ * Creates the header across the top of the application, including a control for the menu at desktop width
+ * @extends React.Component
+ * @param  {Object}  props
+ * @param  {Object}  props.classes  JSS classes from withStyles
+ * @param  {String}  props.appTitle  Text to display in Header
+ * @param  {Function}  props.openDrawer  handler for displaying the menu
+ */
+
 class Header extends React.Component {
   render() {
     const { classes, appTitle, openDrawer } = this.props;
@@ -37,7 +46,6 @@ class Header extends React.Component {
                 <MenuIcon />
               </IconButton>
             </Hidden>
-
           </Toolbar>
         </AppBar>
       </div>
@@ -52,7 +60,7 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  appTitle: 'An Amazing App',
+  appTitle: '',
 };
 
 export default withStyles(styles)(Header);

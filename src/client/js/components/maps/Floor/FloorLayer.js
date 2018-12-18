@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getLayerData } from '../../api';
 
+/**
+ * Renders a single SVG layer of a floor
+ * @extends React.Component
+ * @param  {Object}  props
+ * @param  {String}  layerId  the mongo id of the layer 
+ */
+
 class FloorLayer extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +16,11 @@ class FloorLayer extends React.Component {
       layerData: null,
     };
   }
+
+  /**
+   * Asynchonously requests the complete layer object when mounted
+   * @function componentDidMount
+   */
 
   componentDidMount() {
     const { layerId } = this.props;

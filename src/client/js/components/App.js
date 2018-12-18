@@ -44,6 +44,11 @@ const styles = (theme) => ({
 
 const StreetMap = React.lazy(() => (import('./maps/StreetMap')));
 
+/**
+ * Primary application component
+ * @extends React.Component
+ */
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -68,21 +73,49 @@ class App extends React.Component {
     this.locationHandler = this.locationHandler.bind(this);
   }
 
+  /**
+   * Passes a message through to the notification
+   * @function  setAppMessage
+   * @prop  {String}  msg  the text of the message
+   */
+
   setAppMessage(msg) {
     this.setState({ message: msg });
   }
+
+  /**
+   * clears any messages shown in the notification
+   * @function  clearAppMessage
+   */
 
   clearAppMessage() {
     this.setState({ message: null });
   }
 
+  /**
+   * Open the menu
+   * @function openDrawer
+   */
+
   openDrawer() {
     this.setState({ isDrawerOpen: true });
   }
 
+  /**
+   * Close the menu
+   * @function closeDrawer
+   */
+
   closeDrawer() {
     this.setState({ isDrawerOpen: false });
   }
+
+  /**
+   * Display the content overlay
+   * @function contentHandler
+   * @param  {String}  textTitle  Name of the page to display
+   * @param  {Component}  textContent  Component to display inside the overlay
+   */
 
   contentHandler(textTitle, textContent) {
     this.setState({
@@ -91,6 +124,11 @@ class App extends React.Component {
       textTitle,
     });
   }
+
+  /**
+   * Handler for tracking and forgetting location data
+   * @function locationHandler
+   */
 
   locationHandler() {
     const { locationWatch } = this.state;
@@ -119,6 +157,12 @@ class App extends React.Component {
       }
     }
   }
+
+  /**
+   * Handler for opening interior building maps in the dashboard
+   * @function  floorplanHandler
+   * @param  {String}  buildingId  The mongo id of the building to display
+   */
 
   floorplanHandler(buildingId) {
     this.setAppMessage('Loading Building Data...');

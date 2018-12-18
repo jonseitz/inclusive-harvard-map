@@ -11,6 +11,11 @@ import {
   NotListedLocation,
 } from '@material-ui/icons';
 
+/**
+ * Buttons for displaying imformation about teh content within the map
+ * @extends React.Component
+ */
+
 class MapMenu extends React.Component {
   render() {
     return (
