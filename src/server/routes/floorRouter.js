@@ -5,13 +5,6 @@ import db from '../models/db';
 
 const floorRouter = Router();
 
-// floorRouter.use(async (req, res, next) => {
-// if (!db) {
-// db = await createDb();
-// }
-// next();
-// });
-
 /**
  * Gets all of the floor objects in the database
  * @memberof  module:server/floorRouter
@@ -44,22 +37,5 @@ floorRouter.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-
-/**
- * Create a new floor object in the database
- * @memberof  module:server/floorRouter
- * @function  POST /api/floors/new
- * @param  {FloorData}  body  The floor data object
- * @returns  {Promise.<FloorData>}  The resulting database object
- */
-
-// floorRouter.post('/new', async (req, res, next) => {
-// try {
-// const plan = await db.model('Floor').createNew(req.body);
-// res.json(plan);
-// } catch (err) {
-// next(err);
-// }
-// });
 
 export default floorRouter;

@@ -5,13 +5,6 @@ import db from '../models/db';
 
 const layerRouter = Router();
 
-// layerRouter.use(async (req, res, next) => {
-// if (!db) {
-// db = await createDb();
-// }
-// next();
-// });
-//
 /**
  * Returns a single layer from the database as an svg
  * @memberof module:server/layerRouter
@@ -33,22 +26,5 @@ layerRouter.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-//
-/**
- * Create a new layer object in the database
- * @memberof module:server/layerRouter
- * @function  POST /api/layers/new
- * @param  {LayerData}  body  data object
- * @returns  {LayerData}  The resulting database object
- */
-//
-// layerRouter.post('/new', async (req, res, next) => {
-// try {
-// const layer = await db.model('Layer').createNew(req.body);
-// res.json(layer);
-// } catch (err) {
-// next(err);
-// }
-// });
-//
+
 export default layerRouter;

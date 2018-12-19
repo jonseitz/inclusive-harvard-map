@@ -4,13 +4,6 @@ import db from '../models/db';
 
 const buildingRouter = Router();
 
-// buildingRouter.use(async (req, res, next) => {
-// if (!db) {
-// db = await createDb();
-// }
-// next();
-// });
-
 /**
  * Get all of the building objects from the database
  * @endpoint  {GET}  /api/buildings/all
@@ -58,21 +51,5 @@ buildingRouter.get('/byName/:name', async (req, res, next) => {
     next(err);
   }
 });
-
-/**
- * Create a new building object in the database
- * @endpoint  {POST}  /api/buildings/new
- * @body  {BuildingData}  The building data to create
- * @returns  {Promise.<BuildingData>}  The new building object
- */
-
-// buildingRouter.post('/new', async (req, res, next) => {
-// try {
-// const bldg = await db.model('Building').createNew(req.body);
-// res.json(bldg);
-// } catch (err) {
-// next(err);
-// }
-// });
 
 export default buildingRouter;
