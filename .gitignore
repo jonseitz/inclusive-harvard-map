@@ -64,3 +64,5 @@ docs
 
 .tern-port
 .coveralls.yml
+
+src/scripts/facilities.json

@@ -83,6 +83,7 @@
   "overrides": {
     "files": [
       "src/client/config/*",
+      "src/server/config/*",
       "*.test.js"
     ],
     "rules": {

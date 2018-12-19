@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactPage Should render the content without errors 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ContactPage />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "astPlugins": Array [],
+      "children": "
+Please report any issues with missing or inaccurate content in this application to [map-issues@jonathanseitz.com](mailto:map-issues@jonathanseitz.com).
+
+If you feel unsafe on campus, contact the **Harvard University Police Department at [(617) 495-1212](tel:617-495-1212)**. 
+
+For medical issues, you can contact **Harvard University Health Services' 24-hour urgent care line at [(617) 495-5711](tel:617-495-5711)**.
+
+Confidential support and advocacy for survivors of sexual and gender-based violence is available from the **Office of Sexual Assault Prevention & Response's 24-hour hotline at [(617) 495-9100](tel:617-495-9100)**.
+
+**In any and all other emergencies, dial [911](tel:911).**
+",
+      "escapeHtml": true,
+      "plugins": Array [],
+      "rawSourcePos": false,
+      "renderers": Object {},
+      "skipHtml": false,
+      "sourcePos": false,
+      "transformLinkUri": [Function],
+    },
+    "ref": null,
+    "rendered": "
+Please report any issues with missing or inaccurate content in this application to [map-issues@jonathanseitz.com](mailto:map-issues@jonathanseitz.com).
+
+If you feel unsafe on campus, contact the **Harvard University Police Department at [(617) 495-1212](tel:617-495-1212)**. 
+
+For medical issues, you can contact **Harvard University Health Services' 24-hour urgent care line at [(617) 495-5711](tel:617-495-5711)**.
+
+Confidential support and advocacy for survivors of sexual and gender-based violence is available from the **Office of Sexual Assault Prevention & Response's 24-hour hotline at [(617) 495-9100](tel:617-495-9100)**.
+
+**In any and all other emergencies, dial [911](tel:911).**
+",
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "astPlugins": Array [],
+        "children": "
+Please report any issues with missing or inaccurate content in this application to [map-issues@jonathanseitz.com](mailto:map-issues@jonathanseitz.com).
+
+If you feel unsafe on campus, contact the **Harvard University Police Department at [(617) 495-1212](tel:617-495-1212)**. 
+
+For medical issues, you can contact **Harvard University Health Services' 24-hour urgent care line at [(617) 495-5711](tel:617-495-5711)**.
+
+Confidential support and advocacy for survivors of sexual and gender-based violence is available from the **Office of Sexual Assault Prevention & Response's 24-hour hotline at [(617) 495-9100](tel:617-495-9100)**.
+
+**In any and all other emergencies, dial [911](tel:911).**
+",
+        "escapeHtml": true,
+        "plugins": Array [],
+        "rawSourcePos": false,
+        "renderers": Object {},
+        "skipHtml": false,
+        "sourcePos": false,
+        "transformLinkUri": [Function],
+      },
+      "ref": null,
+      "rendered": "
+Please report any issues with missing or inaccurate content in this application to [map-issues@jonathanseitz.com](mailto:map-issues@jonathanseitz.com).
+
+If you feel unsafe on campus, contact the **Harvard University Police Department at [(617) 495-1212](tel:617-495-1212)**. 
+
+For medical issues, you can contact **Harvard University Health Services' 24-hour urgent care line at [(617) 495-5711](tel:617-495-5711)**.
+
+Confidential support and advocacy for survivors of sexual and gender-based violence is available from the **Office of Sexual Assault Prevention & Response's 24-hour hotline at [(617) 495-9100](tel:617-495-9100)**.
+
+**In any and all other emergencies, dial [911](tel:911).**
+",
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

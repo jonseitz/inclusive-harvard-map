@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrivacyPage Should render the content without errors 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <PrivacyPage />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "astPlugins": Array [],
+      "children": "
+This application does not store any personal identifying information about its users, and wherever possible limits the sharing of that information with groups or corporations that may do so.
+
+By default, location data from your device is not used. If you choose to use your location data, your coordinates may be stored in server logs along with the public IP address of the device making the request. It will not be shared with any outside vendors or services.
+
+**The privacy of your data matters. You should haven't to trade that privacy away just to find a restroom.**
+",
+      "escapeHtml": true,
+      "plugins": Array [],
+      "rawSourcePos": false,
+      "renderers": Object {},
+      "skipHtml": false,
+      "sourcePos": false,
+      "transformLinkUri": [Function],
+    },
+    "ref": null,
+    "rendered": "
+This application does not store any personal identifying information about its users, and wherever possible limits the sharing of that information with groups or corporations that may do so.
+
+By default, location data from your device is not used. If you choose to use your location data, your coordinates may be stored in server logs along with the public IP address of the device making the request. It will not be shared with any outside vendors or services.
+
+**The privacy of your data matters. You should haven't to trade that privacy away just to find a restroom.**
+",
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "astPlugins": Array [],
+        "children": "
+This application does not store any personal identifying information about its users, and wherever possible limits the sharing of that information with groups or corporations that may do so.
+
+By default, location data from your device is not used. If you choose to use your location data, your coordinates may be stored in server logs along with the public IP address of the device making the request. It will not be shared with any outside vendors or services.
+
+**The privacy of your data matters. You should haven't to trade that privacy away just to find a restroom.**
+",
+        "escapeHtml": true,
+        "plugins": Array [],
+        "rawSourcePos": false,
+        "renderers": Object {},
+        "skipHtml": false,
+        "sourcePos": false,
+        "transformLinkUri": [Function],
+      },
+      "ref": null,
+      "rendered": "
+This application does not store any personal identifying information about its users, and wherever possible limits the sharing of that information with groups or corporations that may do so.
+
+By default, location data from your device is not used. If you choose to use your location data, your coordinates may be stored in server logs along with the public IP address of the device making the request. It will not be shared with any outside vendors or services.
+
+**The privacy of your data matters. You should haven't to trade that privacy away just to find a restroom.**
+",
+      "type": [Function],
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
