@@ -1,10 +1,9 @@
 /* eslint-disable no-console  */
 import fs from 'fs';
 import { resolve } from 'path';
-import createDB from '../server/models/db';
+import db from '../server/models/db';
 
 const importData = async () => {
-  const db = await createDB();
   const buildingList = await fs.promises
     .readFile(resolve(__dirname, './buildings.json'), { encoding: 'UTF-8' });
   const buildings = JSON.parse(buildingList);
@@ -125,9 +124,12 @@ const importData = async () => {
 	const facilities = JSON.parse(facilityList);
   await Promise.all(facilities
     .map(({ locationType, buildingName, floorNumber, path, isAccessible}) => {
+      const building = buildingIdMap.get(buildingName);
       const floorplan = floorIdMap.get(`${buildingName}_${floorNumber}`);
-      console.log(buildingName, floorNumber, floorplan);
+      const layerViewBox = sizeMap.get(`${buildingName}_${floorNumber}`);
       return db.model('Facility').createNew({
+        building,
+        layerViewBox,
 		    locationType,
 		    path,
 		    isAccessible,
