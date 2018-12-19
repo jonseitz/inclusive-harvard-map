@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import FloorLayer from './FloorLayer';
+import FacilityMarker from './FacilityMarker';
 
 const styles = {
   svgBoundary: {
@@ -17,6 +18,7 @@ const styles = {
  * @param  {Object}  props
  * @param  {Object}  props.classes  JSS classes from withStyles
  * @param  {Object}  props.currentFloor  the number of the floor currently being shown
+ * @param  {Facility[]}  props.floorFacilities  List of all the restrooms on the current floor
  * @param  {String[]}  props.floorLayers  List of mongo ids for the individual layers of teh svg
  */
 
@@ -89,6 +91,7 @@ class FloorSVG extends React.Component {
   render() {
     const {
       classes,
+      floorFacilities,
       floorLayers,
     } = this.props;
     const {
@@ -155,6 +158,12 @@ class FloorSVG extends React.Component {
                 layerId={layerId}
               />
             ))}
+            {floorFacilities && floorFacilities.map((facilityId) => (
+              <FacilityMarker 
+                key={facilityId}
+                facilityId={facilityId}
+                />
+            ))}
           </g>
         </svg>
       </div>
@@ -165,12 +174,14 @@ class FloorSVG extends React.Component {
 FloorSVG.propTypes = {
   classes: PropTypes.object.isRequired,
   currentFloor: PropTypes.string,
+  floorFacilities: PropTypes.arrayOf(PropTypes.string),
   floorLayers: PropTypes.arrayOf(PropTypes.string),
 };
 
 FloorSVG.defaultProps = {
   currentFloor: null,
   floorLayers: [],
+  floorFacilities: [],
 };
 
 export default withStyles(styles)(FloorSVG);

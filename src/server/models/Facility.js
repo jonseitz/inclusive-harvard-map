@@ -15,17 +15,17 @@ const { Schema } = mongoose;
  */
 
 export const ROOM = {
-  WOMEN: 'Women-only Restroom',
-  MEN: 'Men-only Restroom',
-  NEUTRAL: 'Gender-neutral Restroom',
-  LACT: 'Lactation Room',
+  WOMEN: 'women',
+  MEN: 'men',
+  NEUTRAL: 'neutral',
+  LACTATION: 'lactation',
 };
 
 /**
  * Descibes a single room within a building
  * @typedef  {Object}  Facility
+ * @prop  {String}  building  The mongo id of the building
  * @prop  {String}  locationType  One of the enumerated room types
- * @prop  {String}  roomNumber  Its room number
  * @prop  {String}  directions  A textual-description of how to reach the room
  * @prop  {ObjectId}  floorplan  The corresponding floorplan object
  * @prop  {Number}  xPos  The x-coordinate of its location on the floorplan
@@ -42,6 +42,17 @@ export const ROOM = {
 
 const FacilitySchema = new Schema(
   {
+    building: {
+      type: Schema.Types.ObjectId,
+      ref: 'Building',
+      required: true,
+    },
+    layerViewBox: [
+      {
+        type: 'Number',
+        required: true,
+      },
+    ],
     locationType: {
       type: String,
       enum: Object.values(ROOM),
@@ -72,9 +83,7 @@ const FacilitySchema = new Schema(
 );
 
 FacilitySchema.index({
-  building: 1,
   floor: 1,
-  room: 1,
 });
 
 /**

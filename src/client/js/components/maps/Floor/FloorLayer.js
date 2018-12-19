@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getLayerData } from '../../api';
+import { getLayerData } from '../../../api';
 
 /**
  * Renders a single SVG layer of a floor

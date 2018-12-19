@@ -6,6 +6,7 @@ import path from 'path';
 import compression from 'compression';
 import errorHandler from './routes/errorHandler';
 import buildingRouter from './routes/buildingRouter';
+import facilityRouter from './routes/facilityRouter';
 import floorRouter from './routes/floorRouter';
 import layerRouter from './routes/layerRouter';
 
@@ -14,8 +15,9 @@ const app = express();
 app.use(morgan('tiny'));
 
 app.use('/api', express.json({ type: '*/*', limit: '10Mb' }));
-app.use('/api/floors', floorRouter);
 app.use('/api/buildings', buildingRouter);
+app.use('/api/facilities', facilityRouter);
+app.use('/api/floors', floorRouter);
 app.use('/api/layers', layerRouter);
 app.use('/osrm', (req, res, next) => {
   const osrmPath = req.originalUrl.replace(/^\/osrm\//, '/route/v1/');

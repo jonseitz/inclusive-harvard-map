@@ -91,8 +91,24 @@ const BuildingSchema = new Schema(
   }
 );
 
+/**
+ * Create a virtual field for all floorplans in this building
+ * @memberof module:models/Building
+ */
+
 BuildingSchema.virtual('floorplans', {
   ref: 'Floor',
+  localField: '_id',
+  foreignField: 'building',
+});
+
+/**
+ * Create a virtual field for all floorplans in this building
+ * @memberof module:models/Building
+ */
+
+BuildingSchema.virtual('facilities', {
+  ref: 'Facility',
   localField: '_id',
   foreignField: 'building',
 });
@@ -143,13 +159,24 @@ BuildingSchema.statics.getAll = async function getAll() {
 BuildingSchema.statics.getOneById = async function getOneById(buildingId) {
   try {
     return this.findById(buildingId)
-      .populate({
-        path: 'floorplans',
-        populate: {
-          path: 'layers',
-          select: '_id',
+      .populate([
+        {
+          path: 'floorplans',
+          populate: [
+            {
+              path: 'layers',
+              select: '_id',
+            },
+            {
+              path: 'facilities',
+              select: '_id',
+            },
+          ],
         },
-      })
+        {
+          path: 'facilities',
+        },
+      ])
       .exec();
   } catch (err) {
     throw new Error(`Could not find building ${buildingId}\n${err.message}`);

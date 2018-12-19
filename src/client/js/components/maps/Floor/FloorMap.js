@@ -62,6 +62,7 @@ class FloorMap extends React.Component {
     this.state = {
       currentFloor: '01',
       floorLayers: [],
+      facilityIds: [],
     };
     this.setFloor = this.setFloor.bind(this);
   }
@@ -89,11 +90,13 @@ class FloorMap extends React.Component {
   setFloor(floorNumber) {
     const { buildingData } = this.props;
     const { floorplans } = buildingData;
-    const { layers } = floorplans.find((e) => e.floorNumber === floorNumber);
+    const { layers, facilities } = floorplans.find((e) => e.floorNumber === floorNumber);
     const layerIds = layers.map((e) => (e._id));
+    const facilityIds = facilities.map((e) => (e._id));
     this.setState({
       currentFloor: floorNumber,
       floorLayers: layerIds,
+      facilityIds,
     });
   }
 
@@ -106,8 +109,10 @@ class FloorMap extends React.Component {
     const {
       currentFloor,
       floorLayers,
+      facilityIds
     } = this.state;
-    const { address, floorplans } = buildingData;
+    console.log(buildingData);
+    const { address, floorplans, facilities } = buildingData;
     return (
       <div className={classes.interiorMap}>
         <div className={classes.backButtonContainer}>
@@ -128,11 +133,13 @@ class FloorMap extends React.Component {
         <FloorDetails
           className={classes.floorDetails}
           currentFloor={currentFloor}
+          floorFacilities={facilities}
           floorList={floorplans}
           setFloor={this.setFloor}
         />
         <FloorSVG
           currentFloor={currentFloor}
+          floorFacilities={facilityIds}
           floorLayers={floorLayers}
         />
       </div>

@@ -50,23 +50,17 @@ export const getLayerData = async (layerId) => {
 };
 
 /**
- * Get directions to a building via the osrm api
+ * Get the data for a single facility
  * @async
- * @function getDirectionsToBuilding
- * @param  {String[]}  startPoint  The latitude and longitude of the desired start point
- * @param  {Object}  addressData  The address objet for the desired buildings
- * @param  {String}  addressData.latitude  latitude of the destination building
- * @param  {String}  addressData.longitude longitude of the destination building
- * @returns  {Promise<RoutingData>}  A response from the OSRM server
- * @throws  {Error}  if the request fails
+ * @function  getFacilityData
+ * @param  {String}  facilityId  the mongo id of the desired facility
+ * @return  {Promise.<Facility>}  The complete facility object
  */
 
-export const getDirectionsToBuilding = async (startPoint, addressData) => {
-  const [startLat, startLong] = startPoint;
-  const { latitude, longitude } = addressData;
-  const response = await fetch(`/osrm/${startLong},${startLat};${longitude},${latitude}?steps=true&overview=full`);
+export const getFacilityData = async (facilityId) => {
+  const response = await fetch(`/api/facilities/${facilityId}`);
   if (!response.ok) {
-    throw new Error(response.message);
+    return null;
   }
   return response.json();
 };
