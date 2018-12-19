@@ -2,7 +2,21 @@ import L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapLayer, withLeaflet } from 'react-leaflet';
 
+/**
+ * Custom react-leaflet component for adding routing data to map
+ * @extends react-leaflet.MapLayer
+ *
+ */
+
 class Routing extends MapLayer {
+  /*
+   * Fetches routing data from the server and creates the leafletElement
+   * @function createLeafletElement
+   * @param  {Object}  data
+   * @param  {String[]}  from  The origination point for routing
+   * @param  {String[]}  to  The destination point for routing
+   */
+
   createLeafletElement({ from, to }) {
     this.leafletElement = L.Routing.control({
       waypoints: [
@@ -15,6 +29,13 @@ class Routing extends MapLayer {
     });
     return this.leafletElement;
   }
+
+  /**
+   * Checks for any changes in the routing coordinates and refreshes the route, if necessary
+   * @function updateLeafletElement
+   * @param  {Object}  oldProps  The prior routing data
+   * @param  {Object}  newProps  The new routing data
+   */
 
   updateLeafletElement(oldProps, newProps) {
     if (
@@ -31,6 +52,11 @@ class Routing extends MapLayer {
       this.leafletElement.spliceWaypoints(0, 1, L.LatLng(...from));
     }
   }
+
+  /**
+   * Adds leaflet element to the map
+   * @function componentDidMount
+   */
 
   componentDidMount() {
     const { map } = this.props.leaflet;

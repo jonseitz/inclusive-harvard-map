@@ -12,7 +12,6 @@ import {
   Notification,
   OverlayContent,
 } from './layouts';
-import FloorMap from './maps/FloorMap';
 import { AppMenu, MapMenu, LocationMenu } from './menus';
 import { getSingleBuilding } from '../api';
 import MODES from '../constants/viewModes';
@@ -42,8 +41,8 @@ const styles = (theme) => ({
   },
 });
 
-const StreetMap = React.lazy(() => (import('./maps/StreetMap')));
-
+const StreetMap = React.lazy(() => import('./maps/Street/StreetMap'));
+const FloorMap = React.lazy(() => import('./maps/Floor/FloorMap'));
 /**
  * Primary application component
  * @extends React.Component
@@ -207,15 +206,17 @@ class App extends React.Component {
           }
           {mapViewMode === MODES.FLOOR
             && (
-            <FloorMap
-              setAppMessage={this.setAppMessage}
-              locationData={locationData}
-              buildingData={chosenBuilding}
-              floorplanHandler={this.floorplanHandler}
-              exitHandler={() => {
-                this.setState({ mapViewMode: MODES.STREET });
-              }}
-            />
+            <React.Suspense>
+              <FloorMap
+                setAppMessage={this.setAppMessage}
+                locationData={locationData}
+                buildingData={chosenBuilding}
+                floorplanHandler={this.floorplanHandler}
+                exitHandler={() => {
+                  this.setState({ mapViewMode: MODES.STREET });
+                }}
+              />
+            </React.Suspense>
             )
           }
         </Dashboard>
