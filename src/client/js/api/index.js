@@ -64,3 +64,19 @@ export const getFacilityData = async (facilityId) => {
   }
   return response.json();
 };
+
+/**
+ * Grab all data for a specific facility type
+ * @async
+ * @function  getFacilityType
+ * @param  {string}  facilityType  the type of facility requested
+ * @return  {Promise.<Facility[]>}  The list of facility objects
+ */
+
+export const getFacilityType = async (facilityType) => {
+  const response = await fetch(`/api/facilities/all?type=${facilityType}`);
+  if (!response.ok) {
+    return null;
+  }
+  return response.json();
+};

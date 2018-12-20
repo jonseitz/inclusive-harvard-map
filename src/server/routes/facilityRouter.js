@@ -6,6 +6,27 @@ import db from '../models/db';
 const facilityRouter = Router();
 
 /**
+ * Search for all facilities in the database
+ * @memberof module:server/facilityRouter
+ * @function  GET /api/facilities/all
+ * @param  {Query}  [type]  Optional filter for types of facilities
+ * @return  {Promise.<Facility[]>}  The list of facilities
+ */
+
+facilityRouter.get('/all', async (req, res, next) => {
+  let filters = ['men', 'women', 'neutral', 'lactation'];
+  if ('type' in req.query) {
+    filters = req.query.type.split(',');
+  }
+  try {
+    const docs = await db.model('Facility').getAll(filters);
+    res.json(docs);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * Get all of the data associated with an individual facility
  * @memberof  module:server/facilityRouter
  * @function  GET /api/facilities/:id

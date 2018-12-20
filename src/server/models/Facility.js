@@ -82,10 +82,6 @@ const FacilitySchema = new Schema(
   }
 );
 
-FacilitySchema.index({
-  floor: 1,
-});
-
 /**
  * Create a new facility Object
  * @async
@@ -100,6 +96,47 @@ FacilitySchema.statics.createNew = async function createNew(facilityData) {
     return newFacility;
   } catch (err) {
     throw new Error(`unable to save facility\n${err.message}`);
+  }
+};
+
+/**
+ * Return a complete list of facility objects in the database
+ * @async
+ * @static  getAll
+ * @memberof  module:models/Facility
+ * @returns {Promise.<FacilityData[]>} the list of facility data
+ */
+
+FacilitySchema.statics.getAll = async function getAll(types) {
+  try {
+    const docs = await this
+      .find(
+        {
+          locationType: {
+            $in: types,
+          },
+        }
+      )
+      .populate(
+        [
+          {
+            path: 'building',
+            select: '_id buildingName',
+          },
+          {
+            path: 'floorplan',
+            select: '_id floorNumber',
+          },
+        ]
+      )
+      .select({
+        layerViewBox: 0,
+        path: 0,
+      })
+      .exec();
+    return docs;
+  } catch (err) {
+    throw new Error(`Unable to get facility data\n${err.message}`);
   }
 };
 
