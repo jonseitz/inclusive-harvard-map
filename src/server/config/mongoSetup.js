@@ -2,7 +2,7 @@ const MongoMemoryServer = require('mongodb-memory-server').default;
 
 const mongod = new MongoMemoryServer();
 
-mongod.getPort()
+module.exports = mongod.getPort()
   .then((port) => {
     process.env.MONGO_URI = `127.0.0.1:${port}`;
     return mongod.getDbName();
