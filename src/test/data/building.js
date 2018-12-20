@@ -29,6 +29,7 @@ export const mongoBuilding = {
   },
   __v: 0,
   floorplans: [],
+  facilities: [],
   id: '5bd662c964360203da3b54a0',
 };
 
