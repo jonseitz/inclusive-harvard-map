@@ -7,24 +7,10 @@ const { Schema } = mongoose;
 /**
  * represents JSONified SVG data
  * @typedef  {Object}  LayerData
- * @prop  {Object}  _declaration
- * @prop  {Object}  _declaration._attributes
- * @prop  {String}  _declaration._attributes.version
- * @prop  {Object}  svg
- * @prop  {Object}  svg._attributes
- * @prop  {String}  svg._attributes.xmlns
- * @prop  {String}  svg._attributes.xmlns:xlink
- * @prop  {String}  svg._attributes.version
- * @prop  {String}  svg._attributes.preserveAspectRatio
- * @prop  {String}  svg._attributes.viewBox
- * @prop  {String}  svg._attributes.width
- * @prop  {String}  svg._attributes.height
- * @prop  {Array.<Object>}  svg.path
- * @prop  {Object}  svg.path._attributes
- * @prop  {String}  svg.path.fill
- * @prop  {String}  svg.path.stroke
- * @prop  {String}  svg.path.stroke-width
- * @prop  {String}  svg.path.d
+ * @prop  {String}  floor  the mongo id of the floor it represents
+ * @prop  {String}  layerName  Name of the layer as taken from the DXF file
+ * @prop  {String[]}  layerData  Array of transformations to be fet to an svg path element's d attribute
+ * @prop  {Number[]}  layerViewBox  The minX, MinY, Width, and Height of the entire floor
  */
 
 /**
