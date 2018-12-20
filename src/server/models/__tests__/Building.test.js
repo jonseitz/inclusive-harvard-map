@@ -13,7 +13,6 @@ describe('Building Model', () => {
   beforeEach(async () => {
     db = await createDb();
     Building = db.model('Building');
-    testMongo = await populateDB(db);
   });
   afterEach(async () => {
     await depopulateDB(db);
@@ -62,6 +61,9 @@ describe('Building Model', () => {
     });
   });
   describe('From a populated Database', () => {
+    beforeEach(async () => {
+      testMongo = await populateDB(db);
+    });
     describe('getOneById', () => {
       describe('With a valid buildingId', () => {
         beforeEach(async () => {
@@ -74,6 +76,10 @@ describe('Building Model', () => {
         it('Should include the appropriate Floorplans', () => {
           expect(Array.isArray(result.floorplans)).toBeTruthy();
           expect(result.floorplans.length).toBeGreaterThan(0);
+        });
+        it('Should include the appropriate Facilities', () => {
+          expect(Array.isArray(result.facilities)).toBeTruthy();
+          expect(result.facilties.length).toBeGreaterThan(0);
         });
       });
       describe('With an invalid building', () => {
