@@ -15,10 +15,19 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "function",
+    "nodeType": "class",
     "props": Object {
-      "astPlugins": Array [],
-      "children": "
+      "children": <ReactMarkdown
+        astPlugins={Array []}
+        escapeHtml={true}
+        plugins={Array []}
+        rawSourcePos={false}
+        renderers={Object {}}
+        skipHtml={false}
+        sourcePos={false}
+        transformLinkUri={[Function]}
+      >
+        
 Our goal is to help everyone feel welcome on Harvard's campus by providing a discreet and efficient way to find gender-neutral restrooms and lactation rooms on campus.
 
 This app was build by Jonathan Seitz, Application Developer in the Computing Department at the Harvard John A. Paulson School of Engineering and Applied Sciences, as a Capstone Project for the Design Media Design program at the Harvard Extension School. It is currently a pilot, so some data may be inaccurate or incomplete.
@@ -26,29 +35,12 @@ This app was build by Jonathan Seitz, Application Developer in the Computing Dep
 Building floorplans were provided by the Harvard Planning Office. 
 
 Mapping data is provided by OpenStreetMaps.
-",
-      "escapeHtml": true,
-      "plugins": Array [],
-      "rawSourcePos": false,
-      "renderers": Object {},
-      "skipHtml": false,
-      "sourcePos": false,
-      "transformLinkUri": [Function],
+
+      </ReactMarkdown>,
+      "variant": "body2",
     },
     "ref": null,
-    "rendered": "
-Our goal is to help everyone feel welcome on Harvard's campus by providing a discreet and efficient way to find gender-neutral restrooms and lactation rooms on campus.
-
-This app was build by Jonathan Seitz, Application Developer in the Computing Department at the Harvard John A. Paulson School of Engineering and Applied Sciences, as a Capstone Project for the Design Media Design program at the Harvard Extension School. It is currently a pilot, so some data may be inaccurate or incomplete.
-
-Building floorplans were provided by the Harvard Planning Office. 
-
-Mapping data is provided by OpenStreetMaps.
-",
-    "type": [Function],
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
+    "rendered": Object {
       "instance": null,
       "key": undefined,
       "nodeType": "function",
@@ -81,6 +73,74 @@ Building floorplans were provided by the Harvard Planning Office.
 
 Mapping data is provided by OpenStreetMaps.
 ",
+      "type": [Function],
+    },
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "class",
+      "props": Object {
+        "children": <ReactMarkdown
+          astPlugins={Array []}
+          escapeHtml={true}
+          plugins={Array []}
+          rawSourcePos={false}
+          renderers={Object {}}
+          skipHtml={false}
+          sourcePos={false}
+          transformLinkUri={[Function]}
+        >
+          
+Our goal is to help everyone feel welcome on Harvard's campus by providing a discreet and efficient way to find gender-neutral restrooms and lactation rooms on campus.
+
+This app was build by Jonathan Seitz, Application Developer in the Computing Department at the Harvard John A. Paulson School of Engineering and Applied Sciences, as a Capstone Project for the Design Media Design program at the Harvard Extension School. It is currently a pilot, so some data may be inaccurate or incomplete.
+
+Building floorplans were provided by the Harvard Planning Office. 
+
+Mapping data is provided by OpenStreetMaps.
+
+        </ReactMarkdown>,
+        "variant": "body2",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "astPlugins": Array [],
+          "children": "
+Our goal is to help everyone feel welcome on Harvard's campus by providing a discreet and efficient way to find gender-neutral restrooms and lactation rooms on campus.
+
+This app was build by Jonathan Seitz, Application Developer in the Computing Department at the Harvard John A. Paulson School of Engineering and Applied Sciences, as a Capstone Project for the Design Media Design program at the Harvard Extension School. It is currently a pilot, so some data may be inaccurate or incomplete.
+
+Building floorplans were provided by the Harvard Planning Office. 
+
+Mapping data is provided by OpenStreetMaps.
+",
+          "escapeHtml": true,
+          "plugins": Array [],
+          "rawSourcePos": false,
+          "renderers": Object {},
+          "skipHtml": false,
+          "sourcePos": false,
+          "transformLinkUri": [Function],
+        },
+        "ref": null,
+        "rendered": "
+Our goal is to help everyone feel welcome on Harvard's campus by providing a discreet and efficient way to find gender-neutral restrooms and lactation rooms on campus.
+
+This app was build by Jonathan Seitz, Application Developer in the Computing Department at the Harvard John A. Paulson School of Engineering and Applied Sciences, as a Capstone Project for the Design Media Design program at the Harvard Extension School. It is currently a pilot, so some data may be inaccurate or incomplete.
+
+Building floorplans were provided by the Harvard Planning Office. 
+
+Mapping data is provided by OpenStreetMaps.
+",
+        "type": [Function],
+      },
       "type": [Function],
     },
   ],
