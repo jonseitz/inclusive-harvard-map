@@ -33,39 +33,5 @@ services:
     command: 'osrm-routed --algorithm mld /data/massachusetts-latest.osrm'
     restart: always
 
-  certbot:
-    env_file: '.env'
-    image: 'certbot/certbot'
-    ports:
-      - '8080:80'
-      - '8443:443'
-    volumes:
-      - 'le_certs:/etc/letsencrypt'
-      - 'le_web:/var/lib/letsencrypt'
-    restart: always
-
-  nginx:
-    env_file: '.env'
-    image: 'nginx'
-    networks:
-      default: {}
-      global: {}
-    ports: 
-      - '80:80'
-      - '443:443'
-    volumes:
-      - './config/nginx_prod.conf:/etc/nginx/nginx.conf' 
-      - 'le_certs:/etc/nginx/certs'
-      - 'le_web:/var/www/letsencrypt'
-    restart: always
-
-
 volumes:
   mongo_data:
-  le_certs:
-  le_web:
-
-networks:
-  global:
-    external: true
-    name: host
