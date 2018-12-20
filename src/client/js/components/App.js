@@ -164,14 +164,13 @@ class App extends React.Component {
    */
 
   floorplanHandler(buildingId) {
-    this.setAppMessage('Loading Building Data...');
+    // this.setAppMessage('Loading Building Data...');
     getSingleBuilding(buildingId).then((building) => {
       this.setState({
         mapViewMode: MODES.FLOOR,
         chosenBuilding: building,
       });
     }).catch((err) => {
-      console.error(err);
       this.setAppMessage(err.message);
     });
   }
@@ -199,6 +198,7 @@ class App extends React.Component {
                 <StreetMap
                   floorplanHandler={this.floorplanHandler}
                   locationData={locationData}
+                  locationActive={locationActive}
                   setAppMessage={this.setAppMessage}
                 />
               </React.Suspense>

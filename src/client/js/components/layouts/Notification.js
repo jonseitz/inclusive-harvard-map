@@ -78,9 +78,6 @@ class Notification extends React.Component {
    * @param  {String}  reason  How the handler was invoked
    */
   closeHandler(event, reason) {
-    if (reason === 'clickaway') {
-      return;
-    }
     this.setState({ isOpen: false });
   }
 

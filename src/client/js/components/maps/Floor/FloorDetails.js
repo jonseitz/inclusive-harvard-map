@@ -2,12 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash.clonedeep';
 import {
+  Divider,
+  FormControl,
+  InputLabel,
   List,
   ListItem,
   ListItemText,
   ListSubheader,
+  MenuItem,
+  Select,
+  Typography,
   withStyles,
 } from '@material-ui/core';
+import { countFacilities } from '../../../helpers';
 
 const styles = (theme) => ({
   floorDetails: {
@@ -31,8 +38,27 @@ const styles = (theme) => ({
   floorList: {
     gridArea: 'FLL',
   },
+  floorSelector: {
+    background: theme.palette.secondary.light,
+    textAlign: 'right',
+    width: '80px',
+  },
+  selectorLabel: {
+    top: `-${theme.spacing.unit * 2}px`
+  },
+  floorOption: {
+    textAlign: 'right',
+  },
   facilityList: {
     gridArea: 'FCL',
+  },
+  itemDivider: {
+    marginTop: `${theme.spacing.unit/2}px`,
+    marginBottom: `${theme.spacing.unit/2}px`,
+  },
+  subHeaderDivider: {
+    marginTop: `${theme.spacing.unit/2}px`,
+    marginBottom: `${theme.spacing.unit * 2}px`,
   },
   mapKey: {
     gridArea: 'KEY',
@@ -68,10 +94,13 @@ class FloorDetails extends React.Component {
     const {
       classes,
       floorList,
+      floorFacilities,
       currentFloor,
       setFloor,
     } = this.props;
-
+    
+    const { men, women, neutral, lactation } = countFacilities(floorFacilities);
+    
     const orderedFloors = cloneDeep(floorList)
       .sort((a, b) => {
         const floorA = parseInt(a.floorNumber.replace('B', '-'), 10);
@@ -82,39 +111,51 @@ class FloorDetails extends React.Component {
     return (
       <div className={classes.floorDetails}>
         <div className={classes.floorList}>
-          <List>
-            <ListSubheader>
-            Floors
-            </ListSubheader>
+          <FormControl>
+            <InputLabel className={classes.selectorLabel} htmlFor="floor-selector">
+              <Typography variant="h5">Floors</Typography>
+            </InputLabel>
+            <Select 
+              className={classes.floorSelector}
+              value={currentFloor}
+              onChange={(evt)=> {setFloor(evt.target.value)}}
+              inputProps={{
+                name: 'floors',
+                id: 'floor-selector',
+              }}
+            >
             {orderedFloors.map((floor) => (
-              <ListItem
+              <MenuItem
+                className={classes.floorOption}
                 key={floor._id}
-                button
-                dense
-                divider
-                className={
-                currentFloor === floor.floorNumber
-                  ? classes.activeFloor
-                  : classes.inactiveFloor
-              }
-                onClick={() => {
-                  setFloor(floor.floorNumber);
-                }}
+                value={floor.floorNumber}
               >
-                <ListItemText>{floor.floorNumber}</ListItemText>
-              </ListItem>
+                {floor.floorNumber}
+              </MenuItem>
             ))}
-          </List>
+            </Select>
+          </FormControl>
         </div>
         <div className={classes.facilityList}>
-          <List>
-            <ListSubheader variant="overline">
-            Details
-            </ListSubheader>
-            <ListItem divider dense>
-              <ListItemText>Bathrooms: 2</ListItemText>
-            </ListItem>
-          </List>
+          <Typography variant="h5">On This Floor</Typography>
+          <Divider className={classes.subHeaderDivider} />
+            <Typography variant="subtitle2">
+              {`Lacation Rooms: ${lactation}`}
+            </Typography>
+            <Divider className={classes.itemDivider} />
+            <Typography variant="overline">Restrooms</Typography>
+            <Typography variant="subtitle2">
+              {`Gender-Neutral: ${neutral}`}
+            </Typography>
+            <Divider className={classes.itemDivider} />
+            <Typography variant="subtitle2">
+              {`Women's: ${women}`}
+            </Typography>
+            <Divider className={classes.itemDivider} />
+            <Typography variant="subtitle2">
+              {`Men's: ${men}`}
+            </Typography>
+            <Divider className={classes.itemDivider} />
         </div>
       </div>
     );

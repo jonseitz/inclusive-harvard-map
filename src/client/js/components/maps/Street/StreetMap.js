@@ -18,7 +18,7 @@ import './StreetMap.css';
 */
 
 const DEFAULT_VIEWPORT = {
-  center: ['42.37594', '-71.11595'],
+  center: ['42.37871', '-71.11627'],
   zoom: 16,
 };
 
@@ -72,7 +72,12 @@ class StreetMap extends React.Component {
     this.setState({
       chosenBuilding: null,
     });
-    const { setAppMessage, locationData } = this.props;
+    const { setAppMessage, locationActive, locationData } = this.props;
+    if (locationActive && locationData) {
+      this.setState({ currentLocation: locationData });
+    } else {
+      this.setState({ currentLocation: ['42.37445', '-71.11721'] });
+    }
     setAppMessage('Loading Building Data...');
     getBuildingList().then((buildings) => {
       this.setState({ buildings });
@@ -101,6 +106,8 @@ class StreetMap extends React.Component {
         || (currentLocation === null && locationData !== null)
       )
     ) {
+      // safe to make state update with conditionals above
+      // eslint-disable-next-line
       this.setState({
         currentLocation: locationData,
         routingFrom: locationData,
@@ -135,6 +142,7 @@ class StreetMap extends React.Component {
       viewport,
       buildings,
       currentLocation,
+      locationActive,
       isRouting,
       routingTo,
       routingFrom,
@@ -186,7 +194,7 @@ class StreetMap extends React.Component {
             })}
           </LayerGroup>
           )}
-          {currentLocation && (
+          {locationActive && (
           <LayerGroup>
             <Circle
               center={currentLocation}
@@ -232,9 +240,15 @@ class StreetMap extends React.Component {
 
 StreetMap.propTypes = {
   classes: PropTypes.object.isRequired,
+  locationActive: PropTypes.bool,
   locationData: PropTypes.arrayOf(PropTypes.number),
   floorplanHandler: PropTypes.func.isRequired,
   setAppMessage: PropTypes.func.isRequired,
+};
+
+StreetMap.defaultProps = {
+  locationActive: false,
+  locationData: [],
 };
 
 export default withStyles(styles)(StreetMap);

@@ -11,6 +11,7 @@ import {
   ListItem,
   Typography,
 } from '@material-ui/core';
+import { countFacilities } from '../../../helpers';
 
 const styles = (theme) => ({
   button: {
@@ -53,7 +54,9 @@ class BuildingData extends React.Component {
       directionHandler,
       floorplanHandler,
     } = this.props;
-    const { address } = building;
+    const { address, facilities } = building;
+    
+    const { men, women, neutral, lactation } = countFacilities(facilities);
     return (
       <Card className={classes.sidebarCard}>
         <CardContent>
@@ -79,14 +82,25 @@ class BuildingData extends React.Component {
             </ListItem>
             <ListItem dense divider disableGutters>
               <ListItemText>
-                {`${building.hasLactationRoom ? '' : 'No '}Lactation Room`}
+                {`${lactation > 0 ? lactation : 'No '}Lactation Room`}
               </ListItemText>
             </ListItem>
             <ListItem dense divider disableGutters>
               <ListItemText>
-                {`${building.hasLactationRoom ? '' : 'No '}Gender-Neutral Restroom`}
+                {`${neutral > 0  ? neutral : 'No'} Gender-Neutral Restroom${neutral > 1 ? 's' : ''}`}
               </ListItemText>
             </ListItem>
+            <ListItem dense divider disableGutters>
+              <ListItemText>
+                {`${men > 0  ? men : 'No'} Men's Restroom${men > 1 ? 's' : ''}`}
+              </ListItemText>
+            </ListItem>
+            <ListItem dense divider disableGutters>
+              <ListItemText>
+                {`${women > 0  ? women : 'No'} Women's Restroom${women > 1 ? 's' :''}`}
+              </ListItemText>
+            </ListItem>
+
           </List>
           <Grid container className={classes.buttonContainer}>
             <Grid item className={classes.buttonItem}>
