@@ -5,7 +5,6 @@ import {
   Map, TileLayer, LayerGroup, Circle, Marker, Tooltip,
 } from 'react-leaflet';
 import 'leaflet';
-import { getBuildingList } from '../../../api';
 import BuildingData from './BuildingData';
 import './StreetMap.css';
 
@@ -52,7 +51,6 @@ class StreetMap extends React.Component {
     this.state = {
       chosenBuilding: null,
       viewport: DEFAULT_VIEWPORT,
-      buildings: [],
       isRouting: false,
       currentLocation: null,
       routingFrom: [...DEFAULT_VIEWPORT.center],
@@ -64,27 +62,21 @@ class StreetMap extends React.Component {
   }
 
   /**
-   * Asynchonously fetch the list of buildings from the server
-   * @function  componentDidMount
+   *  If location tracking is enabled, set the currentLocation.
+   *  Else, default to the John Harvard Statue
+   *  @function componentDidMount
    */
 
   componentDidMount() {
     this.setState({
       chosenBuilding: null,
     });
-    const { setAppMessage, locationActive, locationData } = this.props;
+    const { locationActive, locationData } = this.props;
     if (locationActive && locationData) {
       this.setState({ currentLocation: locationData });
     } else {
       this.setState({ currentLocation: ['42.37445', '-71.11721'] });
     }
-    setAppMessage('Loading Building Data...');
-    getBuildingList().then((buildings) => {
-      this.setState({ buildings });
-      setAppMessage('Buildings loaded!');
-    }).catch((err) => {
-      setAppMessage(err.message);
-    });
   }
 
   /**
@@ -140,14 +132,13 @@ class StreetMap extends React.Component {
     const {
       chosenBuilding,
       viewport,
-      buildings,
       currentLocation,
       locationActive,
       isRouting,
       routingTo,
       routingFrom,
     } = this.state;
-    const { floorplanHandler, classes } = this.props;
+    const { floorplanHandler, classes, buildings } = this.props;
 
     return (
       <React.Fragment>
@@ -239,14 +230,15 @@ class StreetMap extends React.Component {
 }
 
 StreetMap.propTypes = {
+  buildings: PropTypes.arrayOf(PropTypes.object),
   classes: PropTypes.object.isRequired,
   locationActive: PropTypes.bool,
   locationData: PropTypes.arrayOf(PropTypes.number),
   floorplanHandler: PropTypes.func.isRequired,
-  setAppMessage: PropTypes.func.isRequired,
 };
 
 StreetMap.defaultProps = {
+  buildings: [],
   locationActive: false,
   locationData: [],
 };

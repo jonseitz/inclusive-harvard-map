@@ -82,7 +82,7 @@ class BuildingData extends React.Component {
             </ListItem>
             <ListItem dense divider disableGutters>
               <ListItemText>
-                {`${lactation > 0 ? lactation : 'No '}Lactation Room`}
+                {`${lactation > 0 ? lactation : 'No'} Lactation Room`}
               </ListItemText>
             </ListItem>
             <ListItem dense divider disableGutters>
