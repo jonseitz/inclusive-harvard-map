@@ -25,7 +25,7 @@ const styles = (theme) => ({
     "KEY KEY"
     "FLL FCL"
     `,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       gridTemplateAreas: `
       "FLL"
       "FLL"
@@ -96,11 +96,12 @@ class FloorDetails extends React.Component {
       floorList,
       floorFacilities,
       currentFloor,
+      currentFloorId,
       setFloor,
     } = this.props;
     
-    const { men, women, neutral, lactation } = countFacilities(floorFacilities);
-    
+    const { men, women, neutral, lactation } = countFacilities(floorFacilities, currentFloorId);
+    console.log(floorFacilities); 
     const orderedFloors = cloneDeep(floorList)
       .sort((a, b) => {
         const floorA = parseInt(a.floorNumber.replace('B', '-'), 10);
@@ -117,7 +118,7 @@ class FloorDetails extends React.Component {
             </InputLabel>
             <Select 
               className={classes.floorSelector}
-              value={currentFloor}
+              value={currentFloorId}
               onChange={(evt)=> {setFloor(evt.target.value)}}
               inputProps={{
                 name: 'floors',
@@ -128,7 +129,7 @@ class FloorDetails extends React.Component {
               <MenuItem
                 className={classes.floorOption}
                 key={floor._id}
-                value={floor.floorNumber}
+                value={floor._id}
               >
                 {floor.floorNumber}
               </MenuItem>

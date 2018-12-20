@@ -28,7 +28,7 @@ const styles = (theme) => ({
       "MAP"
       "DTL"
       `,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       gridTemplateAreas: `
         "BAK TTL TTL TTL TTL"
         "DTL MAP MAP MAP MAP"
@@ -61,6 +61,7 @@ class FloorMap extends React.Component {
     super(props);
     this.state = {
       currentFloor: '01',
+      currentFloorId: '',
       floorLayers: [],
       facilityIds: [],
     };
@@ -73,28 +74,45 @@ class FloorMap extends React.Component {
    */
 
   componentDidMount() {
-    const { currentFloor } = this.state;
-    const { buildingData } = this.props;
+    const { buildingData, initialFloor } = this.props;
     const { floorplans } = buildingData;
-    if (floorplans.some((floor) => (floor.floorNumber === currentFloor))) {
-      this.setFloor(currentFloor);
+    const thisFloor = floorplans.find((floor) => (floor.floorNumber === initialFloor));
+    if (thisFloor) {
+      this.setFloor(thisFloor._id);
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { initialFloor: originalFloor} = prevProps;
+    const { currentFloor } = this.state;
+    const { buildingData, initialFloor } = this.props;
+    const { floorplans } = buildingData;
+    if (
+      initialFloor !== originalFloor 
+      && initialFloor !== currentFloor
+    ) {
+      const thisFloor = floorplans.find((floor) => (floor.floorNumber === initialFloor));
+      if (thisFloor) {
+        this.setFloor(thisFloor._id);
+      }
+    } 
   }
 
   /**
    * Change to another floor within the building
    * @function setFloor
-   * @param  {String}  floorNumber  the number of the floor to be displayed
+   * @param  {String}  floorId  the mongoId of the floor to be displayed
    */
 
-  setFloor(floorNumber) {
+  setFloor(floorId) {
     const { buildingData } = this.props;
     const { floorplans } = buildingData;
-    const { layers, facilities } = floorplans.find((e) => e.floorNumber === floorNumber);
+    const { floorNumber, layers, facilities } = floorplans.find((e) => e.id === floorId);
     const layerIds = layers.map((e) => (e._id));
     const facilityIds = facilities.map((e) => (e._id));
     this.setState({
       currentFloor: floorNumber,
+      currentFloorId: floorId,
       floorLayers: layerIds,
       facilityIds,
     });
@@ -108,10 +126,10 @@ class FloorMap extends React.Component {
     } = this.props;
     const {
       currentFloor,
+      currentFloorId,
       floorLayers,
       facilityIds
     } = this.state;
-    console.log(buildingData);
     const { address, floorplans, facilities } = buildingData;
     return (
       <div className={classes.interiorMap}>
@@ -133,6 +151,7 @@ class FloorMap extends React.Component {
         <FloorDetails
           className={classes.floorDetails}
           currentFloor={currentFloor}
+          currentFloorId={currentFloorId}
           floorFacilities={facilities}
           floorList={floorplans}
           setFloor={this.setFloor}
