@@ -141,7 +141,10 @@ BuildingSchema.statics.createNew = async function createNew(buildingData) {
 
 BuildingSchema.statics.getAll = async function getAll() {
   try {
-    return this.find().exec();
+    return this.find().populate({
+      path: 'facilities',
+      select: 'locationType',
+    }).exec();
   } catch (err) {
     throw new Error(`Failed to fetch all buildings.\n\n${err.message}`);
   }
