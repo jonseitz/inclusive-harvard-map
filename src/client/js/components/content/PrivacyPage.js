@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { Typography } from '@material-ui/core';
+
 /**
  * Renders a message about privacy while using the app, including an explanation about location data.
  * @extends React.Component
@@ -17,9 +19,12 @@ By default, location data from your device is not used. If you choose to use you
 class PrivacyPage extends React.Component {
   render() {
     return (
-      <ReactMarkdown>
-        {content}
-      </ReactMarkdown>);
+      <Typography variant="body2">
+        <ReactMarkdown>
+          {content}
+        </ReactMarkdown>
+      </Typography>
+    );
   }
 }
 

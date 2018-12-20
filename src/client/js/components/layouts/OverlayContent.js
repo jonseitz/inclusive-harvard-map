@@ -16,6 +16,8 @@ const styles = (theme) => ({
     margin: `${theme.spacing.unit * 2}px auto`,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
+    height: '100%',
+    maxHeight: '75vh',
     [theme.breakpoints.up('md')]: {
       width: '60%',
       margin: `${theme.spacing.unit * 12}px auto`,
@@ -68,7 +70,7 @@ class OverlayContent extends React.Component {
               <Close />
             </IconButton>
           </div>
-          <Typography variant="body2">{children}</Typography>
+          {children}
         </div>
       </Modal>
     );

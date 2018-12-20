@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { Typography } from '@material-ui/core';
 
 /**
  * Renders a simple description of the app
@@ -19,9 +20,11 @@ Mapping data is provided by OpenStreetMaps.
 class AboutPage extends React.Component {
   render() {
     return (
-      <ReactMarkdown>
-        {content}
-      </ReactMarkdown>);
+      <Typography variant="body2">
+        <ReactMarkdown>
+          {content}
+        </ReactMarkdown>
+      </Typography>);
   }
 }
 

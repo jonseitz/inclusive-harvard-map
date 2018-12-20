@@ -13,7 +13,7 @@ import {
   OverlayContent,
 } from './layouts';
 import { AppMenu, MapMenu, LocationMenu } from './menus';
-import { getSingleBuilding } from '../api';
+import { getBuildingList, getSingleBuilding } from '../api';
 import MODES from '../constants/viewModes';
 
 const colorTheme = createMuiTheme({
@@ -53,6 +53,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       chosenBuilding: null,
+      chosenFloor: '01',
+      buildingList: [],
       isDrawerOpen: false,
       locationActive: false,
       locationData: null,
@@ -70,6 +72,19 @@ class App extends React.Component {
     this.setAppMessage = this.setAppMessage.bind(this);
     this.clearAppMessage = this.clearAppMessage.bind(this);
     this.locationHandler = this.locationHandler.bind(this);
+  }
+
+  /**
+   * Asynchonously fetch the list of buildings from the server
+   * @function  componentDidMount
+   */
+
+  componentDidMount() {
+    getBuildingList().then((buildingList) => {
+      this.setState({ buildingList });
+    }).catch((err) => {
+      this.setAppMessage(err.message);
+    });
   }
 
   /**
@@ -163,12 +178,13 @@ class App extends React.Component {
    * @param  {String}  buildingId  The mongo id of the building to display
    */
 
-  floorplanHandler(buildingId) {
-    // this.setAppMessage('Loading Building Data...');
+  floorplanHandler(buildingId, floorNumber = '01') {
     getSingleBuilding(buildingId).then((building) => {
       this.setState({
-        mapViewMode: MODES.FLOOR,
         chosenBuilding: building,
+        chosenFloor: floorNumber,
+        mapViewMode: MODES.FLOOR,
+        showOverlayContent: false,
       });
     }).catch((err) => {
       this.setAppMessage(err.message);
@@ -177,12 +193,14 @@ class App extends React.Component {
 
   render() {
     const {
+      buildingList,
       message,
       isDrawerOpen,
       locationActive,
       locationData,
       mapViewMode,
       chosenBuilding,
+      chosenFloor,
       showOverlayContent,
       textContent,
       textTitle,
@@ -200,6 +218,7 @@ class App extends React.Component {
                   locationData={locationData}
                   locationActive={locationActive}
                   setAppMessage={this.setAppMessage}
+                  buildings={buildingList}
                 />
               </React.Suspense>
             )
@@ -211,6 +230,7 @@ class App extends React.Component {
                 setAppMessage={this.setAppMessage}
                 locationData={locationData}
                 buildingData={chosenBuilding}
+                initialFloor={chosenFloor}
                 floorplanHandler={this.floorplanHandler}
                 exitHandler={() => {
                   this.setState({ mapViewMode: MODES.STREET });
@@ -224,9 +244,18 @@ class App extends React.Component {
           isDrawerOpen={isDrawerOpen}
           closeDrawer={this.closeDrawer}
         >
-          <MapMenu id="map-menu" contentHandler={this.contentHandler} />
+          <MapMenu
+            id="map-menu"
+            contentHandler={this.contentHandler}
+            floorplanHandler={this.floorplanHandler}
+            buildingList={buildingList}
+            setAppMessage={this.setAppMessage}
+          />
           <Divider />
-          <AppMenu id="app-menu" contentHandler={this.contentHandler} />
+          <AppMenu
+            id="app-menu"
+            contentHandler={this.contentHandler}
+          />
           <Divider />
           <LocationMenu
             locationActive={locationActive}

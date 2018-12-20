@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import { Typography } from '@material-ui/core';
 
 /**
  * Renders contact for bug reports, along with other useful contact info at Hsrvard.
@@ -21,9 +22,11 @@ Confidential support and advocacy for survivors of sexual and gender-based viole
 class ContactPage extends React.Component {
   render() {
     return (
-      <ReactMarkdown>
-        {content}
-      </ReactMarkdown>);
+      <Typography variant="body2">
+        <ReactMarkdown>
+          {content}
+        </ReactMarkdown>
+      </Typography>);
   }
 }
 
