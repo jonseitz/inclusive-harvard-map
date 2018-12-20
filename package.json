@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "module": "src/main.js",
   "scripts": {
-    "build": "rm ./src/client/build/* && env NODE_ENV=production webpack --config ./src/client/config/webpack.prod.js",
+    "build": "rm -rf ./src/client/build/*[^.gitignore] && env NODE_ENV=production webpack --config ./src/client/config/webpack.prod.js",
     "coveralls": "cat ./config/coverage/lcov.info | coveralls",
     "docs": "jsdoc -c ./config/jsdoc.json",
     "lint": "eslint src",
