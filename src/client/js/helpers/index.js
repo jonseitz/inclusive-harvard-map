@@ -8,10 +8,12 @@
  * @returns {Object}  Object with fields aggregating the various types of facility
  */
 
-export const countFacilities = (facilityList) => (
+export const countFacilities = (facilityList, currentFloor = 'all') => (
   facilityList.reduce((count, current) => {
     const update = { ...count };
-    update[current.locationType] += 1;
+    if (currentFloor === 'all' || currentFloor === current.floorplan) {
+      update[current.locationType] += 1;
+    }
     return update;
   },
   {
