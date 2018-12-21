@@ -8,7 +8,7 @@
     "build": "rm -rf ./src/client/build/*[^.gitignore] && env NODE_ENV=production webpack --config ./src/client/config/webpack.prod.js",
     "coveralls": "cat ./config/coverage/lcov.info | coveralls",
     "docs": "jsdoc -c ./config/jsdoc.json",
-    "lint": "eslint src",
+    "lint": "eslint src || true",
     "test": "env NODE_ENV=testing jest -c ./config/jest.config.js",
     "test:watch": "env NODE_ENV=testing jest --watch -c ./config/jest.config.js || true",
     "test:ci": "env NODE_ENV=testing jest --runInBand --detectOpenHandles --forceExit -c ./config/jest.config.js || true",
